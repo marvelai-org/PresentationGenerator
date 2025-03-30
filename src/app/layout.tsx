@@ -1,5 +1,5 @@
 // Ensure global CSS is imported first
-import "./styles/globals.css";
+import "@/styles/globals.css";
 
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
