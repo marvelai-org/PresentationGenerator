@@ -1,6 +1,6 @@
 "use client";
 
-import type {NavbarProps} from "@heroui/react";
+import type { NavbarProps } from "@heroui/react";
 
 import React from "react";
 import {
@@ -16,14 +16,17 @@ import {
   Divider,
   cn,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Social";
+import { AcmeIcon } from "@/components/ui/Social";
 
 const menuItems = ["Home", "Features", "Customers", "About Us"];
 
 const CenteredNavbar = React.forwardRef<HTMLElement, NavbarProps>(
-  ({classNames: {base, wrapper, ...otherClassNames} = {}, ...props}, ref) => {
+  (
+    { classNames: { base, wrapper, ...otherClassNames } = {}, ...props },
+    ref,
+  ) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     return (
@@ -47,12 +50,22 @@ const CenteredNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <div className="rounded-full bg-background">
             <AcmeIcon className="text-default-foreground" size={34} />
           </div>
-          <span className="ml-2 text-small font-medium text-background">ACME</span>
+          <span className="ml-2 text-small font-medium text-background">
+            ACME
+          </span>
         </NavbarBrand>
 
         <NavbarContent className="hidden md:flex" justify="center">
-          <NavbarItem isActive className="data-[active='true']:font-medium[date-active='true']">
-            <Link aria-current="page" className="text-background" href="#" size="sm">
+          <NavbarItem
+            isActive
+            className="data-[active='true']:font-medium[date-active='true']"
+          >
+            <Link
+              aria-current="page"
+              className="text-background"
+              href="#"
+              size="sm"
+            >
               Home
             </Link>
           </NavbarItem>
@@ -78,7 +91,10 @@ const CenteredNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             <Button
               className="bg-background font-medium text-default-foreground"
               endContent={
-                <Icon className="pointer-events-none" icon="solar:alt-arrow-right-linear" />
+                <Icon
+                  className="pointer-events-none"
+                  icon="solar:alt-arrow-right-linear"
+                />
               }
               radius="full"
             >
@@ -92,10 +108,10 @@ const CenteredNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarMenu
           className="bottom-0 top-[initial] max-h-fit rounded-t-2xl bg-default-200/50 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150"
           motionProps={{
-            initial: {y: "100%"},
-            animate: {y: 0},
-            exit: {y: "100%"},
-            transition: {type: "spring", bounce: 0, duration: 0.3},
+            initial: { y: "100%" },
+            animate: { y: 0 },
+            exit: { y: "100%" },
+            transition: { type: "spring", bounce: 0, duration: 0.3 },
           }}
         >
           {menuItems.map((item, index) => (
@@ -103,16 +119,29 @@ const CenteredNavbar = React.forwardRef<HTMLElement, NavbarProps>(
               <Link className="mb-2 w-full text-default-500" href="#" size="md">
                 {item}
               </Link>
-              {index < menuItems.length - 1 && <Divider className="opacity-50" />}
+              {index < menuItems.length - 1 && (
+                <Divider className="opacity-50" />
+              )}
             </NavbarMenuItem>
           ))}
           <NavbarMenuItem>
-            <Button fullWidth as={Link} className="border-0" href="/#" variant="faded">
+            <Button
+              fullWidth
+              as={Link}
+              className="border-0"
+              href="/#"
+              variant="faded"
+            >
               Sign In
             </Button>
           </NavbarMenuItem>
           <NavbarMenuItem className="mb-4">
-            <Button fullWidth as={Link} className="bg-foreground text-background" href="/#">
+            <Button
+              fullWidth
+              as={Link}
+              className="bg-foreground text-background"
+              href="/#"
+            >
               Get Started
             </Button>
           </NavbarMenuItem>

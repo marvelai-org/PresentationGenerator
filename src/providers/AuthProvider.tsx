@@ -1,16 +1,30 @@
-'use client';
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { useRouter } from 'next/navigation';
-import type { User, Session } from '@supabase/supabase-js';
+"use client";
+import type { User, Session } from "@supabase/supabase-js";
+
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useState,
+  useEffect,
+} from "react";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   session: Session | null;
-  login: (credentials: { email: string; password: string }) => Promise<{ error: Error | null }>;
+  login: (credentials: {
+    email: string;
+    password: string;
+  }) => Promise<{ error: Error | null }>;
   logout: () => Promise<void>;
-  signUp: (credentials: { email: string; password: string; name?: string }) => Promise<{ error: Error | null }>;
+  signUp: (credentials: {
+    email: string;
+    password: string;
+    name?: string;
+  }) => Promise<{ error: Error | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,7 +40,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
       setSession(session);
       setUser(session?.user ?? null);
       setIsAuthenticated(!!session);
@@ -35,7 +52,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     getSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsAuthenticated(!!session);
@@ -45,33 +64,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const login = async ({ email, password }: { email: string; password: string }) => {
+  const login = async ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
       if (!error) {
         router.refresh();
       }
+
       return { error };
     } catch (error) {
       return { error: error as Error };
     }
   };
 
-  const signUp = async ({ email, password, name }: { email: string; password: string; name?: string }) => {
+  const signUp = async ({
+    email,
+    password,
+    name,
+  }: {
+    email: string;
+    password: string;
+    name?: string;
+  }) => {
     try {
-      const { error } = await supabase.auth.signUp({ 
-        email, 
+      const { error } = await supabase.auth.signUp({
+        email,
         password,
         options: {
           data: {
-            name: name || '',
-          }
-        }
+            name: name || "",
+          },
+        },
       });
+
       if (!error) {
         // Sign up successful
         router.refresh();
       }
+
       return { error };
     } catch (error) {
       return { error: error as Error };
@@ -81,7 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await supabase.auth.signOut();
     router.refresh();
-    router.push('/login');
+    router.push("/login");
   };
 
   const value = {
@@ -90,7 +130,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session,
     login,
     logout,
-    signUp
+    signUp,
   };
 
   return (
@@ -102,8 +142,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
+
   return context;
 }

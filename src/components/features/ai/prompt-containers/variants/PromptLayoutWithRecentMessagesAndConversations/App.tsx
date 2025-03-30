@@ -10,12 +10,11 @@ import {
   DropdownItem,
   Button,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
 import SidebarContainer from "@/components/layout/Sidebar/variants/SidebarWithChatHistory/App";
 import MessagingChatMessage from "@/components/features/ai/prompt-containers/components/messaging-chat-message";
 import messagingChatAIConversations from "@/components/features/ai/prompt-containers/data/messaging-chat-ai-conversations";
-
 import PromptInputWithEnclosedActions from "@/components/features/ai/prompt-inputs/variants/WithEnclosedActions";
 
 export default function Component() {
@@ -124,15 +123,17 @@ export default function Component() {
       >
         <div className="relative flex h-full flex-col">
           <ScrollShadow className="flex h-full max-h-[60vh] flex-col gap-6 overflow-y-auto p-6 pb-8 ">
-            {messagingChatAIConversations.map((messagingChatAIConversation, idx) => (
-              <MessagingChatMessage
-                key={idx}
-                classNames={{
-                  base: "bg-default-50",
-                }}
-                {...messagingChatAIConversation}
-              />
-            ))}
+            {messagingChatAIConversations.map(
+              (messagingChatAIConversation, idx) => (
+                <MessagingChatMessage
+                  key={idx}
+                  classNames={{
+                    base: "bg-default-50",
+                  }}
+                  {...messagingChatAIConversation}
+                />
+              ),
+            )}
           </ScrollShadow>
           <div className="mt-auto flex max-w-full flex-col gap-2 px-6">
             <PromptInputWithEnclosedActions

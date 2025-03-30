@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Chip, Divider} from "@heroui/react";
+import { Chip, Divider } from "@heroui/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
+import { AcmeIcon } from "@/components/ui/Acme";
 import ThemeRadioSwitch from "@/components/ui/ThemeRadioSwitch";
 
 export default function Component() {
@@ -20,7 +20,11 @@ export default function Component() {
               <span className="text-small font-medium">ACME</span>
             </div>
             <Divider className="h-4" orientation="vertical" />
-            <Chip className="border-none px-0 text-default-500" color="success" variant="dot">
+            <Chip
+              className="border-none px-0 text-default-500"
+              color="success"
+              variant="dot"
+            >
               All systems operational
             </Chip>
           </div>

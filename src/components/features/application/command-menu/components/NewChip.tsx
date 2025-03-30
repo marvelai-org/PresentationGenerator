@@ -1,7 +1,7 @@
 "use client";
 
-import {startsWith} from "lodash";
-import {Chip, cn} from "@heroui/react";
+import { startsWith } from "lodash";
+import { Chip, cn } from "@heroui/react";
 
 type NewChipProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -10,9 +10,11 @@ export const NewChip: React.FC<
     background?: string;
     isBorderGradient?: boolean;
   }
-> = ({isBorderGradient, background = "#050713", className}) => {
+> = ({ isBorderGradient, background = "#050713", className }) => {
   let style = {};
-  const linearGradientBg = startsWith(background, "--") ? `hsl(var(${background}))` : background;
+  const linearGradientBg = startsWith(background, "--")
+    ? `hsl(var(${background}))`
+    : background;
 
   if (isBorderGradient) {
     style = {

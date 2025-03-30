@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Tooltip} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
@@ -22,7 +22,11 @@ export default function Component() {
             {!prompt && (
               <Tooltip showArrow content="Speak">
                 <Button isIconOnly radius="full" size="sm" variant="light">
-                  <Icon className="text-default-500" icon="solar:microphone-3-linear" width={20} />
+                  <Icon
+                    className="text-default-500"
+                    icon="solar:microphone-3-linear"
+                    width={20}
+                  />
                 </Button>
               </Tooltip>
             )}
@@ -51,7 +55,11 @@ export default function Component() {
         startContent={
           <Tooltip showArrow content="Add file">
             <Button isIconOnly radius="full" size="sm" variant="light">
-              <Icon className="text-default-500" icon="solar:paperclip-linear" width={20} />
+              <Icon
+                className="text-default-500"
+                icon="solar:paperclip-linear"
+                width={20}
+              />
             </Button>
           </Tooltip>
         }

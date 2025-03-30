@@ -1,13 +1,19 @@
 "use client";
 
 import React from "react";
-import {Avatar, Button, ScrollShadow, Spacer, Input, useDisclosure} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import {
+  Avatar,
+  Button,
+  ScrollShadow,
+  Spacer,
+  Input,
+  useDisclosure,
+} from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
-import {sectionItemsWithTeams} from "@/components/layout/Sidebar/SidebarItems";
+import { AcmeIcon } from "@/components/ui/Acme";
+import { sectionItemsWithTeams } from "@/components/layout/Sidebar/SidebarItems";
 import SidebarDrawer from "@/components/layout/Sidebar/SidebarDrawer";
-
 import Sidebar from "@/components/layout/Sidebar/Sidebar";
 
 /**
@@ -32,7 +38,7 @@ export default function Component({
   header?: React.ReactNode;
   title?: string;
 }) {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const content = (
     <div className="relative flex h-full w-72 flex-1 flex-col bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 p-6">
@@ -40,14 +46,19 @@ export default function Component({
         <div className="flex h-8 w-8 items-center justify-center rounded-full border-small border-foreground/20">
           <AcmeIcon className="text-foreground" />
         </div>
-        <span className="text-small font-medium uppercase text-foreground">Acme</span>
+        <span className="text-small font-medium uppercase text-foreground">
+          Acme
+        </span>
       </div>
 
       <Spacer y={8} />
 
       <div className="flex flex-col gap-4">
         <div className="flex items-center gap-3 px-2">
-          <Avatar size="sm" src="https://i.pravatar.cc/150?u=a04258114e29028708c" />
+          <Avatar
+            size="sm"
+            src="https://i.pravatar.cc/150?u=a04258114e29028708c"
+          />
           <div className="flex flex-col">
             <p className="text-small text-foreground">Jane Doe</p>
             <p className="text-tiny text-default-500">Product Designer</p>
@@ -60,7 +71,8 @@ export default function Component({
             base: "px-1",
             inputWrapper:
               "bg-default-400/20 data-[hover=true]:bg-default-500/30 group-data-[focus=true]:bg-default-500/20",
-            input: "placeholder:text-default-600 group-data-[has-value=true]:text-foreground",
+            input:
+              "placeholder:text-default-600 group-data-[has-value=true]:text-foreground",
           }}
           labelPlacement="outside"
           placeholder="Search..."
@@ -80,7 +92,8 @@ export default function Component({
           iconClassName="text-default-600 group-data-[selected=true]:text-foreground"
           itemClasses={{
             base: "data-[selected=true]:bg-default-400/20 data-[hover=true]:bg-default-400/10",
-            title: "text-default-600 group-data-[selected=true]:text-foreground",
+            title:
+              "text-default-600 group-data-[selected=true]:text-foreground",
           }}
           items={sectionItemsWithTeams}
           sectionClasses={{
@@ -97,7 +110,11 @@ export default function Component({
           fullWidth
           className="justify-start text-default-600 data-[hover=true]:text-black"
           startContent={
-            <Icon className="text-default-600" icon="solar:info-circle-line-duotone" width={24} />
+            <Icon
+              className="text-default-600"
+              icon="solar:info-circle-line-duotone"
+              width={24}
+            />
           }
           variant="light"
         >
@@ -122,7 +139,11 @@ export default function Component({
 
   return (
     <div className="flex h-full min-h-[48rem] w-full">
-      <SidebarDrawer className="flex-none" isOpen={isOpen} onOpenChange={onOpenChange}>
+      <SidebarDrawer
+        className="flex-none"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      >
         {content}
       </SidebarDrawer>
       <div className="flex w-full flex-col gap-y-4 p-4 sm:max-w-[calc(100%_-_288px)]">
@@ -142,7 +163,9 @@ export default function Component({
                 width={24}
               />
             </Button>
-            <h2 className="truncate text-medium font-medium text-default-700">{title}</h2>
+            <h2 className="truncate text-medium font-medium text-default-700">
+              {title}
+            </h2>
           </div>
           {header}
         </header>

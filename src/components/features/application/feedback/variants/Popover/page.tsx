@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
   Textarea,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
 import FeedbackRating from "../../components/FeedbackRating";
 
@@ -22,7 +22,10 @@ export default function Component() {
           <Button variant="bordered">Feedback</Button>
         </PopoverTrigger>
         <PopoverContent className="w-[340px] p-3">
-          <form className="flex w-full flex-col gap-2" onSubmit={(e) => e.preventDefault()}>
+          <form
+            className="flex w-full flex-col gap-2"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <Textarea
               aria-label="Feedback"
               name="feedback"
@@ -45,7 +48,10 @@ export default function Component() {
                   target="_blank"
                 >
                   Markdown
-                  <Icon className="[&>path]:stroke-[2px]" icon="solar:arrow-right-up-linear" />
+                  <Icon
+                    className="[&>path]:stroke-[2px]"
+                    icon="solar:arrow-right-up-linear"
+                  />
                 </Link>
                 &nbsp;supported.
               </p>

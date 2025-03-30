@@ -1,14 +1,13 @@
 "use client";
 
 import React from "react";
-import {Avatar, Button, ScrollShadow, Spacer, Tooltip} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {useMediaQuery} from "usehooks-ts";
-import {cn} from "@heroui/react";
+import { Avatar, Button, ScrollShadow, Spacer, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { useMediaQuery } from "usehooks-ts";
+import { cn } from "@heroui/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
-import {sectionItemsWithTeams} from "@/components/layout/Sidebar/SidebarItems";
-
+import { AcmeIcon } from "@/components/ui/Acme";
+import { sectionItemsWithTeams } from "@/components/layout/Sidebar/SidebarItems";
 import Sidebar from "@/components/layout/Sidebar/Sidebar";
 
 /**
@@ -77,13 +76,23 @@ export default function Component() {
             size="sm"
             src="https://i.pravatar.cc/150?u=a04258114e29026708c"
           />
-          <div className={cn("flex max-w-full flex-col", {hidden: isCompact})}>
-            <p className="truncate text-small font-medium text-default-600">John Doe</p>
-            <p className="truncate text-tiny text-default-400">Product Designer</p>
+          <div
+            className={cn("flex max-w-full flex-col", { hidden: isCompact })}
+          >
+            <p className="truncate text-small font-medium text-default-600">
+              John Doe
+            </p>
+            <p className="truncate text-tiny text-default-400">
+              Product Designer
+            </p>
           </div>
         </div>
         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
-          <Sidebar defaultSelectedKey="home" isCompact={isCompact} items={sectionItemsWithTeams} />
+          <Sidebar
+            defaultSelectedKey="home"
+            isCompact={isCompact}
+            items={sectionItemsWithTeams}
+          />
         </ScrollShadow>
         <Spacer y={2} />
         <div
@@ -91,7 +100,11 @@ export default function Component() {
             "items-center": isCompact,
           })}
         >
-          <Tooltip content="Help & Feedback" isDisabled={!isCompact} placement="right">
+          <Tooltip
+            content="Help & Feedback"
+            isDisabled={!isCompact}
+            placement="right"
+          >
             <Button
               fullWidth
               className={cn(
@@ -125,9 +138,12 @@ export default function Component() {
           </Tooltip>
           <Tooltip content="Log Out" isDisabled={!isCompact} placement="right">
             <Button
-              className={cn("justify-start text-default-500 data-[hover=true]:text-foreground", {
-                "justify-center": isCompact,
-              })}
+              className={cn(
+                "justify-start text-default-500 data-[hover=true]:text-foreground",
+                {
+                  "justify-center": isCompact,
+                },
+              )}
               isIconOnly={isCompact}
               startContent={
                 isCompact ? null : (

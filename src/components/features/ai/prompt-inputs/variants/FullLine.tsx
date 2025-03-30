@@ -1,9 +1,9 @@
 "use client";
 
-import {Icon} from "@iconify/react";
-import React, {useCallback, useState} from "react";
-import {Badge, Button, cn, Form, Image, Tooltip} from "@heroui/react";
-import {VisuallyHidden} from "@react-aria/visually-hidden";
+import { Icon } from "@iconify/react";
+import React, { useCallback, useState } from "react";
+import { Badge, Button, cn, Form, Image, Tooltip } from "@heroui/react";
+import { VisuallyHidden } from "@react-aria/visually-hidden";
 
 import PromptInput from "../components/PromptInput";
 
@@ -17,7 +17,10 @@ interface PromptInputAssetsProps {
   onRemoveAsset: (index: number) => void;
 }
 
-const PromptInputAssets = ({assets, onRemoveAsset}: PromptInputAssetsProps) => {
+const PromptInputAssets = ({
+  assets,
+  onRemoveAsset,
+}: PromptInputAssetsProps) => {
   if (assets.length === 0) return null;
 
   return (
@@ -35,7 +38,11 @@ const PromptInputAssets = ({assets, onRemoveAsset}: PromptInputAssetsProps) => {
               variant="light"
               onPress={() => onRemoveAsset(index)}
             >
-              <Icon className="text-foreground" icon="iconamoon:close-thin" width={16} />
+              <Icon
+                className="text-foreground"
+                icon="iconamoon:close-thin"
+                width={16}
+              />
             </Button>
           }
         >
@@ -50,7 +57,10 @@ const PromptInputAssets = ({assets, onRemoveAsset}: PromptInputAssetsProps) => {
   );
 };
 
-export function PromptInputFullLineComponent({prompt, setPrompt}: PromptInputProps) {
+export function PromptInputFullLineComponent({
+  prompt,
+  setPrompt,
+}: PromptInputProps) {
   const [assets, setAssets] = useState<string[]>([]);
 
   const inputRef = React.useRef<HTMLTextAreaElement>(null);
@@ -103,27 +113,30 @@ export function PromptInputFullLineComponent({prompt, setPrompt}: PromptInputPro
     }
   }, []);
 
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = Array.from(e.target.files || []);
 
-    files.forEach((file) => {
-      if (file.type.startsWith("image/")) {
-        const reader = new FileReader();
+      files.forEach((file) => {
+        if (file.type.startsWith("image/")) {
+          const reader = new FileReader();
 
-        reader.onload = () => {
-          const base64data = reader.result as string;
+          reader.onload = () => {
+            const base64data = reader.result as string;
 
-          setAssets((prev) => [...prev, base64data]);
-        };
-        reader.readAsDataURL(file);
+            setAssets((prev) => [...prev, base64data]);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Reset input value to allow uploading the same file again
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
-    });
-
-    // Reset input value to allow uploading the same file again
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  }, []);
+    },
+    [],
+  );
 
   return (
     <Form
@@ -131,7 +144,12 @@ export function PromptInputFullLineComponent({prompt, setPrompt}: PromptInputPro
       validationBehavior="native"
       onSubmit={onSubmit}
     >
-      <div className={cn("group flex gap-2 pl-[20px] pr-3", assets.length > 0 ? "pt-4" : "")}>
+      <div
+        className={cn(
+          "group flex gap-2 pl-[20px] pr-3",
+          assets.length > 0 ? "pt-4" : "",
+        )}
+      >
         <PromptInputAssets
           assets={assets}
           onRemoveAsset={(index) => {
@@ -167,7 +185,11 @@ export function PromptInputFullLineComponent({prompt, setPrompt}: PromptInputPro
             variant="light"
             onPress={() => fileInputRef.current?.click()}
           >
-            <Icon className="text-default-500" icon="solar:paperclip-outline" width={24} />
+            <Icon
+              className="text-default-500"
+              icon="solar:paperclip-outline"
+              width={24}
+            />
             <VisuallyHidden>
               <input
                 ref={fileInputRef}

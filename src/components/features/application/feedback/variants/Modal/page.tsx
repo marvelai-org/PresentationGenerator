@@ -12,27 +12,31 @@ import {
   Textarea,
   useDisclosure,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
 import FeedbackRating from "../../components/FeedbackRating";
 
 export default function Component() {
-  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <section className="mx-auto flex w-full max-w-6xl items-center justify-center px-6 py-20 sm:py-32 lg:px-8 lg:py-40">
       <Button variant="bordered" onPress={onOpen}>
         Give Feedback
       </Button>
-      <Modal isOpen={isOpen} shouldBlockScroll={false} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        shouldBlockScroll={false}
+        onOpenChange={onOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <ModalBody>
               <ModalHeader className="flex-col items-center gap-1 px-0 text-center">
                 <h1 className="text-xl">Help us improve Acme.</h1>
                 <p className="text-small font-normal text-default-500">
-                  We value your feedback. If you have any ideas or suggestions to improve our
-                  product, let us know.
+                  We value your feedback. If you have any ideas or suggestions
+                  to improve our product, let us know.
                 </p>
               </ModalHeader>
               <form
@@ -64,7 +68,10 @@ export default function Component() {
                       target="_blank"
                     >
                       Markdown
-                      <Icon className="[&>path]:stroke-[2px]" icon="solar:arrow-right-up-linear" />
+                      <Icon
+                        className="[&>path]:stroke-[2px]"
+                        icon="solar:arrow-right-up-linear"
+                      />
                     </Link>
                     &nbsp;supported.
                   </p>
@@ -73,7 +80,12 @@ export default function Component() {
                 <div className="flex w-full items-center justify-between pb-4">
                   <FeedbackRating name="rating" size="lg" />
                   <div className="flex gap-2">
-                    <Button color="danger" type="button" variant="flat" onPress={onClose}>
+                    <Button
+                      color="danger"
+                      type="button"
+                      variant="flat"
+                      onPress={onClose}
+                    >
                       Cancel
                     </Button>
                     <Button color="primary" type="submit">

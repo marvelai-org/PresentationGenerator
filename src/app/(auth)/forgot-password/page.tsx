@@ -41,10 +41,10 @@ export default function ForgotPassword() {
         <div className="flex items-center gap-2">
           <Button
             as={Link}
-            href="/login"
-            variant="light"
-            startContent={<Icon icon="lucide:arrow-left" width={16} />}
             className="w-fit p-0"
+            href="/login"
+            startContent={<Icon icon="lucide:arrow-left" width={16} />}
+            variant="light"
           >
             Back to Login
           </Button>
@@ -60,24 +60,34 @@ export default function ForgotPassword() {
             Reset link sent! Check your email for further instructions.
           </Alert>
         ) : (
-          <Form className="flex flex-col gap-3" validationBehavior="native" onSubmit={handleSubmit}>
+          <Form
+            className="flex flex-col gap-3"
+            validationBehavior="native"
+            onSubmit={handleSubmit}
+          >
             <Input
               isRequired
+              description="We'll send a password reset link to this email"
               label="Email Address"
               name="email"
               placeholder="Enter your email"
               type="email"
-              variant="bordered"
               value={email}
+              variant="bordered"
               onValueChange={setEmail}
-              description="We'll send a password reset link to this email"
             />
             <Button
               className="w-full"
               color="primary"
-              type="submit"
               isLoading={isLoading}
-              spinner={<Icon icon="lucide:loader-2" className="animate-spin" width={24} />}
+              spinner={
+                <Icon
+                  className="animate-spin"
+                  icon="lucide:loader-2"
+                  width={24}
+                />
+              }
+              type="submit"
             >
               Send Reset Link
             </Button>

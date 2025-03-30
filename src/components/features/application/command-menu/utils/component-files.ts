@@ -1,6 +1,6 @@
-import type {ComponentInfo, Attributes} from "../data/data";
+import type { ComponentInfo, Attributes } from "../data/data";
 
-import {IMPORT_PATH_MATCH_REGEX, IMPORT_REGEX} from "./regex-constants";
+import { IMPORT_PATH_MATCH_REGEX, IMPORT_REGEX } from "./regex-constants";
 
 export type ComponentCodeFiles = Record<string, string>;
 export type SandpackFiles = {
@@ -17,7 +17,9 @@ export function updateImportPaths(code: string): string {
 }
 
 export function processFiles(component: ComponentInfo, language: "ts" | "js") {
-  const appCode = component.code?.find((f) => f.fileName?.includes(component.slug));
+  const appCode = component.code?.find((f) =>
+    f.fileName?.includes(component.slug),
+  );
   let appCodeImportLineSortArray: RegExpMatchArray | null = null;
 
   if (appCode?.code) {

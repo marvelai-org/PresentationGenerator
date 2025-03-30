@@ -17,13 +17,13 @@ export default function ResetPassword() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  // 'code' param is validated in useEffect but not directly used in auth flow
-  const code = searchParams?.get('code');
+  // Prefix with underscore to indicate it's intentionally not directly used
+  const _code = searchParams?.get("code");
   const supabase = createClientComponentClient();
 
   // Check if we have the necessary parameters from the reset email
   useEffect(() => {
-    if (!searchParams?.get('code')) {
+    if (!searchParams?.get("code")) {
       setError("Invalid password reset link. Please request a new one.");
     }
   }, [searchParams]);
@@ -37,6 +37,7 @@ export default function ResetPassword() {
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+
       return;
     }
 
@@ -44,7 +45,9 @@ export default function ResetPassword() {
 
     try {
       // Update the user's password
-      const { error: updateError } = await supabase.auth.updateUser({ password });
+      const { error: updateError } = await supabase.auth.updateUser({
+        password,
+      });
 
       if (updateError) {
         throw updateError;
@@ -52,7 +55,7 @@ export default function ResetPassword() {
 
       // Sign out the user to invalidate all sessions
       await supabase.auth.signOut();
-      
+
       setSuccess(true);
 
       // Redirect to login page after a few seconds
@@ -77,21 +80,24 @@ export default function ResetPassword() {
         )}
         {success ? (
           <Alert className="mb-2" color="success">
-            Password reset successful! You will be redirected to the login page to sign in with your new password.
+            Password reset successful! You will be redirected to the login page
+            to sign in with your new password.
           </Alert>
         ) : (
-          <Form className="flex flex-col gap-3" validationBehavior="native" onSubmit={handleSubmit}>
+          <Form
+            className="flex flex-col gap-3"
+            validationBehavior="native"
+            onSubmit={handleSubmit}
+          >
             <Input
               isRequired
-              label="New Password"
-              name="password"
-              placeholder="Enter new password"
-              type={isVisible ? "text" : "password"}
-              variant="bordered"
-              value={password}
-              onValueChange={setPassword}
               endContent={
-                <Button type="button" variant="light" isIconOnly onPress={toggleVisibility}>
+                <Button
+                  isIconOnly
+                  type="button"
+                  variant="light"
+                  onPress={toggleVisibility}
+                >
                   {isVisible ? (
                     <Icon
                       className="pointer-events-none text-2xl text-default-400"
@@ -105,18 +111,23 @@ export default function ResetPassword() {
                   )}
                 </Button>
               }
+              label="New Password"
+              name="password"
+              placeholder="Enter new password"
+              type={isVisible ? "text" : "password"}
+              value={password}
+              variant="bordered"
+              onValueChange={setPassword}
             />
             <Input
               isRequired
-              label="Confirm Password"
-              name="confirmPassword"
-              placeholder="Confirm new password"
-              type={isConfirmVisible ? "text" : "password"}
-              variant="bordered"
-              value={confirmPassword}
-              onValueChange={setConfirmPassword}
               endContent={
-                <Button type="button" variant="light" isIconOnly onPress={toggleConfirmVisibility}>
+                <Button
+                  isIconOnly
+                  type="button"
+                  variant="light"
+                  onPress={toggleConfirmVisibility}
+                >
                   {isConfirmVisible ? (
                     <Icon
                       className="pointer-events-none text-2xl text-default-400"
@@ -130,13 +141,26 @@ export default function ResetPassword() {
                   )}
                 </Button>
               }
+              label="Confirm Password"
+              name="confirmPassword"
+              placeholder="Confirm new password"
+              type={isConfirmVisible ? "text" : "password"}
+              value={confirmPassword}
+              variant="bordered"
+              onValueChange={setConfirmPassword}
             />
             <Button
               className="w-full"
               color="primary"
-              type="submit"
               isLoading={isLoading}
-              spinner={<Icon icon="lucide:loader-2" className="animate-spin" width={24} />}
+              spinner={
+                <Icon
+                  className="animate-spin"
+                  icon="lucide:loader-2"
+                  width={24}
+                />
+              }
+              type="submit"
             >
               Reset Password
             </Button>

@@ -1,9 +1,9 @@
 "use client";
-import type {ModalProps} from "@heroui/react";
+import type { ModalProps } from "@heroui/react";
 
 import React from "react";
-import {TRANSITION_EASINGS} from "@heroui/framer-utils";
-import {cn, Drawer, DrawerBody, DrawerContent} from "@heroui/react";
+import { TRANSITION_EASINGS } from "@heroui/framer-utils";
+import { cn, Drawer, DrawerBody, DrawerContent } from "@heroui/react";
 
 const SidebarDrawer = React.forwardRef<
   HTMLDivElement,

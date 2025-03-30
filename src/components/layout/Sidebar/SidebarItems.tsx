@@ -1,7 +1,8 @@
-import {Chip} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Chip } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {type SidebarItem, SidebarItemType} from "./Sidebar";
+import { type SidebarItem, SidebarItemType } from "./Sidebar";
+
 import TeamAvatar from "@/components/ui/TeamAvatar";
 
 /**
@@ -21,7 +22,11 @@ export const items: SidebarItem[] = [
     icon: "solar:widget-2-outline",
     title: "Projects",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {
@@ -30,7 +35,11 @@ export const items: SidebarItem[] = [
     icon: "solar:checklist-minimalistic-outline",
     title: "Tasks",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {
@@ -98,7 +107,11 @@ export const sectionItems: SidebarItem[] = [
         icon: "solar:widget-2-outline",
         title: "Projects",
         endContent: (
-          <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
         ),
       },
       {
@@ -107,7 +120,11 @@ export const sectionItems: SidebarItem[] = [
         icon: "solar:checklist-minimalistic-outline",
         title: "Tasks",
         endContent: (
-          <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+          <Icon
+            className="text-default-400"
+            icon="solar:add-circle-line-duotone"
+            width={24}
+          />
         ),
       },
       {
@@ -266,7 +283,11 @@ export const brandItems: SidebarItem[] = [
         icon: "solar:sort-by-time-linear",
         title: "Tracker",
         endContent: (
-          <Chip className="bg-primary-foreground font-medium text-primary" size="sm" variant="flat">
+          <Chip
+            className="bg-primary-foreground font-medium text-primary"
+            size="sm"
+            variant="flat"
+          >
             New
           </Chip>
         ),
@@ -400,7 +421,11 @@ export const sectionNestedItems: SidebarItem[] = [
     icon: "solar:widget-2-outline",
     title: "Projects",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {
@@ -409,7 +434,11 @@ export const sectionNestedItems: SidebarItem[] = [
     icon: "solar:checklist-minimalistic-outline",
     title: "Tasks",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {

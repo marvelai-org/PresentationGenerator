@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {Avatar, Tab, Tabs} from "@heroui/react";
+import { Avatar, Tab, Tabs } from "@heroui/react";
 
 import FeaturesCards from "@/components/features/ai/feature-card/FeaturesCards/App";
 import PromptInputWithBottomActions from "@/components/features/ai/prompt-inputs/variants/WithBottomActions";
@@ -20,7 +20,9 @@ export default function Component() {
             size="lg"
             src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/avatar_ai.png"
           />
-          <h1 className="text-xl font-medium text-default-700">How can I help you today?</h1>
+          <h1 className="text-xl font-medium text-default-700">
+            How can I help you today?
+          </h1>
         </div>
         <FeaturesCards />
       </div>

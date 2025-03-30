@@ -9,33 +9,48 @@ import {
   DropdownItem,
   Button,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {Card, CardHeader, CardBody} from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { Card, CardHeader, CardBody } from "@heroui/react";
 
 import SidebarContainer from "@/components/layout/Sidebar/variants/SidebarWithChatHistory/App";
-
 import PromptInputWithEnclosedActions from "@/components/features/ai/prompt-inputs/variants/WithEnclosedActions";
 
 const messages = [
   {
     key: "message1",
     description: "Study Italian vocabulary",
-    icon: <Icon className="text-primary-700" icon="solar:notebook-square-bold" width={24} />,
+    icon: (
+      <Icon
+        className="text-primary-700"
+        icon="solar:notebook-square-bold"
+        width={24}
+      />
+    ),
   },
   {
     key: "message2",
     description: "Message inviting friend to wedding",
-    icon: <Icon className="text-danger-600" icon="solar:chat-square-like-bold" width={24} />,
+    icon: (
+      <Icon
+        className="text-danger-600"
+        icon="solar:chat-square-like-bold"
+        width={24}
+      />
+    ),
   },
   {
     key: "message3",
     description: "Experience Buenos Aires like a local",
-    icon: <Icon className="text-warning-600" icon="solar:user-id-bold" width={24} />,
+    icon: (
+      <Icon className="text-warning-600" icon="solar:user-id-bold" width={24} />
+    ),
   },
   {
     key: "message4",
     description: "Design a fun Tetris game",
-    icon: <Icon className="text-success-600" icon="solar:gameboy-bold" width={24} />,
+    icon: (
+      <Icon className="text-success-600" icon="solar:gameboy-bold" width={24} />
+    ),
   },
 ];
 
@@ -44,7 +59,8 @@ export default function Component() {
     <div className="h-dvh w-full max-w-full">
       <SidebarContainer
         classNames={{
-          header: "min-h-[40px] h-[40px] py-[12px] justify-center overflow-hidden",
+          header:
+            "min-h-[40px] h-[40px] py-[12px] justify-center overflow-hidden",
         }}
         header={
           <Dropdown className="bg-content1">
@@ -65,7 +81,11 @@ export default function Component() {
                 ACME v4
               </Button>
             </DropdownTrigger>
-            <DropdownMenu aria-label="acme model version" className="p-0 pt-2" variant="faded">
+            <DropdownMenu
+              aria-label="acme model version"
+              className="p-0 pt-2"
+              variant="faded"
+            >
               <DropdownSection
                 classNames={{
                   heading: "text-tiny px-[10px]",
@@ -167,7 +187,9 @@ export default function Component() {
                   className="h-auto bg-default-100 px-[20px] py-[16px]"
                   shadow="none"
                 >
-                  <CardHeader className="p-0 pb-[9px]">{message.icon}</CardHeader>
+                  <CardHeader className="p-0 pb-[9px]">
+                    {message.icon}
+                  </CardHeader>
                   <CardBody className="p-0 text-small text-default-400">
                     {message.description}
                   </CardBody>

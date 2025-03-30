@@ -1,7 +1,6 @@
 import React from "react";
 
-import {userMessages, assistantMessages} from "../../messages/data/messages";
-
+import { userMessages, assistantMessages } from "../../messages/data/messages";
 import MessageCard from "../../messages/components/MessageCard";
 
 export default function Component() {
@@ -26,7 +25,7 @@ export default function Component() {
 
   return (
     <div className="flex flex-col gap-4 px-1">
-      {messages.map(({role, message}, index) => (
+      {messages.map(({ role, message }, index) => (
         <MessageCard
           key={index}
           attempts={index === 1 ? 2 : 1}
@@ -37,7 +36,9 @@ export default function Component() {
           }
           currentAttempt={index === 1 ? 2 : 1}
           message={message}
-          messageClassName={role === "user" ? "bg-content3 text-content3-foreground" : ""}
+          messageClassName={
+            role === "user" ? "bg-content3 text-content3-foreground" : ""
+          }
           showFeedback={role === "assistant"}
         />
       ))}

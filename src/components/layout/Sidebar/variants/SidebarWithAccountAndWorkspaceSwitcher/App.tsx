@@ -1,6 +1,6 @@
 "use client";
 
-import type {SidebarItem} from "@/components/layout/Sidebar/Sidebar";
+import type { SidebarItem } from "@/components/layout/Sidebar/Sidebar";
 
 import React from "react";
 import {
@@ -27,10 +27,9 @@ import {
   Spacer,
   SelectSection,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
-
+import { AcmeIcon } from "@/components/ui/Acme";
 import NotificationsCard from "@/components/ui/NotificationsCard";
 import Sidebar from "@/components/layout/Sidebar/Sidebar";
 
@@ -47,7 +46,11 @@ const sidebarItems: SidebarItem[] = [
     icon: "solar:widget-2-outline",
     title: "Projects",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {
@@ -56,7 +59,11 @@ const sidebarItems: SidebarItem[] = [
     icon: "solar:checklist-minimalistic-outline",
     title: "Tasks",
     endContent: (
-      <Icon className="text-default-400" icon="solar:add-circle-line-duotone" width={24} />
+      <Icon
+        className="text-default-400"
+        icon="solar:add-circle-line-duotone"
+        width={24}
+      />
     ),
   },
   {
@@ -188,7 +195,13 @@ export default function Component() {
             {/* User Menu */}
             <Dropdown showArrow placement="bottom-start">
               <DropdownTrigger>
-                <Button disableRipple isIconOnly className="-mr-1" radius="full" variant="light">
+                <Button
+                  disableRipple
+                  isIconOnly
+                  className="-mr-1"
+                  radius="full"
+                  variant="light"
+                >
                   <Avatar
                     className="h-6 w-6 cursor-pointer"
                     name="Kate Moore"
@@ -196,7 +209,10 @@ export default function Component() {
                   />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Custom item styles" disabledKeys={["profile"]}>
+              <DropdownMenu
+                aria-label="Custom item styles"
+                disabledKeys={["profile"]}
+              >
                 <DropdownSection showDivider aria-label="Profile & Actions">
                   <DropdownItem
                     key="profile"
@@ -224,7 +240,9 @@ export default function Component() {
                   <DropdownItem key="settings">Settings</DropdownItem>
                   <DropdownItem
                     key="new_project"
-                    endContent={<Icon className="text-large" icon="lucide:plus" />}
+                    endContent={
+                      <Icon className="text-large" icon="lucide:plus" />
+                    }
                   >
                     New Project
                   </DropdownItem>
@@ -255,7 +273,9 @@ export default function Component() {
                 </DropdownSection>
 
                 <DropdownSection aria-label="Help & Feedback">
-                  <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                  <DropdownItem key="help_and_feedback">
+                    Help & Feedback
+                  </DropdownItem>
                   <DropdownItem key="logout">Log Out</DropdownItem>
                 </DropdownSection>
               </DropdownMenu>
@@ -270,8 +290,17 @@ export default function Component() {
                   radius="full"
                   variant="light"
                 >
-                  <Badge color="danger" content="5" showOutline={false} size="md">
-                    <Icon className="text-default-500" icon="solar:bell-linear" width={22} />
+                  <Badge
+                    color="danger"
+                    content="5"
+                    showOutline={false}
+                    size="md"
+                  >
+                    <Icon
+                      className="text-default-500"
+                      icon="solar:bell-linear"
+                      width={22}
+                    />
                   </Badge>
                 </Button>
               </PopoverTrigger>
@@ -300,7 +329,7 @@ export default function Component() {
                 <Button
                   className="bg-default-100 text-center text-foreground"
                   size="sm"
-                  onPress={() => console.log("on create workspace")}
+                  onPress={() => {}}
                 >
                   New Workspace
                 </Button>
@@ -311,12 +340,17 @@ export default function Component() {
               return items.map((item) => (
                 <div key={item.key} className="ml-1 flex flex-col gap-y-0.5">
                   <span className="text-tiny leading-4">Acme Inc.</span>
-                  <span className="text-tiny text-default-400">{item.data?.label}</span>
+                  <span className="text-tiny text-default-400">
+                    {item.data?.label}
+                  </span>
                 </div>
               ));
             }}
             selectorIcon={
-              <Icon color="hsl(var(--heroui-default-500))" icon="lucide:chevrons-up-down" />
+              <Icon
+                color="hsl(var(--heroui-default-500))"
+                icon="lucide:chevrons-up-down"
+              />
             }
             startContent={
               <div className="relative h-10 w-10 flex-none rounded-full border-small border-default-300">
@@ -339,7 +373,11 @@ export default function Component() {
               >
                 {/* @ts-ignore */}
                 {(item) => (
-                  <SelectItem key={item.value} aria-label={item.label} textValue={item.label}>
+                  <SelectItem
+                    key={item.value}
+                    aria-label={item.label}
+                    textValue={item.label}
+                  >
                     <div className="flex flex-row items-center justify-between gap-1">
                       <span>{item.label}</span>
                       <div className="flex h-6 w-6 items-center justify-center rounded-full border-small border-default-300">
@@ -407,7 +445,10 @@ export default function Component() {
 
         <Dropdown placement="top">
           <DropdownTrigger>
-            <Button className="mb-4 h-16 items-center justify-between" variant="light">
+            <Button
+              className="mb-4 h-16 items-center justify-between"
+              variant="light"
+            >
               <User
                 avatarProps={{
                   size: "sm",
@@ -418,13 +459,17 @@ export default function Component() {
                 description={users[0].role}
                 name={users[0].name}
               />
-              <Icon className="text-default-400" icon="lucide:chevrons-up-down" width={16} />
+              <Icon
+                className="text-default-400"
+                icon="lucide:chevrons-up-down"
+                width={16}
+              />
             </Button>
           </DropdownTrigger>
           <DropdownMenu
             aria-label="Account switcher"
             variant="flat"
-            onAction={(key) => console.log(`selected user ${key}`)}
+            onAction={(_key) => {}}
           >
             {users.map((user) => (
               <DropdownItem key={user.id} textValue={user.name}>
@@ -439,7 +484,9 @@ export default function Component() {
                     src={user.avatar}
                   />
                   <div className="flex flex-col">
-                    <p className="text-small font-medium text-default-600">{user.name}</p>
+                    <p className="text-small font-medium text-default-600">
+                      {user.name}
+                    </p>
                     <p className="text-tiny text-default-400">{user.email}</p>
                   </div>
                 </div>

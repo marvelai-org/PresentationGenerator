@@ -10,7 +10,9 @@ export default function Component() {
     <div className="flex h-dvh w-full max-w-full flex-col gap-8">
       <div className="flex h-full flex-col justify-center gap-10">
         <div className="flex w-full flex-col justify-start gap-2">
-          <h1 className="text-3xl font-semibold leading-9 text-foreground-400">John,</h1>
+          <h1 className="text-3xl font-semibold leading-9 text-foreground-400">
+            John,
+          </h1>
           <h1 className="text-3xl font-semibold leading-9 text-default-foreground">
             How can I help you today?
           </h1>

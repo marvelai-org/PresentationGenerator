@@ -1,15 +1,17 @@
 "use client";
 
-import type {RadioGroupProps} from "@heroui/react";
+import type { RadioGroupProps } from "@heroui/react";
 
 import React from "react";
-import {RadioGroup} from "@heroui/react";
-import {cn} from "@heroui/react";
+import { RadioGroup } from "@heroui/react";
+import { cn } from "@heroui/react";
 
-import FeedbackRatingItem, {RatingValueEnum} from "./FeedbackRatingItem";
+import FeedbackRatingItem, { RatingValueEnum } from "./FeedbackRatingItem";
 
-export default function Component({classNames, ...props}: RadioGroupProps) {
-  const [value, setValue] = React.useState<RatingValueEnum | string>(RatingValueEnum.GOOD);
+export default function Component({ classNames, ...props }: RadioGroupProps) {
+  const [value, setValue] = React.useState<RatingValueEnum | string>(
+    RatingValueEnum.GOOD,
+  );
 
   return (
     <RadioGroup

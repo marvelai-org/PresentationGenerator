@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import {ScrollShadow, Tab, Tabs} from "@heroui/react";
+import { ScrollShadow, Tab, Tabs } from "@heroui/react";
 
 import ConversationWithFailedMessage from "@/components/features/ai/prompt-containers/components/conversation-with-failed-message";
 import PromptInputWithBottomActions from "@/components/features/ai/prompt-inputs/variants/WithBottomActions";
@@ -10,7 +10,9 @@ export default function Component() {
   return (
     <div className="flex h-dvh w-full max-w-full flex-col gap-8">
       <div className="flex w-full flex-wrap items-center justify-center gap-2 border-b-small border-divider pb-2 sm:justify-between">
-        <p className="text-base font-medium">Creative Uses for Kids&apos; Art</p>
+        <p className="text-base font-medium">
+          Creative Uses for Kids&apos; Art
+        </p>
         <Tabs className="justify-center">
           <Tab key="creative" title="Creative" />
           <Tab key="technical" title="Technical" />

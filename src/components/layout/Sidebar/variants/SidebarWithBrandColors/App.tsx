@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import {Avatar, Button, ScrollShadow, Spacer, Input} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Avatar, Button, ScrollShadow, Spacer, Input } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
-import {brandItems} from "@/components/layout/Sidebar/SidebarItems";
-
+import { AcmeIcon } from "@/components/ui/Acme";
+import { brandItems } from "@/components/layout/Sidebar/SidebarItems";
 import Sidebar from "@/components/layout/Sidebar/Sidebar";
 
 /**
@@ -30,17 +29,24 @@ export default function Component() {
           <div className="flex h-8 w-8 items-center justify-center rounded-full border-small border-primary-foreground/20">
             <AcmeIcon className="text-primary-foreground" />
           </div>
-          <span className="text-small font-medium uppercase text-primary-foreground">Acme</span>
+          <span className="text-small font-medium uppercase text-primary-foreground">
+            Acme
+          </span>
         </div>
 
         <Spacer y={8} />
 
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3 px-2">
-            <Avatar size="sm" src="https://i.pravatar.cc/150?u=a04258114e29028708c" />
+            <Avatar
+              size="sm"
+              src="https://i.pravatar.cc/150?u=a04258114e29028708c"
+            />
             <div className="flex flex-col">
               <p className="text-small text-primary-foreground">Jane Doe</p>
-              <p className="text-tiny text-primary-foreground/60">Product Designer</p>
+              <p className="text-tiny text-primary-foreground/60">
+                Product Designer
+              </p>
             </div>
           </div>
           <Input

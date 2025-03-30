@@ -21,10 +21,9 @@ import {
   Avatar,
   Badge,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Acme";
-
+import { AcmeIcon } from "@/components/ui/Acme";
 import NotificationsCard from "@/components/ui/NotificationsCard";
 
 export default function Component() {
@@ -52,7 +51,11 @@ export default function Component() {
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link aria-current="page" className="flex gap-2 text-inherit" href="#">
+          <Link
+            aria-current="page"
+            className="flex gap-2 text-inherit"
+            href="#"
+          >
             Deployments
           </Link>
         </NavbarItem>
@@ -78,17 +81,29 @@ export default function Component() {
       >
         <NavbarItem className="hidden sm:flex">
           <Button isIconOnly radius="full" variant="light">
-            <Icon className="text-default-500" icon="solar:magnifer-linear" width={22} />
+            <Icon
+              className="text-default-500"
+              icon="solar:magnifer-linear"
+              width={22}
+            />
           </Button>
         </NavbarItem>
         <NavbarItem className="hidden sm:flex">
           <Button isIconOnly radius="full" variant="light">
-            <Icon className="text-default-500" icon="solar:sun-linear" width={24} />
+            <Icon
+              className="text-default-500"
+              icon="solar:sun-linear"
+              width={24}
+            />
           </Button>
         </NavbarItem>
         <NavbarItem className="hidden sm:flex">
           <Button isIconOnly radius="full" variant="light">
-            <Icon className="text-default-500" icon="solar:settings-linear" width={24} />
+            <Icon
+              className="text-default-500"
+              icon="solar:settings-linear"
+              width={24}
+            />
           </Button>
         </NavbarItem>
         <NavbarItem className="flex">
@@ -102,7 +117,11 @@ export default function Component() {
                 variant="light"
               >
                 <Badge color="danger" content="5" showOutline={false} size="md">
-                  <Icon className="text-default-500" icon="solar:bell-linear" width={22} />
+                  <Icon
+                    className="text-default-500"
+                    icon="solar:bell-linear"
+                    width={22}
+                  />
                 </Badge>
               </Button>
             </PopoverTrigger>
@@ -123,7 +142,10 @@ export default function Component() {
                   shape="circle"
                   size="sm"
                 >
-                  <Avatar size="sm" src="https://i.pravatar.cc/150?u=a04258114e29526708c" />
+                  <Avatar
+                    size="sm"
+                    src="https://i.pravatar.cc/150?u=a04258114e29526708c"
+                  />
                 </Badge>
               </button>
             </DropdownTrigger>
@@ -137,7 +159,9 @@ export default function Component() {
               <DropdownItem key="analytics">Analytics</DropdownItem>
               <DropdownItem key="system">System</DropdownItem>
               <DropdownItem key="configurations">Configurations</DropdownItem>
-              <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+              <DropdownItem key="help_and_feedback">
+                Help & Feedback
+              </DropdownItem>
               <DropdownItem key="logout" color="danger">
                 Log Out
               </DropdownItem>

@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import {Icon} from "@iconify/react";
-import {Card, CardBody, CardHeader} from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { Card, CardBody, CardHeader } from "@heroui/react";
 
 const featuresCategories = [
   {
@@ -14,7 +14,12 @@ const featuresCategories = [
   {
     key: "car",
     title: "What's the safest car of 2024?",
-    icon: <Icon className="h-full w-full" icon="solar:square-academic-cap-2-linear" />,
+    icon: (
+      <Icon
+        className="h-full w-full"
+        icon="solar:square-academic-cap-2-linear"
+      />
+    ),
     descriptions: [],
   },
   {

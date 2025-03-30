@@ -1,6 +1,6 @@
 // src/lib/rate-limiter.ts
-import { NextApiRequest, NextApiResponse } from 'next';
-import { LRUCache } from 'lru-cache';
+import { NextApiRequest, NextApiResponse } from "next";
+import { LRUCache } from "lru-cache";
 
 interface Bucket {
   tokens: number;
@@ -9,7 +9,7 @@ interface Bucket {
 
 // Configuration constants
 const WINDOW_SIZE_MS = 60 * 1000; // 60 seconds
-const MAX_TOKENS = 10;           // Maximum allowed requests per window
+const MAX_TOKENS = 10; // Maximum allowed requests per window
 // Calculate the token refill rate (tokens per millisecond)
 const REFILL_RATE = MAX_TOKENS / WINDOW_SIZE_MS;
 
@@ -27,16 +27,21 @@ const bucketCache = new LRUCache<string, Bucket>({
  * @param limit Maximum allowed tokens per window.
  * @returns True if the request is allowed; otherwise, false.
  */
-function checkRateLimitForKey(key: string, limit: number = MAX_TOKENS): boolean {
+function checkRateLimitForKey(
+  key: string,
+  limit: number = MAX_TOKENS,
+): boolean {
   const now = Date.now();
   // Retrieve the current bucket for this key, or initialize one.
   let bucket = bucketCache.get(key);
+
   if (!bucket) {
     bucket = { tokens: limit, lastRefill: now };
   }
 
   // Refill the token bucket based on the time passed.
   const timePassed = now - bucket.lastRefill;
+
   bucket.tokens = Math.min(limit, bucket.tokens + timePassed * REFILL_RATE);
   bucket.lastRefill = now;
 
@@ -44,11 +49,13 @@ function checkRateLimitForKey(key: string, limit: number = MAX_TOKENS): boolean 
   if (bucket.tokens >= 1) {
     bucket.tokens -= 1;
     bucketCache.set(key, bucket);
+
     return true;
   }
 
   // Otherwise, deny the request.
   bucketCache.set(key, bucket);
+
   return false;
 }
 
@@ -61,10 +68,15 @@ function checkRateLimitForKey(key: string, limit: number = MAX_TOKENS): boolean 
  * @param limit Maximum allowed requests per window (default is 10).
  * @returns True if allowed, false if rate limit exceeded.
  */
-export function rateLimiter(req: NextApiRequest, res: NextApiResponse, limit?: number): boolean {
+export function rateLimiter(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  limit?: number,
+): boolean {
   // Extract IP address from headers or socket.
-  const token = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  const key = Array.isArray(token) ? token[0] : token || '';
+  const token = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  const key = Array.isArray(token) ? token[0] : token || "";
+
   return checkRateLimitForKey(key, limit);
 }
 

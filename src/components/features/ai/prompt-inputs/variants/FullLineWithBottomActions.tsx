@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
-import {Button} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import React, { useState } from "react";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {PromptInputFullLineComponent} from "../components/PromptInputFullLine";
+import { PromptInputFullLineComponent } from "../components/PromptInputFullLine";
 
 const suggestions = [
   {
@@ -50,14 +50,20 @@ interface PromptSuggestionsProps {
   onSelect?: (suggestion: PromptSuggestion) => void;
 }
 
-const PromptSuggestions = ({onSelect}: PromptSuggestionsProps) => {
+const PromptSuggestions = ({ onSelect }: PromptSuggestionsProps) => {
   return (
     <div className="flex flex-row flex-wrap items-center justify-center gap-2">
       {suggestions.map((suggestion) => (
         <Button
           key={suggestion.id}
           className="h-8 gap-2 rounded-full border-1 border-default-200 px-3 text-default-foreground transition-colors !duration-150 hover:border-default-400 hover:text-foreground data-[hover=true]:border-default-400 data-[hover=true]:text-foreground"
-          startContent={<Icon className="text-default-500" icon={suggestion.icon} width={18} />}
+          startContent={
+            <Icon
+              className="text-default-500"
+              icon={suggestion.icon}
+              width={18}
+            />
+          }
           variant="light"
           onPress={() => onSelect?.(suggestion)}
         >

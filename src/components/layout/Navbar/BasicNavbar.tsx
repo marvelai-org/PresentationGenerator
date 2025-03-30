@@ -1,6 +1,6 @@
 "use client";
 
-import type {NavbarProps} from "@heroui/react";
+import type { NavbarProps } from "@heroui/react";
 
 import React from "react";
 import {
@@ -16,9 +16,9 @@ import {
   Divider,
   cn,
 } from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 
-import {AcmeIcon} from "@/components/ui/Social";
+import { AcmeIcon } from "@/components/ui/Social";
 
 const menuItems = [
   "About",
@@ -32,7 +32,7 @@ const menuItems = [
 ];
 
 const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
-  ({classNames = {}, ...props}, ref) => {
+  ({ classNames = {}, ...props }, ref) => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
     return (
@@ -56,13 +56,23 @@ const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <div className="rounded-full bg-default-foreground text-background">
             <AcmeIcon size={34} />
           </div>
-          <span className="ml-2 text-small font-medium text-default-foreground">ACME</span>
+          <span className="ml-2 text-small font-medium text-default-foreground">
+            ACME
+          </span>
         </NavbarBrand>
 
         {/* Center Content */}
         <NavbarContent justify="center">
-          <NavbarItem isActive className="data-[active='true']:font-medium[date-active='true']">
-            <Link aria-current="page" className="text-default-foreground" href="#" size="sm">
+          <NavbarItem
+            isActive
+            className="data-[active='true']:font-medium[date-active='true']"
+          >
+            <Link
+              aria-current="page"
+              className="text-default-foreground"
+              href="#"
+              size="sm"
+            >
               Home
             </Link>
           </NavbarItem>
@@ -111,9 +121,9 @@ const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarMenu
           className="top-[calc(var(--navbar-height)_-_1px)] max-h-fit bg-default-200/50 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50"
           motionProps={{
-            initial: {opacity: 0, y: -20},
-            animate: {opacity: 1, y: 0},
-            exit: {opacity: 0, y: -20},
+            initial: { opacity: 0, y: -20 },
+            animate: { opacity: 1, y: 0 },
+            exit: { opacity: 0, y: -20 },
             transition: {
               ease: "easeInOut",
               duration: 0.2,
@@ -126,7 +136,12 @@ const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             </Button>
           </NavbarMenuItem>
           <NavbarMenuItem className="mb-4">
-            <Button fullWidth as={Link} className="bg-foreground text-background" href="/#">
+            <Button
+              fullWidth
+              as={Link}
+              className="bg-foreground text-background"
+              href="/#"
+            >
               Get Started
             </Button>
           </NavbarMenuItem>
@@ -135,7 +150,9 @@ const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
               <Link className="mb-2 w-full text-default-500" href="#" size="md">
                 {item}
               </Link>
-              {index < menuItems.length - 1 && <Divider className="opacity-50" />}
+              {index < menuItems.length - 1 && (
+                <Divider className="opacity-50" />
+              )}
             </NavbarMenuItem>
           ))}
         </NavbarMenu>

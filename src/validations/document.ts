@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const documentMetadataSchema = z.object({
   tags: z.array(z.string()),
@@ -21,11 +21,11 @@ export const documentVersionSchema = z.object({
   content: z.string(),
   changes: z.array(
     z.object({
-      type: z.enum(['insert', 'delete', 'replace']),
+      type: z.enum(["insert", "delete", "replace"]),
       position: z.number().int().nonnegative(),
       content: z.string(),
       timestamp: z.date(),
       userId: z.string(),
-    })
+    }),
   ),
 });

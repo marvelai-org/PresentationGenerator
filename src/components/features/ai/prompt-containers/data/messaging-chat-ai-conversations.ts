@@ -1,4 +1,4 @@
-import type {MessagingChatMessageProps} from "./data";
+import type { MessagingChatMessageProps } from "./data";
 
 const messagingChatAIConversations: MessagingChatMessageProps[] = [
   {
@@ -9,7 +9,8 @@ const messagingChatAIConversations: MessagingChatMessageProps[] = [
     name: "You",
   },
   {
-    avatar: "https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/avatar_ai.png",
+    avatar:
+      "https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/avatar_ai.png",
     message:
       "Here's an out-of-office message based on what you provided: \n\n Subject: Out of Office - [Your Name]\n\n Thank you for your email. I am currently out of the office from Friday, May 24th, 2024 to Wednesday, May 29th, 2024. For urgent inquiries during this time, please contact my colleague, [Colleague Name], at [Colleague Email Address]. I will check my emails upon my return and respond to them as soon as possible.\n\n Thank you for your understanding.",
     name: "Acme AI",

@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Tooltip, ScrollShadow} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip, ScrollShadow } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
@@ -31,10 +31,18 @@ export default function Component() {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <ScrollShadow hideScrollBar className="flex flex-nowrap gap-2" orientation="horizontal">
+      <ScrollShadow
+        hideScrollBar
+        className="flex flex-nowrap gap-2"
+        orientation="horizontal"
+      >
         <div className="flex gap-2">
-          {ideas.map(({title, description}, index) => (
-            <Button key={index} className="flex h-14 flex-col items-start gap-0" variant="flat">
+          {ideas.map(({ title, description }, index) => (
+            <Button
+              key={index}
+              className="flex h-14 flex-col items-start gap-0"
+              variant="flat"
+            >
               <p>{title}</p>
               <p className="text-default-500">{description}</p>
             </Button>
@@ -82,7 +90,11 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:paperclip-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:paperclip-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
@@ -91,7 +103,11 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:soundwave-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:soundwave-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
@@ -100,14 +116,20 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:notes-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:notes-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
               Templates
             </Button>
           </div>
-          <p className="py-1 text-tiny text-default-400">{prompt.length}/2000</p>
+          <p className="py-1 text-tiny text-default-400">
+            {prompt.length}/2000
+          </p>
         </div>
       </form>
     </div>

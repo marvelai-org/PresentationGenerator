@@ -1,10 +1,9 @@
 "use client";
 
 import React from "react";
-import {ScrollShadow, Tab, Tabs} from "@heroui/react";
+import { ScrollShadow, Tab, Tabs } from "@heroui/react";
 
 import SidebarContainer from "@/components/layout/Sidebar/variants/SidebarWithGradientBackground/App";
-
 import Conversation from "@/components/features/ai/prompt-containers/components/conversations";
 import PromptInputWithBottomActions from "@/components/features/ai/prompt-inputs/variants/WithBottomActions";
 
@@ -29,7 +28,8 @@ export default function Component() {
           <div className="mt-auto flex max-w-full flex-col gap-2">
             <PromptInputWithBottomActions />
             <p className="px-2 text-tiny text-default-400">
-              Acme AI can make mistakes. Consider checking important information.
+              Acme AI can make mistakes. Consider checking important
+              information.
             </p>
           </div>
         </div>

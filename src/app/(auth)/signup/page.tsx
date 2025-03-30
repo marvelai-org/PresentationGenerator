@@ -1,8 +1,16 @@
 "use client";
 
 import React from "react";
-import {Button, Input, Checkbox, Link, Divider, Form, Alert} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import {
+  Button,
+  Input,
+  Checkbox,
+  Link,
+  Divider,
+  Form,
+  Alert,
+} from "@heroui/react";
+import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
@@ -28,19 +36,21 @@ export default function Component() {
     event.preventDefault();
     setError(null);
     setSuccess(null);
-    
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
+
       return;
     }
-    
+
     if (!agreeToTerms) {
       setError("You must agree to the Terms and Privacy Policy");
+
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -50,18 +60,17 @@ export default function Component() {
           emailRedirectTo: `${window.location.origin}/callback`,
         },
       });
-      
+
       if (error) throw error;
-      
-      console.log("Signup response:", data);
-      
+
       if (data?.user?.identities?.length === 0) {
-        setSuccess("You already have an account. Please check your email for the login link or try signing in.");
+        setSuccess(
+          "You already have an account. Please check your email for the login link or try signing in.",
+        );
       } else {
         router.push("/confirmation");
       }
     } catch (err: any) {
-      console.error("Signup error:", err);
       setError(err.message || "Sign up failed");
     } finally {
       setIsLoading(false);
@@ -73,28 +82,26 @@ export default function Component() {
     setError(null);
     setSuccess(null);
     setIsLoading(true);
-    
+
     try {
-      const { data, error } = await supabase.auth.signInWithOtp({
+      const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
           emailRedirectTo: `${window.location.origin}/callback`,
         },
       });
-      
+
       if (error) throw error;
-      
+
       setSuccess("Magic link sent! Please check your email.");
-      console.log("OTP response:", data);
     } catch (err: any) {
-      console.error("OTP error:", err);
       setError(err.message || "Failed to send magic link");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSocialSignup = async (provider: 'google' | 'github') => {
+  const handleSocialSignup = async (provider: "google" | "github") => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -102,6 +109,7 @@ export default function Component() {
           redirectTo: `${window.location.origin}/callback`,
         },
       });
+
       if (error) throw error;
     } catch (err: any) {
       setError(err.message || `Failed to sign up with ${provider}`);
@@ -114,15 +122,19 @@ export default function Component() {
         <p className="pb-2 text-xl font-medium">Sign Up</p>
         {error && <Alert color="danger">{error}</Alert>}
         {success && <Alert color="success">{success}</Alert>}
-        <Form className="flex flex-col gap-3" validationBehavior="native" onSubmit={handleSubmit}>
+        <Form
+          className="flex flex-col gap-3"
+          validationBehavior="native"
+          onSubmit={handleSubmit}
+        >
           <Input
             isRequired
             label="Username"
             name="username"
             placeholder="Enter your username"
             type="text"
-            variant="bordered"
             value={username}
+            variant="bordered"
             onValueChange={setUsername}
           />
           <Input
@@ -131,8 +143,8 @@ export default function Component() {
             name="email"
             placeholder="Enter your email"
             type="email"
-            variant="bordered"
             value={email}
+            variant="bordered"
             onValueChange={setEmail}
           />
           <Input
@@ -156,8 +168,8 @@ export default function Component() {
             name="password"
             placeholder="Enter your password"
             type={isVisible ? "text" : "password"}
-            variant="bordered"
             value={password}
+            variant="bordered"
             onValueChange={setPassword}
           />
           <Input
@@ -181,11 +193,17 @@ export default function Component() {
             name="confirmPassword"
             placeholder="Confirm your password"
             type={isConfirmVisible ? "text" : "password"}
-            variant="bordered"
             value={confirmPassword}
+            variant="bordered"
             onValueChange={setConfirmPassword}
           />
-          <Checkbox isRequired className="py-4" size="sm" checked={agreeToTerms} onValueChange={setAgreeToTerms}>
+          <Checkbox
+            isRequired
+            checked={agreeToTerms}
+            className="py-4"
+            size="sm"
+            onValueChange={setAgreeToTerms}
+          >
             I agree with the&nbsp;
             <Link className="relative z-[1]" href="#" size="sm">
               Terms
@@ -195,11 +213,28 @@ export default function Component() {
               Privacy Policy
             </Link>
           </Checkbox>
-          <Button className="w-full" color="primary" type="submit" isLoading={isLoading} spinner={<Icon icon="lucide:loader-2" className="animate-spin" width={24} />}>
+          <Button
+            className="w-full"
+            color="primary"
+            isLoading={isLoading}
+            spinner={
+              <Icon
+                className="animate-spin"
+                icon="lucide:loader-2"
+                width={24}
+              />
+            }
+            type="submit"
+          >
             Sign Up
           </Button>
-          
-          <Button className="w-full mt-2" color="secondary" type="button" onPress={handleOtpSignup}>
+
+          <Button
+            className="w-full mt-2"
+            color="secondary"
+            type="button"
+            onPress={handleOtpSignup}
+          >
             Send Magic Link Instead
           </Button>
         </Form>
@@ -212,14 +247,16 @@ export default function Component() {
           <Button
             startContent={<Icon icon="flat-color-icons:google" width={24} />}
             variant="bordered"
-            onPress={() => handleSocialSignup('google')}
+            onPress={() => handleSocialSignup("google")}
           >
             Continue with Google
           </Button>
           <Button
-            startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
+            startContent={
+              <Icon className="text-default-500" icon="fe:github" width={24} />
+            }
             variant="bordered"
-            onPress={() => handleSocialSignup('github')}
+            onPress={() => handleSocialSignup("github")}
           >
             Continue with Github
           </Button>

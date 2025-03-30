@@ -1,11 +1,18 @@
 "use client";
 
-import type {FC} from "react";
+import type { FC } from "react";
 
-import {type ButtonProps, Card, CardBody, type Selection, Badge, Tooltip} from "@heroui/react";
-import {Command} from "cmdk";
-import {useEffect, useState, useMemo, useCallback, useRef} from "react";
-import {matchSorter} from "match-sorter";
+import {
+  type ButtonProps,
+  Card,
+  CardBody,
+  type Selection,
+  Badge,
+  Tooltip,
+} from "@heroui/react";
+import { Command } from "cmdk";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { matchSorter } from "match-sorter";
 import {
   Button,
   Kbd,
@@ -20,18 +27,17 @@ import {
 } from "@heroui/react";
 import MultiRef from "react-multi-ref";
 import scrollIntoView from "scroll-into-view-if-needed";
-import {isAppleDevice, isWebKit} from "@react-aria/utils";
-import {capitalize, intersectionBy, isEmpty} from "lodash";
-import {useLocalStorage, useMediaQuery} from "usehooks-ts";
-import {Icon} from "@iconify/react";
+import { isAppleDevice } from "@react-aria/utils";
+import { capitalize, intersectionBy, isEmpty } from "lodash";
+import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { Icon } from "@iconify/react";
 
-import {useUpdateEffect} from "./hooks/useUpdateEffect";
-import {CategoryEnum, type SearchResultItem} from "./data/data";
-import {Popover, PopoverContent, PopoverTrigger} from "./components/Popover";
-import {sortSearchCategoryItems} from "./utils/sort";
-import {NewChip} from "./components/NewChip";
-
-import {searchData} from "./data/mock-data";
+import { useUpdateEffect } from "./hooks/useUpdateEffect";
+import { CategoryEnum, type SearchResultItem } from "./data/data";
+import { Popover, PopoverContent, PopoverTrigger } from "./components/Popover";
+import { sortSearchCategoryItems } from "./utils/sort";
+import { NewChip } from "./components/NewChip";
+import { searchData } from "./data/mock-data";
 
 const cmdk = tv({
   slots: {
@@ -81,7 +87,13 @@ const cmdk = tv({
       "data-[active=true]:text-primary-foreground",
     ],
     leftWrapper: ["flex", "gap-3", "items-center", "w-full", "max-w-full"],
-    leftWrapperOnMobile: ["flex", "gap-3", "items-center", "w-full", "max-w-[166px]"],
+    leftWrapperOnMobile: [
+      "flex",
+      "gap-3",
+      "items-center",
+      "w-full",
+      "max-w-[166px]",
+    ],
     rightWrapper: ["flex", "flex-row", "gap-2", "items-center"],
     leftIcon: [
       "text-default-500 dark:text-default-300",
@@ -100,7 +112,14 @@ const cmdk = tv({
       "group-data-[active=true]:text-primary-foreground",
       "select-none",
     ],
-    emptyWrapper: ["flex", "flex-col", "text-center", "items-center", "justify-center", "h-32"],
+    emptyWrapper: [
+      "flex",
+      "flex-col",
+      "text-center",
+      "items-center",
+      "justify-center",
+      "h-32",
+    ],
     sectionTitle: ["text-xs", "font-semibold", "leading-4", "text-default-900"],
     categoryItem: [
       "h-[50px]",
@@ -219,10 +238,15 @@ const Component: FC<{}> = () => {
   const [query, setQuery] = useState("");
   const [activeItem, setActiveItem] = useState(0);
   const [menuNodes] = useState(() => new MultiRef<number, HTMLElement>());
-  const [selectedCategory, setSelectedCategory] = useState<CategoryEnum>(CategoryEnum.APPLICATION);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryEnum>(
+    CategoryEnum.APPLICATION,
+  );
   const slots = useMemo(() => cmdk(), []);
   const flattenedData = useMemo(() => flattenSearchData(), []);
-  const groupedData = useMemo(() => groupedSearchData(flattenedData), [flattenedData]);
+  const groupedData = useMemo(
+    () => groupedSearchData(flattenedData),
+    [flattenedData],
+  );
   const eventRef = useRef<"mouse" | "keyboard">();
   const listRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(true);
@@ -246,10 +270,9 @@ const Component: FC<{}> = () => {
 
   const isMobile = useMediaQuery("(max-width: 650px)");
 
-  const [savedRecentSearches, setRecentSearches] = useLocalStorage<SearchResultItem[]>(
-    RECENT_SEARCHES_KEY,
-    [],
-  );
+  const [savedRecentSearches, setRecentSearches] = useLocalStorage<
+    SearchResultItem[]
+  >(RECENT_SEARCHES_KEY, []);
 
   const recentSearches = useMemo(() => {
     if (isEmpty(savedRecentSearches)) return [];
@@ -302,7 +325,10 @@ const Component: FC<{}> = () => {
         }),
       );
 
-      const matches = intersectionBy(...matchesForEachWord, "slug").slice(0, MAX_RESULTS);
+      const matches = intersectionBy(...matchesForEachWord, "slug").slice(
+        0,
+        MAX_RESULTS,
+      );
 
       return matches;
     },
@@ -314,7 +340,9 @@ const Component: FC<{}> = () => {
       [key: string]: SearchResultItem[];
     } = {};
 
-    const categorySearchItems = sortSearchCategoryItems(groupedData[selectedCategory]);
+    const categorySearchItems = sortSearchCategoryItems(
+      groupedData[selectedCategory],
+    );
 
     categorySearchItems.forEach((item) => {
       if (!categoryGroups[item.group.key]) {
@@ -337,7 +365,7 @@ const Component: FC<{}> = () => {
   }, [categoryGroups]);
 
   const items = useMemo(
-    () => (!isEmpty(results) ? results : recentSearches ?? []),
+    () => (!isEmpty(results) ? results : (recentSearches ?? [])),
     [results, recentSearches],
   );
 
@@ -491,15 +519,19 @@ const Component: FC<{}> = () => {
           }}
         >
           <div
-            className={cn("flex h-full w-full items-center justify-center p-3", {
-              "p-0": item?.component?.attributes?.screenshot?.fullWidth,
-            })}
+            className={cn(
+              "flex h-full w-full items-center justify-center p-3",
+              {
+                "p-0": item?.component?.attributes?.screenshot?.fullWidth,
+              },
+            )}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               alt={`${item.component?.name}`}
               className={cn("h-auto w-full object-scale-down", {
-                "h-full object-cover": item?.component?.attributes?.screenshot?.fullWidth,
+                "h-full object-cover":
+                  item?.component?.attributes?.screenshot?.fullWidth,
               })}
               height={120}
               src={item.component.image}
@@ -514,7 +546,7 @@ const Component: FC<{}> = () => {
 
   // render each component Group.
   const renderGroups = useCallback(
-    (groups: {[key: string]: SearchResultItem[]}) => {
+    (groups: { [key: string]: SearchResultItem[] }) => {
       let totalItems = recentSearches ? recentSearches.length : 0;
 
       return Object.keys(groups).map((key) => {
@@ -526,7 +558,9 @@ const Component: FC<{}> = () => {
             <Command.Group
               heading={
                 <div className="flex flex-row items-center justify-between gap-1">
-                  <p className="text-xs font-semibold leading-4 text-default-900">{groupName}</p>
+                  <p className="text-xs font-semibold leading-4 text-default-900">
+                    {groupName}
+                  </p>
                   <Link
                     className={"text-sm font-medium leading-5 text-default-300"}
                     href={`/components/${selectedCategory}/${key}`}
@@ -596,7 +630,11 @@ const Component: FC<{}> = () => {
             onItemSelect(item);
           }}
         >
-          <div className={isMobile ? slots.leftWrapperOnMobile() : slots.leftWrapper()}>
+          <div
+            className={
+              isMobile ? slots.leftWrapperOnMobile() : slots.leftWrapper()
+            }
+          >
             {item.category && (
               <Icon
                 className={slots.leftIcon()}
@@ -614,7 +652,11 @@ const Component: FC<{}> = () => {
           {!isEmpty(query) && (
             <div className={slots.rightWrapper()}>
               {item.component.attributes?.isNew && <NewChip isBorderGradient />}
-              <Icon className="" icon="solar:alt-arrow-right-line-duotone" width={20} />
+              <Icon
+                className=""
+                icon="solar:alt-arrow-right-line-duotone"
+                width={20}
+              />
             </div>
           )}
         </Command.Item>
@@ -673,14 +715,16 @@ const Component: FC<{}> = () => {
                       {
                         "object-cover p-0":
                           item?.component?.attributes?.screenshot?.fullWidth ||
-                          item?.component?.attributes?.screenshot?.fullWidth === "true",
+                          item?.component?.attributes?.screenshot?.fullWidth ===
+                            "true",
                       },
                     )}
                     height={400}
                     src={`/images/components/${item.category}/${item.slug}.png`}
                     style={{
                       objectPosition:
-                        item?.component?.attributes?.screenshot?.objectPosition ?? "center",
+                        item?.component?.attributes?.screenshot
+                          ?.objectPosition ?? "center",
                       ...item?.component?.attributes?.screenshot?.style,
                     }}
                     width={600}
@@ -715,7 +759,9 @@ const Component: FC<{}> = () => {
           <ListboxItem
             key={item.key}
             className={slots.categoryItem()}
-            startContent={<Icon className="text-default-400" icon={item.icon} width={20} />}
+            startContent={
+              <Icon className="text-default-400" icon={item.icon} width={20} />
+            }
             textValue={item.label}
           >
             <span className="flex w-[100px]">{item.label}</span>
@@ -785,9 +831,17 @@ const Component: FC<{}> = () => {
         onClose={() => onClose()}
       >
         <ModalContent>
-          <Command className={slots.base()} label="Quick search command" shouldFilter={false}>
+          <Command
+            className={slots.base()}
+            label="Quick search command"
+            shouldFilter={false}
+          >
             <div className={slots.header()}>
-              <Icon className={slots.searchIcon()} icon="solar:magnifer-linear" width={20} />
+              <Icon
+                className={slots.searchIcon()}
+                icon="solar:magnifer-linear"
+                width={20}
+              />
               <Command.Input
                 className={slots.input()}
                 placeholder="Search component..."
@@ -813,11 +867,14 @@ const Component: FC<{}> = () => {
                 ref={listRef}
                 className={cn(
                   slots.listScroll(),
-                  {"col-span-8": !isMobile && isEmpty(query)},
-                  {"col-span-12 pl-4": isMobile || !isEmpty(query)},
+                  { "col-span-8": !isMobile && isEmpty(query) },
+                  { "col-span-12 pl-4": isMobile || !isEmpty(query) },
                 )}
               >
-                <Command.List className={cn(slots.list(), "[&>div]:pb-4")} role="listbox">
+                <Command.List
+                  className={cn(slots.list(), "[&>div]:pb-4")}
+                  role="listbox"
+                >
                   {query.length > 0 && (
                     <Command.Empty>
                       <div className={slots.emptyWrapper()}>
@@ -828,7 +885,9 @@ const Component: FC<{}> = () => {
                               Try adding more characters to your search term.
                             </p>
                           ) : (
-                            <p className="text-default-400">Try searching for something else.</p>
+                            <p className="text-default-400">
+                              Try searching for something else.
+                            </p>
                           )}
                         </div>
                       </div>
@@ -837,23 +896,27 @@ const Component: FC<{}> = () => {
                   {isEmpty(query) && (
                     <div className={slots.listWrapper()}>
                       {/* Recent */}
-                      {!isEmpty(recentSearches) && recentSearches.length > 0 && (
-                        <Command.Group
-                          heading={
-                            <div className="flex items-center justify-between">
-                              <p className={slots.sectionTitle()}>Recent</p>
-                            </div>
-                          }
-                        >
-                          <ScrollShadow hideScrollBar orientation="horizontal">
-                            <div className="flex flex-row gap-2">
-                              {recentSearches.map((item, index) =>
-                                renderSearchItem(item, index, true),
-                              )}
-                            </div>
-                          </ScrollShadow>
-                        </Command.Group>
-                      )}
+                      {!isEmpty(recentSearches) &&
+                        recentSearches.length > 0 && (
+                          <Command.Group
+                            heading={
+                              <div className="flex items-center justify-between">
+                                <p className={slots.sectionTitle()}>Recent</p>
+                              </div>
+                            }
+                          >
+                            <ScrollShadow
+                              hideScrollBar
+                              orientation="horizontal"
+                            >
+                              <div className="flex flex-row gap-2">
+                                {recentSearches.map((item, index) =>
+                                  renderSearchItem(item, index, true),
+                                )}
+                              </div>
+                            </ScrollShadow>
+                          </Command.Group>
+                        )}
                       {/* Categories (Mobile) */}
                       {isMobile && (
                         <div className="flex flex-col gap-1">
@@ -870,7 +933,9 @@ const Component: FC<{}> = () => {
                     </div>
                   )}
 
-                  {results.map((item, index) => renderSearchItem(item, index, false))}
+                  {results.map((item, index) =>
+                    renderSearchItem(item, index, false),
+                  )}
                 </Command.List>
               </div>
             </div>

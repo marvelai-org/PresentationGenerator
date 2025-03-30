@@ -4,9 +4,8 @@ import clsx from "clsx";
 
 // Import all providers
 import { ThemeProvider } from "@/providers/ThemeProvider";
-import { HeroUIProvider } from "@/providers/HeroUIProvider"; 
+import { HeroUIProvider } from "@/providers/HeroUIProvider";
 import { AuthProvider } from "@/providers/AuthProvider";
-
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
@@ -46,9 +45,7 @@ export default function RootLayout({
           <HeroUIProvider>
             <AuthProvider>
               <div className="relative flex flex-col h-screen">
-                <main className="flex-grow">
-                  {children}
-                </main>
+                <main className="flex-grow">{children}</main>
               </div>
             </AuthProvider>
           </HeroUIProvider>

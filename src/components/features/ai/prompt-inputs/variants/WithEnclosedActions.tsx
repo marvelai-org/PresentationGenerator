@@ -1,15 +1,17 @@
 "use client";
-import type {TextAreaProps} from "@heroui/react";
+import type { TextAreaProps } from "@heroui/react";
 
 import React from "react";
-import {Button, Tooltip} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
 export default function Component(
-  props: TextAreaProps & {classNames?: Record<"button" | "buttonIcon", string>},
+  props: TextAreaProps & {
+    classNames?: Record<"button" | "buttonIcon", string>;
+  },
 ) {
   const [prompt, setPrompt] = React.useState<string>("");
 
@@ -29,7 +31,11 @@ export default function Component(
             {!prompt && (
               <Tooltip showArrow content="Speak">
                 <Button isIconOnly radius="full" variant="light">
-                  <Icon className="text-default-500" icon="solar:microphone-3-linear" width={20} />
+                  <Icon
+                    className="text-default-500"
+                    icon="solar:microphone-3-linear"
+                    width={20}
+                  />
                 </Button>
               </Tooltip>
             )}
@@ -57,8 +63,17 @@ export default function Component(
         }
         startContent={
           <Tooltip showArrow content="Add file">
-            <Button isIconOnly className="p-[10px]" radius="full" variant="light">
-              <Icon className="text-default-500" icon="solar:paperclip-linear" width={20} />
+            <Button
+              isIconOnly
+              className="p-[10px]"
+              radius="full"
+              variant="light"
+            >
+              <Icon
+                className="text-default-500"
+                icon="solar:paperclip-linear"
+                width={20}
+              />
             </Button>
           </Tooltip>
         }

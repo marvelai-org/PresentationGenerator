@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Tooltip, Image, Badge, ScrollShadow} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip, Image, Badge, ScrollShadow } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
@@ -34,7 +34,11 @@ export default function Component() {
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <ScrollShadow hideScrollBar className="flex flex-nowrap gap-2" orientation="horizontal">
+      <ScrollShadow
+        hideScrollBar
+        className="flex flex-nowrap gap-2"
+        orientation="horizontal"
+      >
         <div className="flex gap-2">
           {ideas.map((idea, index) => (
             <Button key={index} variant="flat">
@@ -58,7 +62,11 @@ export default function Component() {
                   variant="light"
                   onPress={() => onRemoveImage(index)}
                 >
-                  <Icon className="text-foreground" icon="iconamoon:close-thin" width={16} />
+                  <Icon
+                    className="text-foreground"
+                    icon="iconamoon:close-thin"
+                    width={16}
+                  />
                 </Button>
               }
             >
@@ -80,11 +88,17 @@ export default function Component() {
             <div className="absolute right-0 flex h-full flex-col items-end justify-between gap-2">
               <Tooltip showArrow content="Speak">
                 <Button isIconOnly radius="full" size="sm" variant="light">
-                  <Icon className="text-default-500" icon="solar:microphone-3-linear" width={20} />
+                  <Icon
+                    className="text-default-500"
+                    icon="solar:microphone-3-linear"
+                    width={20}
+                  />
                 </Button>
               </Tooltip>
               <div className="flex items-end gap-2">
-                <p className="py-1 text-tiny text-default-400">{prompt.length}/2000</p>
+                <p className="py-1 text-tiny text-default-400">
+                  {prompt.length}/2000
+                </p>
                 <Tooltip showArrow content="Send message">
                   <Button
                     isIconOnly
@@ -97,7 +111,9 @@ export default function Component() {
                     <Icon
                       className={cn(
                         "[&>path]:stroke-[2px]",
-                        !prompt ? "text-default-600" : "text-primary-foreground",
+                        !prompt
+                          ? "text-default-600"
+                          : "text-primary-foreground",
                       )}
                       icon="solar:arrow-up-linear"
                       width={20}

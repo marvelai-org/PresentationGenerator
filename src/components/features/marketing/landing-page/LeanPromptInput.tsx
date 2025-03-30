@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
-import {Button} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import React, { useState } from "react";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {PromptInputFullLineComponent} from "./LeanPromptInputFullLine";
+import { PromptInputFullLineComponent } from "./LeanPromptInputFullLine";
 
 const suggestions = [
   {
@@ -116,7 +116,10 @@ interface PromptSuggestionsProps {
   onSelect?: (suggestion: PromptSuggestion) => void;
 }
 
-const PromptSuggestions = ({suggestions, onSelect}: PromptSuggestionsProps) => {
+const PromptSuggestions = ({
+  suggestions,
+  onSelect,
+}: PromptSuggestionsProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
       {suggestions.map((suggestion) => (
@@ -125,7 +128,11 @@ const PromptSuggestions = ({suggestions, onSelect}: PromptSuggestionsProps) => {
           className="h-[52px] justify-start gap-2 rounded-medium border-1 border-default-200 bg-transparent px-4 text-default-foreground transition-colors !duration-150 hover:border-default-400 hover:text-foreground data-[hover=true]:border-default-400 data-[hover=true]:text-foreground"
           startContent={
             <div className="flex h-6 w-6 items-center justify-center">
-              <Icon className="text-default-500" icon={suggestion.icon} width={20} />
+              <Icon
+                className="text-default-500"
+                icon={suggestion.icon}
+                width={20}
+              />
             </div>
           }
           variant="light"
@@ -140,7 +147,9 @@ const PromptSuggestions = ({suggestions, onSelect}: PromptSuggestionsProps) => {
 
 export default function PromptInputWithBottomActionsLarge() {
   const [prompt, setPrompt] = useState("");
-  const [currentSuggestions, setCurrentSuggestions] = useState<PromptSuggestion[]>(suggestions.slice(0, 4));
+  const [currentSuggestions, setCurrentSuggestions] = useState<
+    PromptSuggestion[]
+  >(suggestions.slice(0, 4));
 
   const handleSuggestionSelect = (suggestion: PromptSuggestion) => {
     setPrompt(suggestion.label);
@@ -149,6 +158,7 @@ export default function PromptInputWithBottomActionsLarge() {
   const handleShuffle = () => {
     // Create a copy and shuffle it
     const shuffled = [...suggestions].sort(() => 0.5 - Math.random());
+
     // Take the first 4 items for display
     setCurrentSuggestions(shuffled.slice(0, 4));
   };
@@ -157,21 +167,21 @@ export default function PromptInputWithBottomActionsLarge() {
     <div className="flex w-full flex-col gap-4">
       <PromptInputFullLineComponent prompt={prompt} setPrompt={setPrompt} />
       <div className="space-y-4">
-        <PromptSuggestions 
-          suggestions={currentSuggestions} 
-          onSelect={handleSuggestionSelect} 
+        <PromptSuggestions
+          suggestions={currentSuggestions}
+          onSelect={handleSuggestionSelect}
         />
         <div className="flex justify-center">
           <Button
-            variant="ghost"
             radius="full"
             startContent={<Icon icon="solar:shuffle-outline" />}
+            variant="ghost"
             onPress={handleShuffle}
           >
             Shuffle
           </Button>
         </div>
       </div>
-    </div>  
-  );    
+    </div>
+  );
 }

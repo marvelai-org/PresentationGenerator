@@ -1,13 +1,18 @@
 "use client";
 
-import type {RadioGroupProps, RadioProps} from "@heroui/react";
+import type { RadioGroupProps, RadioProps } from "@heroui/react";
 
 import React from "react";
-import {RadioGroup, VisuallyHidden, useRadio, useRadioGroupContext} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import {
+  RadioGroup,
+  VisuallyHidden,
+  useRadio,
+  useRadioGroupContext,
+} from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
-const ThemeRadioItem = ({icon, ...props}: RadioProps & {icon: string}) => {
+const ThemeRadioItem = ({ icon, ...props }: RadioProps & { icon: string }) => {
   const {
     Component,
     isSelected: isSelfSelected,
@@ -19,7 +24,8 @@ const ThemeRadioItem = ({icon, ...props}: RadioProps & {icon: string}) => {
   const groupContext = useRadioGroupContext();
 
   const isSelected =
-    isSelfSelected || Number(groupContext.groupState.selectedValue) >= Number(props.value);
+    isSelfSelected ||
+    Number(groupContext.groupState.selectedValue) >= Number(props.value);
 
   const wrapperProps = getWrapperProps();
 
@@ -44,25 +50,26 @@ const ThemeRadioItem = ({icon, ...props}: RadioProps & {icon: string}) => {
   );
 };
 
-const ThemeRadioSwitch = React.forwardRef<HTMLDivElement, Omit<RadioGroupProps, "children">>(
-  ({classNames = {}, ...props}, ref) => (
-    <RadioGroup
-      ref={ref}
-      aria-label="Select a theme"
-      classNames={{
-        ...classNames,
-        wrapper: cn("gap-0 items-center", classNames?.wrapper),
-      }}
-      defaultValue="dark"
-      orientation="horizontal"
-      {...props}
-    >
-      <ThemeRadioItem icon="solar:moon-linear" value="dark" />
-      <ThemeRadioItem icon="solar:sun-2-linear" value="light" />
-      <ThemeRadioItem icon="solar:monitor-linear" value="system" />
-    </RadioGroup>
-  ),
-);
+const ThemeRadioSwitch = React.forwardRef<
+  HTMLDivElement,
+  Omit<RadioGroupProps, "children">
+>(({ classNames = {}, ...props }, ref) => (
+  <RadioGroup
+    ref={ref}
+    aria-label="Select a theme"
+    classNames={{
+      ...classNames,
+      wrapper: cn("gap-0 items-center", classNames?.wrapper),
+    }}
+    defaultValue="dark"
+    orientation="horizontal"
+    {...props}
+  >
+    <ThemeRadioItem icon="solar:moon-linear" value="dark" />
+    <ThemeRadioItem icon="solar:sun-2-linear" value="light" />
+    <ThemeRadioItem icon="solar:monitor-linear" value="system" />
+  </RadioGroup>
+));
 
 ThemeRadioSwitch.displayName = "ThemeRadioSwitch";
 

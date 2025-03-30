@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import {Button, Divider, Link, Textarea} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import { Button, Divider, Link, Textarea } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
 import FeedbackRating from "../../components/FeedbackRating";
 
@@ -20,7 +20,11 @@ export default function Component() {
       />
 
       <div className="flex w-full items-center justify-end gap-2 px-1">
-        <Icon className="text-default-400 dark:text-default-300" icon="la:markdown" width={20} />
+        <Icon
+          className="text-default-400 dark:text-default-300"
+          icon="la:markdown"
+          width={20}
+        />
         <p className="text-tiny text-default-400 dark:text-default-300">
           <Link
             className="text-tiny text-default-500"
@@ -30,7 +34,10 @@ export default function Component() {
             target="_blank"
           >
             Markdown
-            <Icon className="[&>path]:stroke-[2px]" icon="solar:arrow-right-up-linear" />
+            <Icon
+              className="[&>path]:stroke-[2px]"
+              icon="solar:arrow-right-up-linear"
+            />
           </Link>
           &nbsp;supported.
         </p>

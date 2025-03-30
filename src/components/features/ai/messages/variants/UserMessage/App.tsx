@@ -1,7 +1,6 @@
 import React from "react";
 
-import {userMessages} from "../../data/messages";
-
+import { userMessages } from "../../data/messages";
 import MessageCard from "../../components/MessageCard";
 
 export default function Component() {

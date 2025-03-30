@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
-import {Button} from "@heroui/react";
-import {Icon} from "@iconify/react";
+import React, { useState } from "react";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
-import {PromptInputFullLineComponent} from "../components/PromptInputFullLine";
+import { PromptInputFullLineComponent } from "../components/PromptInputFullLine";
 
 const suggestions = [
   {
@@ -35,7 +35,7 @@ interface PromptSuggestionsProps {
   onSelect?: (suggestion: PromptSuggestion) => void;
 }
 
-const PromptSuggestions = ({onSelect}: PromptSuggestionsProps) => {
+const PromptSuggestions = ({ onSelect }: PromptSuggestionsProps) => {
   return (
     <div className="grid grid-cols-2 gap-3">
       {suggestions.map((suggestion) => (
@@ -44,7 +44,11 @@ const PromptSuggestions = ({onSelect}: PromptSuggestionsProps) => {
           className="h-[52px] justify-start gap-2 rounded-medium border-1 border-default-200 bg-transparent px-4 text-default-foreground transition-colors !duration-150 hover:border-default-400 hover:text-foreground data-[hover=true]:border-default-400 data-[hover=true]:text-foreground"
           startContent={
             <div className="flex h-6 w-6 items-center justify-center">
-              <Icon className="text-default-500" icon={suggestion.icon} width={20} />
+              <Icon
+                className="text-default-500"
+                icon={suggestion.icon}
+                width={20}
+              />
             </div>
           }
           variant="light"

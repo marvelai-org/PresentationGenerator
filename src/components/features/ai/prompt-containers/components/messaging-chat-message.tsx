@@ -1,12 +1,28 @@
 "use client";
-import type {MessagingChatMessageProps} from "../data/data";
+import type { MessagingChatMessageProps } from "../data/data";
 
-import React, {useCallback} from "react";
-import {Avatar, Image} from "@heroui/react";
-import {cn} from "@heroui/react";
+import React, { useCallback } from "react";
+import { Avatar, Image } from "@heroui/react";
+import { cn } from "@heroui/react";
 
-const MessagingChatMessage = React.forwardRef<HTMLDivElement, MessagingChatMessageProps>(
-  ({avatar, name, time, message, isRTL, imageUrl, className, classNames, ...props}, ref) => {
+const MessagingChatMessage = React.forwardRef<
+  HTMLDivElement,
+  MessagingChatMessageProps
+>(
+  (
+    {
+      avatar,
+      name,
+      time,
+      message,
+      isRTL,
+      imageUrl,
+      className,
+      classNames,
+      ...props
+    },
+    ref,
+  ) => {
     const messageRef = React.useRef<HTMLDivElement>(null);
 
     const MessageAvatar = useCallback(
@@ -27,7 +43,9 @@ const MessagingChatMessage = React.forwardRef<HTMLDivElement, MessagingChatMessa
           )}
         >
           <div className="flex">
-            <div className="w-full text-small font-semibold text-default-foreground">{name}</div>
+            <div className="w-full text-small font-semibold text-default-foreground">
+              {name}
+            </div>
             <div className="flex-end text-small text-default-400">{time}</div>
           </div>
           <div ref={messageRef} className="mt-2 text-small text-default-900">
@@ -50,7 +68,7 @@ const MessagingChatMessage = React.forwardRef<HTMLDivElement, MessagingChatMessa
       <div
         {...props}
         ref={ref}
-        className={cn("flex gap-3", {"flex-row-reverse": isRTL}, className)}
+        className={cn("flex gap-3", { "flex-row-reverse": isRTL }, className)}
       >
         <MessageAvatar />
         <Message />

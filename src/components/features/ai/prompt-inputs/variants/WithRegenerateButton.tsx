@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Tooltip} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
@@ -27,7 +27,10 @@ export default function Component() {
           size="sm"
           startContent={
             <Icon
-              className={cn("text-medium", isRegenerating ? "origin-center animate-spin" : "")}
+              className={cn(
+                "text-medium",
+                isRegenerating ? "origin-center animate-spin" : "",
+              )}
               icon="solar:restart-linear"
             />
           }
@@ -78,7 +81,11 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:paperclip-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:paperclip-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
@@ -87,7 +94,11 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:soundwave-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:soundwave-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
@@ -96,14 +107,20 @@ export default function Component() {
             <Button
               size="sm"
               startContent={
-                <Icon className="text-default-500" icon="solar:notes-linear" width={18} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:notes-linear"
+                  width={18}
+                />
               }
               variant="flat"
             >
               Templates
             </Button>
           </div>
-          <p className="py-1 text-tiny text-default-400">{prompt.length}/2000</p>
+          <p className="py-1 text-tiny text-default-400">
+            {prompt.length}/2000
+          </p>
         </div>
       </form>
     </div>

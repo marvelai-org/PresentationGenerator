@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-import {Button, Tooltip} from "@heroui/react";
-import {Icon} from "@iconify/react";
-import {cn} from "@heroui/react";
+import { Button, Tooltip } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import PromptInput from "../components/PromptInput";
 
@@ -21,11 +21,17 @@ export default function Component() {
           <div className="absolute right-0 flex h-full flex-col items-end justify-between gap-2">
             <Tooltip showArrow content="Speak">
               <Button isIconOnly radius="full" size="sm" variant="light">
-                <Icon className="text-default-500" icon="solar:microphone-3-linear" width={20} />
+                <Icon
+                  className="text-default-500"
+                  icon="solar:microphone-3-linear"
+                  width={20}
+                />
               </Button>
             </Tooltip>
             <div className="flex items-end gap-2">
-              <p className="py-1 text-tiny text-default-400">{prompt.length}/2000</p>
+              <p className="py-1 text-tiny text-default-400">
+                {prompt.length}/2000
+              </p>
               <Tooltip showArrow content="Send message">
                 <Button
                   isIconOnly
