@@ -17,8 +17,6 @@ export default function ResetPassword() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Prefix with underscore to indicate it's intentionally not directly used
-  const _code = searchParams?.get("code");
   const supabase = createClientComponentClient();
 
   // Check if we have the necessary parameters from the reset email
