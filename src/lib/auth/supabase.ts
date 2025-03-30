@@ -41,12 +41,12 @@ export const createClient = () => {
 
     if (!supabaseUrl || !supabaseKey) {
       console.warn("Supabase credentials missing - using mock client");
-      return createMockClient() as ReturnType<typeof createBrowserClient<Database>>;
+      return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
     }
 
     return createBrowserClient<Database>(supabaseUrl, supabaseKey);
   } catch (error) {
     console.error("Failed to initialize Supabase client:", error);
-    return createMockClient() as ReturnType<typeof createBrowserClient<Database>>;
+    return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
   }
 };
