@@ -9,7 +9,7 @@ const nextConfig = {
   reactStrictMode: true,
   // Configure caching for improved build times
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true,
     optimizePackageImports: ['@heroui/react'],
   },
 };
