@@ -4,7 +4,7 @@ import React from "react";
 
 import LeanPromptInput from "./LeanPromptInput";
 
-export default function Component() {
+export default function LeanPromptContainer() {
   return (
     <div className="flex h-screen max-h-[calc(100vh-140px)] w-full">
       <div className="flex h-full w-full items-center justify-center">

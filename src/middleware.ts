@@ -71,9 +71,8 @@ export async function middleware(req: NextRequest) {
 
     return res;
   } catch (error) {
-    console.error("Middleware error:", error);
-    // If Supabase initialization fails, we allow the request to continue
-    // This is important for build-time and static page generation
+    console.warn("Middleware authentication error:", error);
+
     return res;
   }
 }

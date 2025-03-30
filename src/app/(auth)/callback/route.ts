@@ -3,7 +3,10 @@ import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
 import { rateLimiterByIP } from "@/lib/utils/rate-limiter";
-import { logger } from "@/lib/utils/logger";
+
+// Required for static export
+export const dynamic = "force-static";
+export const revalidate = false;
 
 // Rate limit adapter for App Router
 const checkRateLimit = (req: NextRequest) => {
@@ -15,7 +18,7 @@ const checkRateLimit = (req: NextRequest) => {
 export async function GET(request: NextRequest) {
   // Check rate limit
   if (!checkRateLimit(request)) {
-    logger.warn(
+    console.warn(
       `Rate limit exceeded for auth callback: ${request.headers.get("x-forwarded-for")}`,
     );
 
@@ -39,22 +42,21 @@ export async function GET(request: NextRequest) {
       const supabase = createRouteHandlerClient({ cookies: () => cookies() });
 
       await supabase.auth.exchangeCodeForSession(code);
-      logger.info("Successfully exchanged code for session");
 
       return NextResponse.redirect(new URL("/dashboard", request.url));
     } else {
-      logger.warn("Auth callback missing code parameter");
-
       return NextResponse.redirect(
         new URL("/login?error=missing_code", request.url),
       );
     }
   } catch (error) {
-    logger.error("Error in auth callback", error);
-
     // Redirect to error page or login with error message
     return NextResponse.redirect(
-      new URL("/login?error=callback_failed", request.url),
+      new URL(
+        "/login?error=" +
+          (error instanceof Error ? error.message : "callback_failed"),
+        request.url,
+      ),
     );
   }
 }

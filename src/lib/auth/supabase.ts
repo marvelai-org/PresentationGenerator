@@ -1,6 +1,5 @@
 // src/lib/auth/supabase.ts
 import { createBrowserClient } from "@supabase/ssr";
-import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 import { Database } from "@/types/supabase"; // You might need to create this type
 
@@ -8,15 +7,19 @@ import { Database } from "@/types/supabase"; // You might need to create this ty
 const createMockClient = () => {
   return {
     auth: {
-      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      getSession: () =>
+        Promise.resolve({ data: { session: null }, error: null }),
       getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-      signInWithPassword: () => Promise.resolve({ data: null, error: { message: "Mock client" } }),
+      signInWithPassword: () =>
+        Promise.resolve({ data: null, error: { message: "Mock client" } }),
       signInWithOtp: () => Promise.resolve({ data: null, error: null }),
       signUp: () => Promise.resolve({ data: { user: null }, error: null }),
       signOut: () => Promise.resolve({ error: null }),
       updateUser: () => Promise.resolve({ data: { user: null }, error: null }),
       resetPasswordForEmail: () => Promise.resolve({ data: {}, error: null }),
-      onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
+      onAuthStateChange: () => ({
+        data: { subscription: { unsubscribe: () => {} } },
+      }),
     },
     from: () => ({
       select: () => ({
@@ -40,13 +43,17 @@ export const createClient = () => {
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
-      console.warn("Supabase credentials missing - using mock client");
-      return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
+      return createMockClient() as unknown as ReturnType<
+        typeof createBrowserClient<Database>
+      >;
     }
 
     return createBrowserClient<Database>(supabaseUrl, supabaseKey);
   } catch (error) {
-    console.error("Failed to initialize Supabase client:", error);
-    return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
+    console.warn("Supabase client creation error:", error);
+
+    return createMockClient() as unknown as ReturnType<
+      typeof createBrowserClient<Database>
+    >;
   }
 };
