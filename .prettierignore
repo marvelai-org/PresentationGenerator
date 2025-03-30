@@ -1,0 +1,35 @@
+# Next.js build output
+.next/
+
+# Dependency directories
+node_modules/
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build outputs
+dist/
+build/
+
+# TypeScript build outputs
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# Git
+.git
+
+# macOS
+.DS_Store
+
+# IDE settings
+.vscode/
+.idea/
