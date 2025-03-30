@@ -18,7 +18,7 @@ export default function ConfirmationPage() {
         <h1 className="text-2xl font-bold">Check Your Email</h1>
         
         <p className="text-default-600">
-          We've sent a verification link to your email address. Please check your inbox and click the link to verify your account.
+          We&apos;ve sent a verification link to your email address. Please check your inbox and click the link to verify your account.
         </p>
         
         <div className="mt-4 rounded-md bg-warning-50 p-4 text-left">
@@ -27,7 +27,7 @@ export default function ConfirmationPage() {
             <div>
               <p className="font-medium text-warning-700">Important</p>
               <p className="mt-1 text-sm text-warning-600">
-                If you don't see the email, please check your spam folder. The email should arrive within a few minutes.
+                If you don&apos;t see the email, please check your spam folder. The email should arrive within a few minutes.
               </p>
             </div>
           </div>
@@ -47,7 +47,7 @@ export default function ConfirmationPage() {
             className="text-sm text-default-500"
             href="/signup"
           >
-            Didn't receive an email? Try signing up again
+            Didn&apos;t receive an email? Try signing up again
           </Link>
         </div>
       </div>

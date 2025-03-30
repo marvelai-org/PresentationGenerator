@@ -141,7 +141,6 @@ export function PromptInputFullLineComponent({prompt, setPrompt}: PromptInputPro
       </div>
       <PromptInput
         ref={inputRef}
-        autoFocus
         classNames={{
           innerWrapper: "relative",
           input: "text-medium h-auto w-full",

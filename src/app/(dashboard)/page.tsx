@@ -61,7 +61,7 @@ export default function Dashboard() {
         </div>
         
         <div className="mt-8 rounded-md bg-gray-50 p-4">
-          <h3 className="text-lg font-medium">What's Next?</h3>
+          <h3 className="text-lg font-medium">What&apos;s Next?</h3>
           <p className="mt-2 text-gray-600">
             This is your dashboard. You can start building your application by adding components
             and features to this page.

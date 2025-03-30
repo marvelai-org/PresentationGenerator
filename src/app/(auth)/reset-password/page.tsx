@@ -17,6 +17,7 @@ export default function ResetPassword() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  // 'code' param is validated in useEffect but not directly used in auth flow
   const code = searchParams?.get('code');
   const supabase = createClientComponentClient();
 

@@ -789,7 +789,6 @@ const Component: FC<{}> = () => {
             <div className={slots.header()}>
               <Icon className={slots.searchIcon()} icon="solar:magnifer-linear" width={20} />
               <Command.Input
-                autoFocus={!isWebKit()}
                 className={slots.input()}
                 placeholder="Search component..."
                 value={query}
