@@ -5,11 +5,10 @@ const nextConfig = {
   },
   transpilePackages: ['@heroui/react'],
   reactStrictMode: true,
-  swcMinify: false, // Try disabling SWC minifier
-  experimental: {
-    // Only keep this important optimization
-    optimizePackageImports: ['@heroui/react'],
-  },
+  // experimental: {
+  //   // Only keep this important optimization
+  //   optimizePackageImports: ['@heroui/react'],
+  // },
 };
 
 module.exports = nextConfig;
