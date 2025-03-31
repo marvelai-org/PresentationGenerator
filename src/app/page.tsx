@@ -2,10 +2,8 @@
 export const dynamic = "force-static";
 export const revalidate = false;
 
-export default function Home() {
-  return (
-    <main>
-      <h1>Welcome to Vibing</h1>
-    </main>
-  );
+import LandingPage from "@/components/features/marketing/landing-page/LandingPage";
+
+export default function HomePage() {
+  return <LandingPage />;
 }
