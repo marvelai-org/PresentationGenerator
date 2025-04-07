@@ -44,7 +44,7 @@ const PromptInput = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 PromptInput.displayName = "PromptInput";
@@ -175,7 +175,9 @@ const LeanNavbar = () => {
       <NavbarBrand>
         <div className="flex items-center">
           <AIPresIcon className="text-white" size={34} />
-          <span className="ml-2 text-xl font-medium text-white">AI Presentation Generator</span>
+          <span className="ml-2 text-xl font-medium text-white">
+            AI Presentation Generator
+          </span>
         </div>
       </NavbarBrand>
 
@@ -351,6 +353,7 @@ const PromptInputFullLine = ({
 
         reader.onload = () => {
           const base64data = reader.result as string;
+
           setAssets((prev) => [...prev, base64data]);
         };
         reader.readAsDataURL(blob);
@@ -368,6 +371,7 @@ const PromptInputFullLine = ({
 
           reader.onload = () => {
             const base64data = reader.result as string;
+
             setAssets((prev) => [...prev, base64data]);
           };
           reader.readAsDataURL(file);
@@ -482,6 +486,7 @@ const LeanPromptInput = () => {
   const handleShuffle = () => {
     // Create a copy and shuffle it
     const shuffled = [...suggestions].sort(() => 0.5 - Math.random());
+
     // Take the first 4 items for display
     setCurrentSuggestions(shuffled.slice(0, 4));
   };
@@ -533,7 +538,7 @@ const LeanPromptContainer = () => {
 export default function LandingPage() {
   // Check if running in browser
   const [isMounted, setIsMounted] = useState(false);
-  
+
   // Only run on client
   React.useEffect(() => {
     setIsMounted(true);

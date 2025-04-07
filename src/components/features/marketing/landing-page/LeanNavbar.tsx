@@ -37,7 +37,9 @@ const LeanNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarBrand>
           <div className="flex items-center">
             <AIPresIcon className="text-white" size={34} />
-            <span className="ml-2 text-xl font-medium text-white">AI Presentation Generator</span>
+            <span className="ml-2 text-xl font-medium text-white">
+              AI Presentation Generator
+            </span>
           </div>
         </NavbarBrand>
 

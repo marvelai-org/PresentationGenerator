@@ -1,6 +1,15 @@
 "use client";
 
-import { Button, Card, CardBody, ButtonGroup, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  ButtonGroup,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
 import { useState } from "react";
@@ -12,11 +21,12 @@ import { PromptInputFullLineComponent } from "@/components/features/marketing/la
 const examplePrompts = [
   {
     icon: "material-symbols:group",
-    title: "Collaborating with other creators on a joint project or collaboration",
+    title:
+      "Collaborating with other creators on a joint project or collaboration",
   },
   {
     icon: "material-symbols:book",
-    title: "Book report for \"The Joy Luck Club\"",
+    title: 'Book report for "The Joy Luck Club"',
   },
   {
     icon: "material-symbols:home-work",
@@ -46,16 +56,22 @@ export default function GeneratePage() {
 
   const handleGenerateOutline = () => {
     if (!prompt.trim()) return;
-    
+
     // For a real app, you might want to store the prompt and options in state or context
     // before navigating to the outline page
     router.push("/dashboard/create/generate/outline");
   };
-  
-  const handlePromptChange = (newPrompt: string) => {
-    setPrompt(newPrompt);
+
+  const handlePromptChange = (
+    newPrompt: string | ((prevState: string) => string),
+  ) => {
+    if (typeof newPrompt === "function") {
+      setPrompt(newPrompt);
+    } else {
+      setPrompt(newPrompt);
+    }
   };
-  
+
   const handleExampleSelect = (exampleTitle: string) => {
     setPrompt(exampleTitle);
   };
@@ -63,12 +79,11 @@ export default function GeneratePage() {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="flex items-center mb-6">
-        <Button 
-          as={Link}
-          href="/dashboard/create"
-          variant="light" 
-          startContent={<Icon icon="material-symbols:arrow-back" />}
+        <Button
           className="mr-4"
+          variant="light"
+          startContent={<Icon icon="material-symbols:arrow-back" />}
+          onPress={() => router.push("/dashboard/create")}
         >
           Back
         </Button>
@@ -76,37 +91,47 @@ export default function GeneratePage() {
 
       <div className="flex flex-col items-center text-center mb-8">
         <h1 className="text-4xl font-bold mb-2">Generate</h1>
-        <p className="text-default-500 text-lg">What would you like to create today?</p>
+        <p className="text-default-500 text-lg">
+          What would you like to create today?
+        </p>
       </div>
-      
+
       {/* Content Type Selection */}
       <div className="flex justify-center mb-8">
-        <ButtonGroup variant="flat" className="rounded-lg overflow-hidden">
-          <Button 
-            className={selectedFormat === "Presentation" ? "bg-primary text-white" : ""}
-            onPress={() => setSelectedFormat("Presentation")}
+        <ButtonGroup className="rounded-lg overflow-hidden" variant="flat">
+          <Button
+            className={
+              selectedFormat === "Presentation" ? "bg-primary text-white" : ""
+            }
             startContent={<Icon icon="material-symbols:slideshow" />}
+            onPress={() => setSelectedFormat("Presentation")}
           >
             Presentation
           </Button>
-          <Button 
-            className={selectedFormat === "Webpage" ? "bg-primary text-white" : ""}
-            onPress={() => setSelectedFormat("Webpage")}
+          <Button
+            className={
+              selectedFormat === "Webpage" ? "bg-primary text-white" : ""
+            }
             startContent={<Icon icon="material-symbols:language" />}
+            onPress={() => setSelectedFormat("Webpage")}
           >
             Webpage
           </Button>
-          <Button 
-            className={selectedFormat === "Document" ? "bg-primary text-white" : ""}
-            onPress={() => setSelectedFormat("Document")}
+          <Button
+            className={
+              selectedFormat === "Document" ? "bg-primary text-white" : ""
+            }
             startContent={<Icon icon="material-symbols:description" />}
+            onPress={() => setSelectedFormat("Document")}
           >
             Document
           </Button>
-          <Button 
-            className={selectedFormat === "Social" ? "bg-primary text-white" : ""}
-            onPress={() => setSelectedFormat("Social")}
+          <Button
+            className={
+              selectedFormat === "Social" ? "bg-primary text-white" : ""
+            }
             startContent={<Icon icon="material-symbols:share" />}
+            onPress={() => setSelectedFormat("Social")}
           >
             Social
           </Button>
@@ -117,15 +142,15 @@ export default function GeneratePage() {
       <div className="flex flex-wrap gap-2 justify-center mb-8">
         <Dropdown>
           <DropdownTrigger>
-            <Button 
-              variant="flat" 
+            <Button
               endContent={<Icon icon="material-symbols:expand-more" />}
+              variant="flat"
             >
               {slideCount}
             </Button>
           </DropdownTrigger>
-          <DropdownMenu 
-            aria-label="Card Count" 
+          <DropdownMenu
+            aria-label="Card Count"
             onAction={(key) => setSlideCount(key.toString())}
           >
             <DropdownItem key="4 cards">4 cards</DropdownItem>
@@ -138,16 +163,16 @@ export default function GeneratePage() {
 
         <Dropdown>
           <DropdownTrigger>
-            <Button 
-              variant="flat" 
-              startContent={<Icon icon="material-symbols:refresh" />}
+            <Button
               endContent={<Icon icon="material-symbols:expand-more" />}
+              startContent={<Icon icon="material-symbols:refresh" />}
+              variant="flat"
             >
               {templateStyle}
             </Button>
           </DropdownTrigger>
-          <DropdownMenu 
-            aria-label="Template Style" 
+          <DropdownMenu
+            aria-label="Template Style"
             onAction={(key) => setTemplateStyle(key.toString())}
           >
             <DropdownItem key="Default">Default</DropdownItem>
@@ -160,16 +185,16 @@ export default function GeneratePage() {
 
         <Dropdown>
           <DropdownTrigger>
-            <Button 
-              variant="flat" 
-              startContent={<Icon icon="material-symbols:language" />}
+            <Button
               endContent={<Icon icon="material-symbols:expand-more" />}
+              startContent={<Icon icon="material-symbols:language" />}
+              variant="flat"
             >
               {language}
             </Button>
           </DropdownTrigger>
-          <DropdownMenu 
-            aria-label="Language" 
+          <DropdownMenu
+            aria-label="Language"
             onAction={(key) => setLanguage(key.toString())}
           >
             <DropdownItem key="English (US)">English (US)</DropdownItem>
@@ -183,19 +208,19 @@ export default function GeneratePage() {
 
       {/* Prompt Input */}
       <div className="mb-8">
-        <PromptInputFullLineComponent 
-          prompt={prompt} 
-          setPrompt={handlePromptChange} 
+        <PromptInputFullLineComponent
+          prompt={prompt}
+          setPrompt={handlePromptChange}
         />
-        
+
         {prompt.trim() && (
           <div className="flex justify-center mt-4">
-            <Button 
-              color="primary" 
-              size="lg"
+            <Button
               className="px-8"
-              onPress={handleGenerateOutline}
+              color="primary"
+              size="lg"
               startContent={<Icon icon="material-symbols:magic-button" />}
+              onPress={handleGenerateOutline}
             >
               Generate Outline
             </Button>
@@ -205,27 +230,33 @@ export default function GeneratePage() {
 
       {/* Example Prompts */}
       <div className="mt-12">
-        <h2 className="text-xl text-center text-default-600 mb-6">Example prompts</h2>
-        
+        <h2 className="text-xl text-center text-default-600 mb-6">
+          Example prompts
+        </h2>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {examplePrompts.map((examplePrompt, index) => (
-            <Card 
-              key={index} 
-              className="bg-content1/10 border border-content2 hover:border-primary cursor-pointer transition-all"
+            <Card
+              key={index}
               isPressable
+              className="bg-content1/10 border border-content2 hover:border-primary cursor-pointer transition-all"
               onPress={() => handleExampleSelect(examplePrompt.title)}
             >
               <CardBody className="flex flex-row items-center gap-3 p-4">
                 <div className="bg-primary/10 p-2 rounded-lg">
-                  <Icon icon={examplePrompt.icon} className="text-primary" width={24} />
+                  <Icon
+                    className="text-primary"
+                    icon={examplePrompt.icon}
+                    width={24}
+                  />
                 </div>
                 <p className="text-default-700">{examplePrompt.title}</p>
-                <Button 
-                  isIconOnly 
-                  size="sm" 
-                  variant="light" 
-                  radius="full"
+                <Button
+                  isIconOnly
                   className="ml-auto"
+                  radius="full"
+                  size="sm"
+                  variant="light"
                   onPress={() => handleExampleSelect(examplePrompt.title)}
                 >
                   <Icon icon="material-symbols:add" />
@@ -234,28 +265,28 @@ export default function GeneratePage() {
             </Card>
           ))}
         </div>
-        
+
         <div className="flex justify-center mt-8">
-          <Button 
-            variant="light" 
+          <Button
             color="primary"
             startContent={<Icon icon="material-symbols:shuffle" />}
+            variant="light"
           >
             Shuffle
           </Button>
         </div>
       </div>
-      
+
       {/* Help Button */}
-      <Button 
-        isIconOnly 
-        variant="bordered" 
-        radius="full" 
-        className="fixed bottom-6 right-6"
+      <Button
+        isIconOnly
         aria-label="Help"
+        className="fixed bottom-6 right-6"
+        radius="full"
+        variant="bordered"
       >
-        <Icon icon="material-symbols:help" className="text-xl" />
+        <Icon className="text-xl" icon="material-symbols:help" />
       </Button>
     </div>
   );
-} 
+}
