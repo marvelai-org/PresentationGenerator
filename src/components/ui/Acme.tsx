@@ -2,7 +2,7 @@ import type { IconSvgProps } from "@/types";
 
 import React from "react";
 
-export const AcmeIcon: React.FC<IconSvgProps> = ({
+export const AIPresIcon: React.FC<IconSvgProps> = ({
   size = 32,
   width,
   height,

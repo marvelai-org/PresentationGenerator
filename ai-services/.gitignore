@@ -1,0 +1,41 @@
+# Python virtual environments
+venv/
+env/
+ENV/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+*.log
+
+# Model files (potentially large)
+models/*.pkl
+models/*.h5
+models/*.bin
+models/*.onnx
+models/*.joblib
+models/*.pt
+models/*.pth
+
+# IDE specific files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS specific files
+.DS_Store
+Thumbs.db 

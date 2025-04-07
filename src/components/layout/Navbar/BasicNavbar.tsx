@@ -18,7 +18,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-import { AcmeIcon } from "@/components/ui/Social";
+import { AIPresIcon } from "@/components/ui/Acme";
 
 const menuItems = [
   "About",
@@ -54,10 +54,10 @@ const BasicNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         {/* Left Content */}
         <NavbarBrand>
           <div className="rounded-full bg-default-foreground text-background">
-            <AcmeIcon size={34} />
+            <AIPresIcon size={34} />
           </div>
           <span className="ml-2 text-small font-medium text-default-foreground">
-            ACME
+            AI Presentation Generator
           </span>
         </NavbarBrand>
 

@@ -14,8 +14,8 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-// You'll need to create/replace this with your Vibing logo component
-import { AcmeIcon } from "@/components/ui/Social";
+// Import your logo component
+import { AIPresIcon } from "@/components/ui/Acme";
 
 const LeanNavbar = React.forwardRef<HTMLElement, NavbarProps>(
   (
@@ -36,9 +36,8 @@ const LeanNavbar = React.forwardRef<HTMLElement, NavbarProps>(
       >
         <NavbarBrand>
           <div className="flex items-center">
-            {/* Replace with your Vibing logo or keep AcmeIcon */}
-            <AcmeIcon className="text-white" size={34} />
-            <span className="ml-2 text-xl font-medium text-white">Vibing</span>
+            <AIPresIcon className="text-white" size={34} />
+            <span className="ml-2 text-xl font-medium text-white">AI Presentation Generator</span>
           </div>
         </NavbarBrand>
 

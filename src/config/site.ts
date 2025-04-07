@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "Vibing",
-  description: "Your AI-powered project builder and learning platform.",
+  name: "AI Presentation Generator",
+  description: "Your AI-powered presentation builder and content generation platform.",
   navItems: [
     {
       label: "Home",
