@@ -1,6 +1,7 @@
 export const siteConfig = {
   name: "AI Presentation Generator",
-  description: "Your AI-powered presentation builder and content generation platform.",
+  description:
+    "Your AI-powered presentation builder and content generation platform.",
   navItems: [
     {
       label: "Home",

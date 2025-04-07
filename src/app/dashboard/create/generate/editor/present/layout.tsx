@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import { Providers } from "@/app/providers";
 
 interface PresentLayoutProps {
@@ -8,14 +9,12 @@ interface PresentLayoutProps {
 export default function PresentLayout({ children }: PresentLayoutProps) {
   // Pure fullscreen presentation with no UI elements
   return (
-    <html lang="en" className="dark">
+    <html className="dark" lang="en">
       <body className="bg-black">
         <Providers>
-          <div className="h-screen w-screen overflow-hidden">
-            {children}
-          </div>
+          <div className="h-screen w-screen overflow-hidden">{children}</div>
         </Providers>
       </body>
     </html>
   );
-} 
+}

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import { Providers } from "@/app/providers";
 
 interface OutlineLayoutProps {
@@ -8,14 +9,12 @@ interface OutlineLayoutProps {
 export default function OutlineLayout({ children }: OutlineLayoutProps) {
   // This layout has no sidebar, navbar, or user profile
   return (
-    <html lang="en" className="dark">
+    <html className="dark" lang="en">
       <body className="bg-black">
         <Providers>
-          <div className="h-screen w-screen overflow-y-auto">
-            {children}
-          </div>
+          <div className="h-screen w-screen overflow-y-auto">{children}</div>
         </Providers>
       </body>
     </html>
   );
-} 
+}

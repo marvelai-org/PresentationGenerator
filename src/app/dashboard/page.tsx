@@ -1,8 +1,17 @@
 "use client";
 
-import { Button, Card, CardBody, CardFooter, Chip, Divider, Image, Tabs, Tab } from "@heroui/react";
+import { useState } from "react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Chip,
+  Tabs,
+  Tab,
+} from "@heroui/react";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Sample data for presentations
 const recentPresentations = [
@@ -11,32 +20,34 @@ const recentPresentations = [
     title: "Climate Change Impact",
     image: "/images/presentations/climate.jpg",
     createdAt: "1 day ago",
-    isPrivate: true
+    isPrivate: true,
   },
   {
     id: "2",
     title: "Fashion Timeline",
     image: "/images/presentations/fashion.jpg",
     createdAt: "2 days ago",
-    isPrivate: true
+    isPrivate: true,
   },
   {
     id: "3",
     title: "Industrial Revolution",
     image: "/images/presentations/industrial.jpg",
     createdAt: "3 days ago",
-    isPrivate: true
+    isPrivate: true,
   },
   {
     id: "4",
     title: "Greenhouse Effect",
     image: "/images/presentations/greenhouse.jpg",
     createdAt: "5 days ago",
-    isPrivate: true
+    isPrivate: true,
   },
 ];
 
 export default function DashboardPage() {
+  const router = useRouter();
+
   return (
     <div className="flex flex-col gap-8">
       {/* Header Section */}
@@ -45,18 +56,17 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <p className="text-default-500">Manage your presentations</p>
         </div>
-        <Button 
-          as={Link}
-          href="/dashboard/create"
-          color="primary" 
+        <Button
+          color="primary"
           startContent={<Icon icon="material-symbols:add" />}
+          onPress={() => router.push("/dashboard/create")}
         >
           Create new
         </Button>
       </div>
 
       {/* Tabs for different views */}
-      <Tabs aria-label="Dashboard Tabs" color="primary" className="w-full">
+      <Tabs aria-label="Dashboard Tabs" className="w-full" color="primary">
         <Tab key="all" title="All" />
         <Tab key="recent" title="Recently viewed" />
         <Tab key="created" title="Created by you" />
@@ -74,7 +84,10 @@ export default function DashboardPage() {
                   <div className="aspect-video bg-default-200 w-full flex items-center justify-center">
                     {/* Placeholder for presentation preview */}
                     <div className="text-default-500 flex flex-col items-center">
-                      <Icon icon="material-symbols:slideshow" className="w-12 h-12" />
+                      <Icon
+                        className="w-12 h-12"
+                        icon="material-symbols:slideshow"
+                      />
                       <span>{presentation.title}</span>
                     </div>
                   </div>
@@ -83,26 +96,35 @@ export default function DashboardPage() {
               <CardFooter className="flex flex-col items-start gap-1">
                 <div className="flex justify-between w-full">
                   <h3 className="font-medium">{presentation.title}</h3>
-                  <Chip size="sm" variant="flat" color="default">
+                  <Chip color="default" size="sm" variant="flat">
                     {presentation.isPrivate ? "Private" : "Public"}
                   </Chip>
                 </div>
-                <p className="text-default-500 text-sm">Last edited {presentation.createdAt}</p>
+                <p className="text-default-500 text-sm">
+                  Last edited {presentation.createdAt}
+                </p>
               </CardFooter>
             </Card>
           ))}
 
           {/* Create New Card */}
-          <Link href="/dashboard/create" className="block h-full">
-            <Card className="border-2 border-dashed border-default-200 h-full flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all">
-              <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
-                <div className="rounded-full bg-primary/10 p-3">
-                  <Icon icon="material-symbols:add" className="text-primary w-6 h-6" />
-                </div>
-                <p className="text-medium font-medium">Create New Presentation</p>
-              </CardBody>
-            </Card>
-          </Link>
+          <Card 
+            className="border-2 border-dashed border-default-200 h-full flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all"
+            isPressable
+            onPress={() => router.push("/dashboard/create")}
+          >
+            <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
+              <div className="rounded-full bg-primary/10 p-3">
+                <Icon
+                  className="text-primary w-6 h-6"
+                  icon="material-symbols:add"
+                />
+              </div>
+              <p className="text-medium font-medium">
+                Create New Presentation
+              </p>
+            </CardBody>
+          </Card>
         </div>
       </div>
 
@@ -118,7 +140,10 @@ export default function DashboardPage() {
             <Card key={i} className="bg-content1/50 h-full">
               <CardBody className="p-0 overflow-hidden">
                 <div className="aspect-video bg-default-200 w-full flex items-center justify-center">
-                  <Icon icon="material-symbols:template" className="w-12 h-12 text-default-500" />
+                  <Icon
+                    className="w-12 h-12 text-default-500"
+                    icon="material-symbols:template"
+                  />
                 </div>
               </CardBody>
               <CardFooter>
@@ -130,4 +155,4 @@ export default function DashboardPage() {
       </div>
     </div>
   );
-} 
+}
