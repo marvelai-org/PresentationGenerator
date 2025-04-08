@@ -158,6 +158,8 @@ export default function PresentationPage() {
   return (
     <div
       className="w-full h-screen bg-black overflow-hidden relative"
+      role="button"
+      tabIndex={0}
       onClick={() => {
         if (currentSlideIndex < slides.length - 1) {
           navigateToSlide(currentSlideIndex + 1);
@@ -176,8 +178,6 @@ export default function PresentationPage() {
           exitPresentation();
         }
       }}
-      role="button"
-      tabIndex={0}
     >
       {/* Slide Content */}
       <div className="w-full h-full">
@@ -196,8 +196,8 @@ export default function PresentationPage() {
                 Can We REALLY Stop Climate Change?
               </h1>
               <p className="text-xl text-white mb-12">
-                The future of our planet is at stake. Let&apos;s explore the 
-                science, the impacts, and the potential solutions to climate 
+                The future of our planet is at stake. Let&apos;s explore the
+                science, the impacts, and the potential solutions to climate
                 change.
               </p>
               <div className="flex items-center mt-auto">

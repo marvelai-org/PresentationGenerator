@@ -13,7 +13,6 @@ import {
   ButtonGroup,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface SlideContent {
@@ -126,7 +125,7 @@ export default function OutlinePage() {
 
   const handleGeneratePresentation = () => {
     // In a real app, we would save the current state before navigating
-    router.push("/dashboard/create/generate/editor");
+    router.push("/dashboard/create/editor");
   };
 
   return (
@@ -134,9 +133,9 @@ export default function OutlinePage() {
       <div className="flex items-center mb-6">
         <Button
           className="mr-4"
-          variant="light"
           startContent={<Icon icon="material-symbols:arrow-back" />}
-          onPress={() => router.push("/dashboard/create/generate")}
+          variant="light"
+          onPress={() => router.push("/dashboard/create")}
         >
           Back
         </Button>
