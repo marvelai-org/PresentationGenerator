@@ -1,0 +1,161 @@
+/* ShapeSelector.module.css */
+
+.clipArrowRight {
+  clip-path: polygon(0 0, 75% 0, 100% 50%, 75% 100%, 0 100%);
+}
+
+.clipHexagon {
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.clipDiamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
+
+/* Special shape for process flow */
+.clipParallelogram {
+  clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+}
+
+/* Lines */
+.lineSolid {
+  height: 2px;
+  background-color: #6366F1;
+  width: 100%;
+}
+
+.lineDashed {
+  height: 0;
+  border-top: 2px dashed #6366F1;
+  width: 100%;
+}
+
+.lineDotted {
+  height: 0;
+  border-top: 2px dotted #6366F1;
+  width: 100%;
+}
+
+/* Arrow styles */
+.arrowRight::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid #6366F1;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowLeft::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 10px solid #6366F1;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowBidirectional::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 10px solid #6366F1;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowBidirectional::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 10px solid #6366F1;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Circle line */
+.circleLineStart::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #6366F1;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Arrow bar */
+.arrowBarStart::before {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background-color: #6366F1;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.arrowBarEnd::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background-color: #6366F1;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Shape hover effects */
+.shapeItem {
+  transition: all 0.2s ease-in-out;
+}
+
+.shapeItem:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Shape selector tab styles */
+.shapeTabActive {
+  color: #6366F1;
+  border-bottom: 2px solid #6366F1;
+}
+
+/* Shape preview styles */
+.shapePreview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.shapePreview:hover {
+  transform: scale(1.05);
+} 

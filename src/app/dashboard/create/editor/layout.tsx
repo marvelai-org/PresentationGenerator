@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 
 import { Providers } from "@/app/providers";
+import "./styles.css";
 
 interface EditorLayoutProps {
   children: ReactNode;

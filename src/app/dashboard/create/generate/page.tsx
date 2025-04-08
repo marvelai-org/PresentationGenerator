@@ -4,7 +4,6 @@ import {
   Button,
   Card,
   CardBody,
-  ButtonGroup,
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -49,7 +48,6 @@ const examplePrompts = [
 export default function GeneratePage() {
   const router = useRouter();
   const [prompt, setPrompt] = useState("");
-  const [selectedFormat, setSelectedFormat] = useState("Presentation");
   const [slideCount, setSlideCount] = useState("8 cards");
   const [templateStyle, setTemplateStyle] = useState("Default");
   const [language, setLanguage] = useState("English (US)");
@@ -59,7 +57,7 @@ export default function GeneratePage() {
 
     // For a real app, you might want to store the prompt and options in state or context
     // before navigating to the outline page
-    router.push("/dashboard/create/generate/outline");
+    router.push("/dashboard/create/outline");
   };
 
   const handlePromptChange = (
@@ -78,12 +76,16 @@ export default function GeneratePage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="flex items-center mb-6">
+      {/* Back Button - Updated to match import page style */}
+      <div className="flex items-center mb-2">
         <Button
-          className="mr-4"
+          as={Link}
+          className="rounded-full px-4 py-2 bg-background border border-default-200 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 shadow-sm mr-4"
+          href="/dashboard/create"
+          startContent={
+            <Icon className="text-primary" icon="material-symbols:arrow-back" />
+          }
           variant="light"
-          startContent={<Icon icon="material-symbols:arrow-back" />}
-          onPress={() => router.push("/dashboard/create")}
         >
           Back
         </Button>
@@ -94,48 +96,6 @@ export default function GeneratePage() {
         <p className="text-default-500 text-lg">
           What would you like to create today?
         </p>
-      </div>
-
-      {/* Content Type Selection */}
-      <div className="flex justify-center mb-8">
-        <ButtonGroup className="rounded-lg overflow-hidden" variant="flat">
-          <Button
-            className={
-              selectedFormat === "Presentation" ? "bg-primary text-white" : ""
-            }
-            startContent={<Icon icon="material-symbols:slideshow" />}
-            onPress={() => setSelectedFormat("Presentation")}
-          >
-            Presentation
-          </Button>
-          <Button
-            className={
-              selectedFormat === "Webpage" ? "bg-primary text-white" : ""
-            }
-            startContent={<Icon icon="material-symbols:language" />}
-            onPress={() => setSelectedFormat("Webpage")}
-          >
-            Webpage
-          </Button>
-          <Button
-            className={
-              selectedFormat === "Document" ? "bg-primary text-white" : ""
-            }
-            startContent={<Icon icon="material-symbols:description" />}
-            onPress={() => setSelectedFormat("Document")}
-          >
-            Document
-          </Button>
-          <Button
-            className={
-              selectedFormat === "Social" ? "bg-primary text-white" : ""
-            }
-            startContent={<Icon icon="material-symbols:share" />}
-            onPress={() => setSelectedFormat("Social")}
-          >
-            Social
-          </Button>
-        </ButtonGroup>
       </div>
 
       {/* Options Row */}
@@ -250,43 +210,17 @@ export default function GeneratePage() {
                     width={24}
                   />
                 </div>
-                <p className="text-default-700">{examplePrompt.title}</p>
-                <Button
-                  isIconOnly
-                  className="ml-auto"
-                  radius="full"
-                  size="sm"
-                  variant="light"
-                  onPress={() => handleExampleSelect(examplePrompt.title)}
-                >
-                  <Icon icon="material-symbols:add" />
-                </Button>
+                <p className="flex-1">{examplePrompt.title}</p>
+                <Icon
+                  className="text-default-400"
+                  icon="material-symbols:add"
+                  width={20}
+                />
               </CardBody>
             </Card>
           ))}
         </div>
-
-        <div className="flex justify-center mt-8">
-          <Button
-            color="primary"
-            startContent={<Icon icon="material-symbols:shuffle" />}
-            variant="light"
-          >
-            Shuffle
-          </Button>
-        </div>
       </div>
-
-      {/* Help Button */}
-      <Button
-        isIconOnly
-        aria-label="Help"
-        className="fixed bottom-6 right-6"
-        radius="full"
-        variant="bordered"
-      >
-        <Icon className="text-xl" icon="material-symbols:help" />
-      </Button>
     </div>
   );
 }

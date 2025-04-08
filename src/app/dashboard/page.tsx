@@ -7,11 +7,18 @@ import {
   CardBody,
   CardFooter,
   Chip,
-  Tabs,
-  Tab,
+  ButtonGroup,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Tooltip,
+  Skeleton,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
+
+import NavigationHeaderWithHeadingCTA from "@/components/layout/NavigationHeader/NavigationHeaderWithHeadingCTA";
 
 // Sample data for presentations
 const recentPresentations = [
@@ -47,110 +54,243 @@ const recentPresentations = [
 
 export default function DashboardPage() {
   const router = useRouter();
+  const [viewType, setViewType] = useState<"grid" | "list">("grid");
+  const [sortBy, setSortBy] = useState<string>("recent");
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Simulate loading for visual feedback
+  const handleSortChange = (key: string) => {
+    setIsLoading(true);
+    setSortBy(key);
+    // Simulate API call delay
+    setTimeout(() => setIsLoading(false), 500);
+  };
 
   return (
-    <div className="flex flex-col gap-8">
-      {/* Header Section */}
-      <div className="flex justify-between items-center">
+    <div className="flex flex-col">
+      <NavigationHeaderWithHeadingCTA />
+
+      <div className="flex flex-col gap-8 max-w-[1024px] mx-auto w-full px-4 lg:px-8 mt-10">
+        {/* Presentations Grid with Controls */}
         <div>
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <p className="text-default-500">Manage your presentations</p>
-        </div>
-        <Button
-          color="primary"
-          startContent={<Icon icon="material-symbols:add" />}
-          onPress={() => router.push("/dashboard/create")}
-        >
-          Create new
-        </Button>
-      </div>
-
-      {/* Tabs for different views */}
-      <Tabs aria-label="Dashboard Tabs" className="w-full" color="primary">
-        <Tab key="all" title="All" />
-        <Tab key="recent" title="Recently viewed" />
-        <Tab key="created" title="Created by you" />
-        <Tab key="favorites" title="Favorites" />
-      </Tabs>
-
-      {/* Presentations Grid */}
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Your Presentations</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {recentPresentations.map((presentation) => (
-            <Card key={presentation.id} className="bg-content1/50 h-full">
-              <CardBody className="p-0 overflow-hidden">
-                <div className="relative">
-                  <div className="aspect-video bg-default-200 w-full flex items-center justify-center">
-                    {/* Placeholder for presentation preview */}
-                    <div className="text-default-500 flex flex-col items-center">
-                      <Icon
-                        className="w-12 h-12"
-                        icon="material-symbols:slideshow"
-                      />
-                      <span>{presentation.title}</span>
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
-              <CardFooter className="flex flex-col items-start gap-1">
-                <div className="flex justify-between w-full">
-                  <h3 className="font-medium">{presentation.title}</h3>
-                  <Chip color="default" size="sm" variant="flat">
-                    {presentation.isPrivate ? "Private" : "Public"}
-                  </Chip>
-                </div>
-                <p className="text-default-500 text-sm">
-                  Last edited {presentation.createdAt}
-                </p>
-              </CardFooter>
-            </Card>
-          ))}
-
-          {/* Create New Card */}
-          <Card 
-            className="border-2 border-dashed border-default-200 h-full flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all"
-            isPressable
-            onPress={() => router.push("/dashboard/create")}
-          >
-            <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
-              <div className="rounded-full bg-primary/10 p-3">
-                <Icon
-                  className="text-primary w-6 h-6"
-                  icon="material-symbols:add"
-                />
-              </div>
-              <p className="text-medium font-medium">
-                Create New Presentation
-              </p>
-            </CardBody>
-          </Card>
-        </div>
-      </div>
-
-      {/* Recent Templates Section */}
-      <div>
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Popular Templates</h2>
-          <Button variant="light">View all</Button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {/* Template cards would go here */}
-          {[1, 2, 3, 4].map((i) => (
-            <Card key={i} className="bg-content1/50 h-full">
-              <CardBody className="p-0 overflow-hidden">
-                <div className="aspect-video bg-default-200 w-full flex items-center justify-center">
+          <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center gap-2">
+              <ButtonGroup size="sm" variant="flat">
+                <Button
+                  isIconOnly
+                  aria-label="Grid view"
+                  className={viewType === "grid" ? "bg-default-100" : ""}
+                  onPress={() => setViewType("grid")}
+                >
+                  <Icon icon="material-symbols:grid-view" width={20} />
+                </Button>
+                <Button
+                  isIconOnly
+                  aria-label="List view"
+                  className={viewType === "list" ? "bg-default-100" : ""}
+                  onPress={() => setViewType("list")}
+                >
                   <Icon
-                    className="w-12 h-12 text-default-500"
-                    icon="material-symbols:template"
+                    icon="material-symbols:view-agenda-outline"
+                    width={20}
                   />
-                </div>
-              </CardBody>
-              <CardFooter>
-                <p className="font-medium">Template {i}</p>
-              </CardFooter>
-            </Card>
-          ))}
+                </Button>
+              </ButtonGroup>
+
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    endContent={
+                      <Icon
+                        icon="material-symbols:arrow-drop-down"
+                        width={20}
+                      />
+                    }
+                    size="sm"
+                    variant="flat"
+                  >
+                    Sort:{" "}
+                    {sortBy === "recent"
+                      ? "Recent"
+                      : sortBy === "name"
+                        ? "Name"
+                        : "Created"}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Sort options"
+                  selectedKeys={[sortBy]}
+                  selectionMode="single"
+                  onSelectionChange={(keys) =>
+                    handleSortChange(Array.from(keys)[0] as string)
+                  }
+                >
+                  <DropdownItem key="recent">Most Recent</DropdownItem>
+                  <DropdownItem key="name">Name (A-Z)</DropdownItem>
+                  <DropdownItem key="created">Date Created</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </div>
+
+            <span className="text-small text-default-400">
+              {recentPresentations.length} presentations
+            </span>
+          </div>
+
+          <div
+            className={`grid ${
+              viewType === "grid"
+                ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+                : "grid-cols-1 gap-3"
+            }`}
+          >
+            {isLoading ? (
+              // Skeleton loaders
+              Array(4)
+                .fill(0)
+                .map((_, i) => (
+                  <Card key={`skeleton-${i}`} className="bg-content1/50 h-full">
+                    <CardBody className="p-0 overflow-hidden">
+                      <Skeleton className="rounded-lg">
+                        <div className="aspect-video w-full" />
+                      </Skeleton>
+                    </CardBody>
+                    <CardFooter className="flex flex-col items-start gap-1">
+                      <Skeleton className="w-3/4 h-5 rounded-lg" />
+                      <Skeleton className="w-2/4 h-4 rounded-lg" />
+                    </CardFooter>
+                  </Card>
+                ))
+            ) : (
+              <>
+                {/* Presentation cards */}
+                {recentPresentations.map((presentation) => (
+                  <Card
+                    key={presentation.id}
+                    isPressable
+                    className={`bg-content1/50 group relative ${
+                      viewType === "list" ? "flex flex-row" : "h-full"
+                    }`}
+                    onPress={() =>
+                      router.push(`/dashboard/presentation/${presentation.id}`)
+                    }
+                  >
+                    <CardBody
+                      className={`p-0 overflow-hidden ${viewType === "list" ? "w-36" : ""}`}
+                    >
+                      <div className="relative">
+                        <div className="aspect-video bg-default-200 w-full flex items-center justify-center">
+                          {/* Placeholder for presentation preview */}
+                          <div className="text-default-500 flex flex-col items-center">
+                            <Icon
+                              className="w-12 h-12"
+                              icon="material-symbols:slideshow"
+                            />
+                            <span>{presentation.title}</span>
+                          </div>
+
+                          {/* Overlay with quick actions on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <div className="flex gap-2 mt-auto mb-4">
+                              <Tooltip content="Edit">
+                                <Button
+                                  isIconOnly
+                                  className="bg-background/50 backdrop-blur-md"
+                                  radius="full"
+                                  size="sm"
+                                  variant="flat"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(
+                                      `/dashboard/edit/${presentation.id}`,
+                                    );
+                                  }}
+                                >
+                                  <Icon
+                                    icon="material-symbols:edit"
+                                    width={18}
+                                  />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip content="Present">
+                                <Button
+                                  isIconOnly
+                                  className="backdrop-blur-md"
+                                  color="primary"
+                                  radius="full"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    router.push(
+                                      `/dashboard/present/${presentation.id}`,
+                                    );
+                                  }}
+                                >
+                                  <Icon
+                                    icon="material-symbols:play-arrow"
+                                    width={18}
+                                  />
+                                </Button>
+                              </Tooltip>
+                              <Tooltip content="More options">
+                                <Button
+                                  isIconOnly
+                                  className="bg-background/50 backdrop-blur-md"
+                                  radius="full"
+                                  size="sm"
+                                  variant="flat"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <Icon
+                                    icon="material-symbols:more-vert"
+                                    width={18}
+                                  />
+                                </Button>
+                              </Tooltip>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </CardBody>
+                    <CardFooter
+                      className={`flex flex-col items-start gap-1 ${viewType === "list" ? "flex-1" : ""}`}
+                    >
+                      <div className="flex justify-between w-full">
+                        <h3 className="font-medium">{presentation.title}</h3>
+                        <Chip color="default" size="sm" variant="flat">
+                          {presentation.isPrivate ? "Private" : "Public"}
+                        </Chip>
+                      </div>
+                      <p className="text-default-500 text-sm">
+                        Last edited {presentation.createdAt}
+                      </p>
+                    </CardFooter>
+                  </Card>
+                ))}
+
+                {/* Create New Card */}
+                <Card
+                  isPressable
+                  className={`border-2 border-dashed border-default-200 flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all ${
+                    viewType === "list" ? "h-24" : "h-full aspect-auto"
+                  }`}
+                  onPress={() => router.push("/dashboard/create")}
+                >
+                  <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
+                    <div className="rounded-full bg-primary/10 p-3">
+                      <Icon
+                        className="text-primary w-6 h-6"
+                        icon="material-symbols:add"
+                      />
+                    </div>
+                    <p className="text-medium font-medium">
+                      Create New Presentation
+                    </p>
+                  </CardBody>
+                </Card>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
