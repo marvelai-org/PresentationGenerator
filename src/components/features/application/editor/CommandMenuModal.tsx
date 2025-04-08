@@ -130,6 +130,24 @@ interface CommandMenuModalProps {
     | "full";
 }
 
+/**
+ * Renders a command menu modal with optional search and tab navigation.
+ *
+ * This component displays a modal that provides a command menu interface. It includes an optional search input for filtering commands and, if tabs are provided, a tab navigation to switch between different sections. The search input value is automatically reset when the modal is closed.
+ *
+ * @param isOpen - Whether the modal is open.
+ * @param onClose - Callback invoked when the modal should be closed.
+ * @param _title - Title of the modal (default: "Command Menu").
+ * @param searchPlaceholder - Placeholder text for the search input (default: "Search...").
+ * @param onSearch - Callback triggered when the value of the search input changes.
+ * @param tabs - Optional array of tab objects that, if provided, enables tab navigation. Each tab should include a key, title, icon, and associated content.
+ * @param children - Content to render when no tabs are provided.
+ * @param showSearch - Determines whether to display the search input (default: true).
+ * @param _closeOnSelect - Determines if the modal should close when an item is selected (default: true).
+ * @param modalSize - Defines the size of the modal (default: "2xl").
+ *
+ * @returns A React element representing the command menu modal.
+ */
 export default function CommandMenuModal({
   isOpen,
   onClose,
@@ -281,6 +299,20 @@ interface CommandMenuItemProps {
   _index?: number;
 }
 
+/**
+ * Renders a command menu item.
+ *
+ * This component displays a selectable command item that can show an optional icon and group label.
+ * It utilizes styled slots from the command menu modal utility and triggers callbacks on hover and selection.
+ *
+ * @param label - The text displayed for the menu item.
+ * @param group - Optional label indicating a subgroup for the item.
+ * @param icon - Optional icon displayed alongside the label.
+ * @param isActive - Indicates whether the item appears active.
+ * @param onSelect - Callback invoked when the item is selected.
+ * @param onHover - Callback invoked when the mouse hovers over the item.
+ * @param _index - The index position of the item.
+ */
 export function CommandMenuItem({
   label,
   group,

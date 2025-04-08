@@ -21,6 +21,18 @@ interface EmbedPropertiesProps {
   onUpdateEmbed: (embedId: string, properties: Partial<EmbedData>) => void;
 }
 
+/**
+ * Renders a user interface for editing properties of a selected embed.
+ *
+ * Displays controls for updating the embed's URL, dimensions (width, height, and aspect ratio),
+ * position, and player options (autoplay, loop, controls). The component initializes its state
+ * from the provided embed data and applies any changes via the onUpdateEmbed callback. If no embed
+ * is selected, a placeholder message is displayed.
+ *
+ * @param selectedEmbed - The current embed data used to populate the editor fields; if null,
+ * the component shows a placeholder.
+ * @param onUpdateEmbed - Callback function to update the selected embed with new property values.
+ */
 export default function EmbedProperties({
   selectedEmbed,
   onUpdateEmbed,

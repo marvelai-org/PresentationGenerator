@@ -10,6 +10,17 @@ interface SlideStylesProps {
   onClose: () => void;
 }
 
+/**
+ * Renders a modal for selecting slide styles.
+ *
+ * When open, this component displays a modal with tabs for different style categories—layouts, templates,
+ * themes, colors, and backgrounds. It provides an accessible interface where users can click or use keyboard
+ * navigation to select a style option. The modal is only rendered when the `isOpen` flag is true.
+ *
+ * @param isOpen - A flag that determines whether the modal is visible.
+ * @param onSelect - Callback invoked with the selected style identifier when a style option is chosen.
+ * @param onClose - Callback invoked to close the modal.
+ */
 export default function SlideStyles({
   isOpen,
   onSelect,

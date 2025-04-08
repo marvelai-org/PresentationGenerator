@@ -17,6 +17,15 @@ interface URLImporterProps {
   onImport: (url: string) => void;
 }
 
+/**
+ * Renders a modal for importing data from a URL.
+ *
+ * This component displays a modal with an input field where the user can enter a URL. It validates that the URL starts with "http://" or "https://", shows an error message for invalid inputs, and simulates an asynchronous import process by invoking the provided import callback after a short delay.
+ *
+ * @param isOpen - Controls the visibility of the modal.
+ * @param onClose - Callback invoked to close the modal.
+ * @param onImport - Callback invoked with the valid URL when the import action is confirmed.
+ */
 export default function URLImporter({
   isOpen,
   onClose,

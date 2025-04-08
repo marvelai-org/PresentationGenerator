@@ -542,6 +542,16 @@ type ShapeContentItem = Omit<SlideContentItem, "style"> & {
   };
 };
 
+/**
+ * Renders the main presentation editor page for creating, editing, and managing slide presentations.
+ *
+ * This component provides a full-featured interface that includes slide navigation, drag-and-drop reordering,
+ * and comprehensive content editing capabilities. It manages presentation state—such as the current slide,
+ * fullscreen mode, and modal visibility for media, shapes, tables, embeds, and templates—while ensuring
+ * accessibility with keyboard navigation for slide control and modal dismissal.
+ *
+ * @returns The JSX element rendering the presentation editor interface.
+ */
 export default function PresentationEditorPage() {
   const router = useRouter();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);

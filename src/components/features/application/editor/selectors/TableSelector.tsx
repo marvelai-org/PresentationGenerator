@@ -79,6 +79,15 @@ interface TableSelectorProps {
   onSelect: (tableOptions: TableOptions) => void;
 }
 
+/**
+ * Renders a modal dialog for selecting or customizing a table layout.
+ *
+ * This component provides three tabs—Templates, Custom, and Preview—to allow users to either choose from predefined table templates or define their own table size and styling options. The configured options are passed to the provided selection callback when the table is inserted.
+ *
+ * @param isOpen - Indicates whether the modal is open.
+ * @param onClose - Callback invoked to close the modal.
+ * @param onSelect - Callback invoked with the configured table options when a table is created.
+ */
 export default function TableSelector({
   isOpen,
   onClose,

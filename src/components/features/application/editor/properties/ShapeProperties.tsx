@@ -34,6 +34,15 @@ interface ShapePropertiesProps {
   ) => void;
 }
 
+/**
+ * Renders a panel to customize a selected shape.
+ *
+ * Displays a tabbed interface for updating the shape's style, size, and position.
+ * If no shape is selected, an informational message prompts the user to select one.
+ *
+ * @param selectedShape - The shape object whose properties are to be edited; if null, no shape is selected.
+ * @param onUpdateShape - Callback function to update the selected shape's properties.
+ */
 export default function ShapeProperties({
   selectedShape,
   onUpdateShape,

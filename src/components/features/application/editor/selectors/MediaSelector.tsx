@@ -11,6 +11,19 @@ interface MediaSelectorProps {
   isOpen: boolean;
 }
 
+/**
+ * Displays a modal media library for selecting images, stickers, icons, shapes, and charts.
+ *
+ * The component renders a command menu modal with tabbed interfaces that filter media based on user search input.
+ * It supports keyboard accessibility, allowing selection via both mouse clicks and key presses.
+ *
+ * @param onSelect - Callback invoked with the identifier or URL of the selected media item.
+ * @param onClose - Callback to close the media library modal.
+ * @param isOpen - Boolean indicating whether the modal is currently open.
+ *
+ * @example
+ * <MediaSelector onSelect={handleSelect} onClose={handleClose} isOpen={true} />
+ */
 export default function MediaSelector({
   onSelect,
   onClose,

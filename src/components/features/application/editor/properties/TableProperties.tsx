@@ -19,6 +19,18 @@ interface TablePropertiesProps {
   onUpdateTable: (updatedData: TableData) => void;
 }
 
+/**
+ * Renders a tabbed interface for configuring table properties.
+ *
+ * This React component provides a user interface to customize a table's style, layout, and options. 
+ * Users can adjust attributes such as border style, width, and colors; set table dimensions like rows and columns; 
+ * and toggle options including header and footer visibility as well as alternating row colors. 
+ * All changes are communicated back via the onUpdateTable callback.
+ *
+ * @param tableData - The current table configuration including style, layout, and option settings.
+ * @param onUpdateTable - Callback to update the table configuration when any property changes.
+ * @returns The rendered table properties panel as a JSX element.
+ */
 export default function TableProperties({
   tableData,
   onUpdateTable,

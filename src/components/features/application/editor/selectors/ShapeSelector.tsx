@@ -13,6 +13,18 @@ interface ShapeSelectorProps {
   isOpen: boolean;
 }
 
+/**
+ * Renders a modal interface for selecting shapes and lines.
+ *
+ * Displays tabs for different categories (Essential, Lines, Buttons and Labels, Process) and
+ * includes a search feature to filter options. It provides full keyboard accessibility along
+ * with mouse interactions, allowing users to select a shape or line which triggers the provided
+ * callback.
+ *
+ * @param onSelect - Callback invoked with the selected shape or line identifier.
+ * @param onClose - Callback to close the modal.
+ * @param isOpen - Determines whether the modal is currently visible.
+ */
 export default function ShapeSelector({
   onSelect,
   onClose,

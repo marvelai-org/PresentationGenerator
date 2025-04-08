@@ -24,6 +24,18 @@ export interface EmbedData {
   aspectRatio: string;
 }
 
+/**
+ * Renders a modal for selecting and embedding media content.
+ *
+ * This component displays a modal with tabs for various platforms including YouTube, Vimeo, Loom, Spotify, Figma, and a custom option. It validates the user-provided URL, generates an embed preview asynchronously, and allows the user to add the generated embed to the presentation via the provided callback.
+ *
+ * @param onSelect Callback invoked with the generated embed data when the user confirms adding the embed.
+ * @param onClose Callback used to close the modal.
+ * @param isOpen Indicates whether the modal is currently open.
+ *
+ * @remarks
+ * The modal resets its URL, preview, and error state each time it opens to ensure a fresh experience.
+ */
 export default function EmbedSelector({
   onSelect,
   onClose,

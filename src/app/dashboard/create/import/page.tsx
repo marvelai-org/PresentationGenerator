@@ -17,6 +17,16 @@ import { motion } from "framer-motion";
 import FileUploader from "@/components/features/application/import/FileUploader";
 import URLImporter from "@/components/features/application/import/URLImporter";
 
+/**
+ * Renders an interactive import page for adding content.
+ *
+ * This component provides three import options—uploading a file, importing from Google Drive, or entering a URL—
+ * and handles the associated state and navigation. It simulates file uploads and drive connections, updating the UI
+ * with animated transitions and conditional components (such as the file uploader and URL importer). On completion
+ * of an import action, the user is redirected to the outline creation screen.
+ *
+ * @returns A React element that represents the import interface.
+ */
 export default function ImportPage() {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();

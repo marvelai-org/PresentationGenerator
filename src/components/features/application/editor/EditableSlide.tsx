@@ -63,6 +63,27 @@ interface EditableSlideProps {
   onEmbedSelect?: (embed: SlideContentItem | null) => void;
 }
 
+/**
+ * Renders an interactive editable slide for presentations.
+ *
+ * This component displays a slide with a customizable background, title, and various content items
+ * (shapes, tables, embeds, and text). Users can interact with these elements through dragging,
+ * resizing, rotating, and inline editing. Keyboard handling (using Enter, Space, and Escape keys)
+ * is also supported to enhance accessibility.
+ *
+ * @param slide - The slide data including title, subtitle, background, and content items.
+ * @param onUpdateTitle - Callback to update the slide's title.
+ * @param onUpdateContent - Callback to update a text content item.
+ * @param _onAddContent - Callback to add new content to the slide.
+ * @param onRemoveContent - Callback to remove a content item.
+ * @param onShapeSelect - Callback triggered when a shape is selected.
+ * @param onUpdateShape - Callback to update a shape's properties.
+ * @param onTableSelect - Callback triggered when a table element is selected.
+ * @param onUpdateTable - Callback to update table data.
+ * @param onEmbedSelect - Callback triggered when an embed element is selected.
+ *
+ * @returns A React element representing the editable slide.
+ */
 export default function EditableSlide({
   slide,
   onUpdateTitle,
