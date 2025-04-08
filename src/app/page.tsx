@@ -2,8 +2,8 @@
 export const dynamic = "force-static";
 export const revalidate = false;
 
-import LandingPage from "@/components/features/marketing/landing-page/LandingPage";
+import { redirect } from "next/navigation";
 
 export default function HomePage() {
-  return <LandingPage />;
+  redirect("/login");
 }
