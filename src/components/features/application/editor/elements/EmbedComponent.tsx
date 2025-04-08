@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { Icon } from "@iconify/react";
 import { Button, Tooltip } from "@heroui/react";
 
-import { EmbedData } from "./EmbedSelector";
+import { EmbedData } from "../selectors/EmbedSelector";
 
 interface EmbedComponentProps {
   embedData: EmbedData;

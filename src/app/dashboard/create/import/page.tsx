@@ -30,7 +30,7 @@ export default function ImportPage() {
     handleFileUpload(_file);
   };
 
-  const handleFileUpload = (file: File) => {
+  const handleFileUpload = (_file: File) => {
     setIsUploading(true);
 
     // Simulate file upload

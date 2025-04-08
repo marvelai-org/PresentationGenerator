@@ -194,6 +194,14 @@ export default function ShapeSelector({
         key={shape.id}
         className={`p-4 flex justify-center items-center cursor-pointer hover:bg-content2 rounded-md transition-all ${styles.shapeItem}`}
         onClick={() => onSelect(shape.id)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            onSelect(shape.id);
+          }
+        }}
+        aria-label={`Select ${shape.name || "shape"}`}
       >
         {shape.icon ? (
           <Icon
@@ -218,6 +226,14 @@ export default function ShapeSelector({
         key={line.id}
         className={`p-4 flex justify-center items-center cursor-pointer hover:bg-content2 rounded-md transition-all h-16 ${styles.shapeItem}`}
         onClick={() => onSelect(line.id)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            onSelect(line.id);
+          }
+        }}
+        aria-label={`Select ${line.id.replace(/-/g, " ")} line`}
       >
         <div className="w-full flex items-center justify-center relative">
           {line.type === "solid" && !line.icon && (
@@ -301,6 +317,14 @@ export default function ShapeSelector({
             key={shape.id}
             className="p-4 flex justify-center items-center cursor-pointer hover:bg-content2 rounded-md transition-all h-24"
             onClick={() => onSelect(shape.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(shape.id);
+              }
+            }}
+            aria-label={`Select ${shape.id.replace(/-/g, " ")}`}
           >
             {shape.id === "rectangular-label" && (
               <div className="bg-content3 px-6 py-3 flex items-center justify-center">
@@ -330,6 +354,14 @@ export default function ShapeSelector({
             key={shape.id}
             className="p-4 flex justify-center items-center cursor-pointer hover:bg-content2 rounded-md transition-all h-24"
             onClick={() => onSelect(shape.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(shape.id);
+              }
+            }}
+            aria-label={`Select ${shape.id.replace(/-/g, " ")}`}
           >
             {shape.id === "process-start" && (
               <div
@@ -356,6 +388,14 @@ export default function ShapeSelector({
             key={`outline-${shape.id}`}
             className="p-4 flex justify-center items-center cursor-pointer hover:bg-content2 rounded-md transition-all h-24"
             onClick={() => onSelect(`outline-${shape.id}`)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(`outline-${shape.id}`);
+              }
+            }}
+            aria-label={`Select outline ${shape.id.replace(/-/g, " ")}`}
           >
             {shape.id === "process-start" && (
               <div
@@ -417,7 +457,7 @@ export default function ShapeSelector({
       modalSize="3xl"
       searchPlaceholder="Search for shapes..."
       tabs={tabs}
-      title="Shapes"
+      _title="Shapes"
       onClose={onClose}
       onSearch={setSearchTerm}
     />

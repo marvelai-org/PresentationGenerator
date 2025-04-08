@@ -29,8 +29,8 @@ export default function EmbedSelector({
   onClose,
   isOpen,
 }: EmbedSelectorProps) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("youtube");
+  const [_searchTerm, setSearchTerm] = useState("");
+  const [activeTab, _setActiveTab] = useState("youtube");
   const [url, setUrl] = useState("");
   const [isValidUrl, setIsValidUrl] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -648,7 +648,7 @@ export default function EmbedSelector({
       searchPlaceholder="Search embeds..."
       showSearch={false}
       tabs={tabs}
-      title="Embed Content"
+      _title="Embed Content"
       onClose={onClose}
       onSearch={setSearchTerm}
     />

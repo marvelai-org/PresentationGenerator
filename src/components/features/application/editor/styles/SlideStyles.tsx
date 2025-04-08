@@ -155,6 +155,14 @@ export default function SlideStyles({
                         key={color.id}
                         className="flex flex-col items-center cursor-pointer hover:scale-105 transition-all"
                         onClick={() => onSelect(color.id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            onSelect(color.id);
+                          }
+                        }}
+                        aria-label={`Select ${color.name} color`}
                       >
                         <div
                           className="w-16 h-16 rounded-full mb-2 ring-1 ring-gray-700"

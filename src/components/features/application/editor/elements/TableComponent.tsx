@@ -57,7 +57,7 @@ const TableComponent = ({
   });
 
   // State for selection range (for multi-cell operations)
-  const [selectionRange, setSelectionRange] = useState<{
+  const [_selectionRange, _setSelectionRange] = useState<{
     startCell: string;
     endCell: string;
   } | null>(null);
@@ -65,6 +65,10 @@ const TableComponent = ({
   // References for DOM elements
   const cellRefs = useRef<Record<string, HTMLTableCellElement | null>>({});
   const tableRef = useRef<HTMLTableElement>(null);
+
+  // Reference for context menu and menu items
+  const contextMenuRef = useRef<HTMLDivElement>(null);
+  const menuItemRefs = useRef<Record<string, HTMLButtonElement>>({});
 
   /**
    * Set up editing mode for a cell
@@ -108,7 +112,7 @@ const TableComponent = ({
    * Handle table click to select it
    */
   const handleTableClick = useCallback(
-    (e: React.MouseEvent) => {
+    (_e: React.MouseEvent | React.KeyboardEvent) => {
       if (onSelectTable) {
         onSelectTable();
       }
@@ -517,10 +521,55 @@ const TableComponent = ({
     [tableData.cells, editingCell, cellContent, saveCell],
   );
 
+  /**
+   * Handle keyboard events for opening context menu
+   */
+  const handleCellKeyDown = useCallback(
+    (e: React.KeyboardEvent, cellId: string) => {
+      // Open context menu with Shift+F10 or the context menu key
+      if (
+        (e.key === "F10" && e.shiftKey) || 
+        e.key === "ContextMenu" ||
+        (e.key === "k" && e.ctrlKey)
+      ) {
+        e.preventDefault();
+        
+        // Get the cell element's position for the context menu
+        const cellElement = cellRefs.current[cellId];
+        if (cellElement) {
+          const rect = cellElement.getBoundingClientRect();
+          setContextMenuPosition({
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+          });
+          setSelectedCell(cellId);
+          setShowContextMenu(true);
+        }
+      }
+    },
+    [cellRefs]
+  );
+
+  // Close context menu when pressing Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && showContextMenu) {
+        setShowContextMenu(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showContextMenu]);
+
   // Close context menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = () => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (showContextMenu) {
+        // Prevent the event from propagating to parent elements
+        e.stopPropagation();
         setShowContextMenu(false);
       }
     };
@@ -539,6 +588,65 @@ const TableComponent = ({
       cellRefs.current[selectedCell]?.focus();
     }
   }, [editingCell, selectedCell]);
+
+  // Focus first menu item when context menu opens
+  useEffect(() => {
+    if (showContextMenu && contextMenuRef.current) {
+      // Find first menu item button and focus it
+      const firstMenuItem = contextMenuRef.current.querySelector('button[role="menuitem"]');
+      if (firstMenuItem instanceof HTMLElement) {
+        setTimeout(() => firstMenuItem.focus(), 0);
+      }
+    }
+  }, [showContextMenu]);
+
+  // Handle keyboard navigation in context menu
+  const handleContextMenuKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (!showContextMenu) return;
+
+    const menuItems = Array.from(
+      document.querySelectorAll('button[role="menuitem"]')
+    ) as HTMLButtonElement[];
+
+    const currentIndex = menuItems.findIndex(item => item === document.activeElement);
+
+    switch (e.key) {
+      case 'ArrowDown':
+      case 'Down':
+        e.preventDefault();
+        if (currentIndex < menuItems.length - 1) {
+          menuItems[currentIndex + 1].focus();
+        } else {
+          menuItems[0].focus(); // Wrap to first item
+        }
+        break;
+      case 'ArrowUp':
+      case 'Up':
+        e.preventDefault();
+        if (currentIndex > 0) {
+          menuItems[currentIndex - 1].focus();
+        } else {
+          menuItems[menuItems.length - 1].focus(); // Wrap to last item
+        }
+        break;
+      case 'Escape':
+        e.preventDefault();
+        setShowContextMenu(false);
+        // Return focus to the cell that opened the menu
+        if (selectedCell && cellRefs.current[selectedCell]) {
+          cellRefs.current[selectedCell].focus();
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        menuItems[0].focus();
+        break;
+      case 'End':
+        e.preventDefault();
+        menuItems[menuItems.length - 1].focus();
+        break;
+    }
+  }, [showContextMenu, selectedCell, cellRefs]);
 
   // Calculate table style based on props
   const tableStyle: React.CSSProperties = {
@@ -566,7 +674,9 @@ const TableComponent = ({
       >
         <table
           ref={tableRef}
+          aria-readonly={!isEditing}
           className="w-full"
+          role="grid"
           style={tableStyle}
           tabIndex={-1}
           onKeyDown={handleKeyDown}
@@ -593,13 +703,15 @@ const TableComponent = ({
                       );
                     }
 
-                    const isHovered = hoveredCell === cellId;
+                    const _isHovered = hoveredCell === cellId;
                     const isSelected = selectedCell === cellId;
 
                     return (
                       <td
                         key={cellId}
-                        ref={(el) => (cellRefs.current[cellId] = el)}
+                        ref={(el) => {
+                          if (el) cellRefs.current[cellId] = el;
+                        }}
                         className={`
                         relative
                         ${getCellClassName(rowIndex, colIndex)}
@@ -613,8 +725,13 @@ const TableComponent = ({
                         tabIndex={isEditing ? 0 : -1}
                         onClick={(e) => handleCellClick(e, cellId)}
                         onContextMenu={(e) => handleCellContextMenu(e, cellId)}
+                        onKeyDown={(e) => {
+                          handleKeyDown(e);
+                          handleCellKeyDown(e, cellId);
+                        }}
                         onMouseEnter={() => setHoveredCell(cellId)}
                         onMouseLeave={() => setHoveredCell(null)}
+                        aria-haspopup="menu"
                       >
                         {renderCellContent(cellId)}
                       </td>
@@ -645,13 +762,13 @@ const TableComponent = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Row Options">
-                <DropdownItem onPress={() => addRow("before")}>
+                <DropdownItem key="add-row-before" onPress={() => addRow("before")}>
                   Add Row Above
                 </DropdownItem>
-                <DropdownItem onPress={() => addRow("after")}>
+                <DropdownItem key="add-row-after" onPress={() => addRow("after")}>
                   Add Row Below
                 </DropdownItem>
-                <DropdownItem onPress={deleteRow}>Delete Row</DropdownItem>
+                <DropdownItem key="delete-row" onPress={deleteRow}>Delete Row</DropdownItem>
               </DropdownMenu>
             </Dropdown>
 
@@ -671,13 +788,13 @@ const TableComponent = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Column Options">
-                <DropdownItem onPress={() => addColumn("before")}>
+                <DropdownItem key="add-column-before" onPress={() => addColumn("before")}>
                   Add Column Left
                 </DropdownItem>
-                <DropdownItem onPress={() => addColumn("after")}>
+                <DropdownItem key="add-column-after" onPress={() => addColumn("after")}>
                   Add Column Right
                 </DropdownItem>
-                <DropdownItem onPress={deleteColumn}>
+                <DropdownItem key="delete-column" onPress={deleteColumn}>
                   Delete Column
                 </DropdownItem>
               </DropdownMenu>
@@ -688,81 +805,107 @@ const TableComponent = ({
         {/* Context Menu */}
         {showContextMenu && selectedCell && (
           <div
+            ref={contextMenuRef}
             className="fixed z-50 bg-white shadow-lg rounded-md overflow-hidden border border-gray-200"
             style={{ left: contextMenuPosition.x, top: contextMenuPosition.y }}
+            role="menu"
+            aria-label="Cell Options"
+            tabIndex={-1}
+            onKeyDown={handleContextMenuKeyDown}
           >
             <div className="p-2">
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
                 onClick={() => {
                   startEditing(selectedCell);
                   setShowContextMenu(false);
                 }}
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['edit-cell'] = el;
+                }}
               >
                 Edit Cell
               </button>
-              <div className="border-t border-gray-200 my-1" />
+              <div className="border-t border-gray-200 my-1" role="separator" aria-orientation="horizontal" />
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
                 onClick={() => {
-                  addRow("before");
+                  addRow('before');
                   setShowContextMenu(false);
                 }}
-              >
-                Add Row Above
-              </button>
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
-                onClick={() => {
-                  addRow("after");
-                  setShowContextMenu(false);
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['insert-row-above'] = el;
                 }}
               >
-                Add Row Below
+                Insert row above
               </button>
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
                 onClick={() => {
-                  addColumn("before");
+                  addRow('after');
                   setShowContextMenu(false);
                 }}
-              >
-                Add Column Left
-              </button>
-              <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
-                onClick={() => {
-                  addColumn("after");
-                  setShowContextMenu(false);
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['insert-row-below'] = el;
                 }}
               >
-                Add Column Right
+                Insert row below
               </button>
-              <div className="border-t border-gray-200 my-1" />
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
+                onClick={() => {
+                  addColumn('before');
+                  setShowContextMenu(false);
+                }}
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['insert-column-left'] = el;
+                }}
+              >
+                Insert column left
+              </button>
+              <button
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
+                onClick={() => {
+                  addColumn('after');
+                  setShowContextMenu(false);
+                }}
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['insert-column-right'] = el;
+                }}
+              >
+                Insert column right
+              </button>
+              <div className="border-t border-gray-200 my-1" role="separator" aria-orientation="horizontal" />
+              <button
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
                 onClick={() => {
                   deleteRow();
                   setShowContextMenu(false);
                 }}
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['delete-row'] = el;
+                }}
               >
-                Delete Row
+                Delete row
               </button>
               <button
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
-                type="button"
+                className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded"
                 onClick={() => {
                   deleteColumn();
                   setShowContextMenu(false);
                 }}
+                role="menuitem"
+                ref={el => {
+                  if (el) menuItemRefs.current['delete-column'] = el;
+                }}
               >
-                Delete Column
+                Delete column
               </button>
             </div>
           </div>

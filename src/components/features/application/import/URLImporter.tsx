@@ -26,12 +26,10 @@ export default function URLImporter({
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const validateUrl = (input: string): boolean => {
+  const validateUrl = (inputUrl: string) => {
     try {
-      // Try to create a URL object
-      const urlObj = new URL(input);
+      const urlObj = new URL(inputUrl);
 
-      // Check if protocol is http or https
       if (urlObj.protocol !== "http:" && urlObj.protocol !== "https:") {
         setError("URL must start with http:// or https://");
 
@@ -41,7 +39,7 @@ export default function URLImporter({
       setError(null);
 
       return true;
-    } catch (_e) {
+    } catch {
       setError("Please enter a valid URL");
 
       return false;

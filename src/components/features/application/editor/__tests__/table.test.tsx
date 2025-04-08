@@ -1,8 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 
-import TableSelector from "../TableSelector";
-import TableComponent, { TableData } from "../TableComponent";
-import TableProperties from "../TableProperties";
+import TableSelector from "../selectors/TableSelector";
+import TableComponent from "../elements/TableComponent";
+import TableProperties from "../properties/TableProperties";
+import { TableData } from "@/types/editor";
 
 // Mock tableData for testing
 const mockTableData: TableData = {
