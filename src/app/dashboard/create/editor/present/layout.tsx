@@ -9,12 +9,10 @@ interface PresentLayoutProps {
 export default function PresentLayout({ children }: PresentLayoutProps) {
   // Pure fullscreen presentation with no UI elements
   return (
-    <html className="dark" lang="en">
-      <body className="bg-black">
-        <Providers>
-          <div className="h-screen w-screen overflow-hidden">{children}</div>
-        </Providers>
-      </body>
-    </html>
+    <div className="bg-black h-screen w-screen">
+      <Providers>
+        <div className="h-screen w-screen overflow-hidden">{children}</div>
+      </Providers>
+    </div>
   );
 }

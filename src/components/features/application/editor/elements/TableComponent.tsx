@@ -645,13 +645,13 @@ const TableComponent = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Row Options">
-                <DropdownItem onClick={() => addRow("before")}>
+                <DropdownItem onPress={() => addRow("before")}>
                   Add Row Above
                 </DropdownItem>
-                <DropdownItem onClick={() => addRow("after")}>
+                <DropdownItem onPress={() => addRow("after")}>
                   Add Row Below
                 </DropdownItem>
-                <DropdownItem onClick={deleteRow}>Delete Row</DropdownItem>
+                <DropdownItem onPress={deleteRow}>Delete Row</DropdownItem>
               </DropdownMenu>
             </Dropdown>
 
@@ -671,13 +671,13 @@ const TableComponent = ({
                 </Button>
               </DropdownTrigger>
               <DropdownMenu aria-label="Column Options">
-                <DropdownItem onClick={() => addColumn("before")}>
+                <DropdownItem onPress={() => addColumn("before")}>
                   Add Column Left
                 </DropdownItem>
-                <DropdownItem onClick={() => addColumn("after")}>
+                <DropdownItem onPress={() => addColumn("after")}>
                   Add Column Right
                 </DropdownItem>
-                <DropdownItem onClick={deleteColumn}>
+                <DropdownItem onPress={deleteColumn}>
                   Delete Column
                 </DropdownItem>
               </DropdownMenu>
@@ -694,6 +694,7 @@ const TableComponent = ({
             <div className="p-2">
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   startEditing(selectedCell);
                   setShowContextMenu(false);
@@ -704,6 +705,7 @@ const TableComponent = ({
               <div className="border-t border-gray-200 my-1" />
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   addRow("before");
                   setShowContextMenu(false);
@@ -713,6 +715,7 @@ const TableComponent = ({
               </button>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   addRow("after");
                   setShowContextMenu(false);
@@ -722,6 +725,7 @@ const TableComponent = ({
               </button>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   addColumn("before");
                   setShowContextMenu(false);
@@ -731,6 +735,7 @@ const TableComponent = ({
               </button>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   addColumn("after");
                   setShowContextMenu(false);
@@ -741,6 +746,7 @@ const TableComponent = ({
               <div className="border-t border-gray-200 my-1" />
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   deleteRow();
                   setShowContextMenu(false);
@@ -750,6 +756,7 @@ const TableComponent = ({
               </button>
               <button
                 className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-md"
+                type="button"
                 onClick={() => {
                   deleteColumn();
                   setShowContextMenu(false);
