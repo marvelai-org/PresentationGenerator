@@ -11,12 +11,10 @@ interface GenerateLayoutProps {
 export default function GenerateLayout({ children }: GenerateLayoutProps) {
   // This layout has no sidebar, navbar, or user profile
   return (
-    <html className="dark" lang="en">
-      <body className="bg-black">
-        <Providers>
-          <div className="h-screen w-screen overflow-hidden">{children}</div>
-        </Providers>
-      </body>
-    </html>
+    <div className="bg-black h-screen w-screen">
+      <Providers>
+        <div className="h-screen w-screen overflow-hidden">{children}</div>
+      </Providers>
+    </div>
   );
 }
