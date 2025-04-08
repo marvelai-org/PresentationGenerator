@@ -1,0 +1,16 @@
+# Global owners - these are the default owners for everything
+*                    @marvelai-org/maintainers
+
+# Frontend code owners
+/src/app/            @marvelai-org/frontend-team
+/src/components/     @marvelai-org/frontend-team
+/public/             @marvelai-org/frontend-team
+
+# Backend code owners
+/ai-services/        @marvelai-org/backend-team
+/prisma/             @marvelai-org/backend-team
+
+# DevOps code owners
+/.github/            @marvelai-org/devops-team
+/Dockerfile          @marvelai-org/devops-team
+/docker-compose.yml  @marvelai-org/devops-team 
