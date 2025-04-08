@@ -20,7 +20,7 @@ import { Icon } from "@iconify/react";
 import { VisuallyHidden } from "@react-aria/visually-hidden";
 
 // Import your logo component
-import { AcmeIcon } from "@/components/ui/Social";
+import { AIPresIcon } from "@/components/ui/Acme";
 
 // =====================================
 // Custom PromptInput Component Implementation
@@ -44,7 +44,7 @@ const PromptInput = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 PromptInput.displayName = "PromptInput";
@@ -54,103 +54,103 @@ PromptInput.displayName = "PromptInput";
 // =====================================
 const suggestions = [
   {
-    id: "ai-startup-app",
-    label: "An AI app for my startup",
+    id: "business-pitch",
+    label: "A business pitch presentation",
     icon: "noto:rocket", // Represents a startup launch and innovation
   },
   {
-    id: "data-dashboard",
-    label: "A data visualization dashboard",
+    id: "data-presentation",
+    label: "A data visualization presentation",
     icon: "noto:chart-increasing-with-yen", // Indicates analytics and growth
   },
   {
-    id: "content-generator",
-    label: "A social media content generator",
+    id: "marketing-slides",
+    label: "A marketing campaign presentation",
     icon: "noto:speech-balloon", // Suggests conversation and content sharing
   },
   {
-    id: "finance-tracker",
-    label: "A personal finance tracker",
+    id: "quarterly-results",
+    label: "A quarterly financial results deck",
     icon: "noto:money-with-wings", // Clearly financial in nature
   },
   {
-    id: "ai-chatbot",
-    label: "An AI chatbot for customer support",
+    id: "product-launch",
+    label: "A product launch presentation",
     icon: "noto:robot-face", // Emphasizes AI/chatbot functionality
   },
   {
-    id: "ml-recommendation",
-    label: "A movie recommendation engine",
+    id: "conference-talk",
+    label: "A conference talk slideshow",
     icon: "noto:clapper-board", // Evokes the movie industry
   },
   {
-    id: "code-assistant",
-    label: "A coding assistant with AI",
+    id: "educational-slides",
+    label: "An educational presentation for students",
     icon: "noto:abacus", // Represents tech and programming
   },
   {
-    id: "text-summarizer",
-    label: "An AI text summarization tool",
+    id: "research-presentation",
+    label: "A research findings presentation",
     icon: "noto:page-facing-up", // Symbolizes documents and text
   },
   {
-    id: "image-generator",
-    label: "An AI image generation app",
+    id: "portfolio-showcase",
+    label: "A creative portfolio presentation",
     icon: "noto:bridge-at-night", // Suggests visuals and imagery
   },
   {
-    id: "voice-assistant",
-    label: "A voice-controlled AI assistant",
+    id: "company-overview",
+    label: "A company overview presentation",
     icon: "noto:microphone", // Ideal for voice interaction
   },
   {
-    id: "language-translator",
-    label: "An AI language translation app",
+    id: "sales-pitch",
+    label: "A sales pitch presentation",
     icon: "noto:globe-with-meridians", // Global and language-related
   },
   {
-    id: "ml-analytics",
-    label: "A machine learning analytics platform",
+    id: "trend-analysis",
+    label: "A trend analysis presentation",
     icon: "noto:bar-chart", // Reflects data analysis
   },
   {
-    id: "smart-home",
-    label: "A smart home automation system",
+    id: "project-proposal",
+    label: "A project proposal presentation",
     icon: "noto:house", // Clearly indicates a home-related solution
   },
   {
-    id: "nft-marketplace",
-    label: "An NFT marketplace app",
+    id: "creative-showcase",
+    label: "A creative showcase presentation",
     icon: "noto:artist-palette", // Emphasizes creative, artistic content
   },
   {
-    id: "ai-email-writer",
-    label: "An AI email writing assistant",
+    id: "onboarding-slides",
+    label: "A team onboarding presentation",
     icon: "noto:envelope", // Represents email and communication
   },
   {
-    id: "saas-platform",
-    label: "A SaaS platform for businesses",
+    id: "investor-deck",
+    label: "An investor pitch deck",
     icon: "noto:briefcase", // Suggests business and professionalism
   },
   {
-    id: "fitness-tracker",
-    label: "A fitness tracking app with AI insights",
+    id: "workshop-slides",
+    label: "A workshop presentation",
     icon: "noto:runner", // Indicates movement and fitness
   },
   {
-    id: "edtech-platform",
-    label: "An AI-powered education platform",
+    id: "academic-presentation",
+    label: "An academic presentation",
     icon: "noto:graduation-cap", // Immediately associated with education
   },
   {
-    id: "web3-wallet",
-    label: "A Web3 crypto wallet app",
+    id: "strategy-deck",
+    label: "A business strategy presentation",
     icon: "noto:bank", // Suggests finance and security
   },
   {
-    id: "ai-resume-builder",
-    label: "An AI resume builder and analyzer",
+    id: "year-in-review",
+    label: "A year in review presentation",
     icon: "noto:clipboard", // Represents documents and resumes
   },
 ];
@@ -174,8 +174,10 @@ const LeanNavbar = () => {
     >
       <NavbarBrand>
         <div className="flex items-center">
-          <AcmeIcon className="text-white" size={34} />
-          <span className="ml-2 text-xl font-medium text-white">Vibing</span>
+          <AIPresIcon className="text-white" size={34} />
+          <span className="ml-2 text-xl font-medium text-white">
+            AI Presentation Generator
+          </span>
         </div>
       </NavbarBrand>
 
@@ -351,6 +353,7 @@ const PromptInputFullLine = ({
 
         reader.onload = () => {
           const base64data = reader.result as string;
+
           setAssets((prev) => [...prev, base64data]);
         };
         reader.readAsDataURL(blob);
@@ -368,6 +371,7 @@ const PromptInputFullLine = ({
 
           reader.onload = () => {
             const base64data = reader.result as string;
+
             setAssets((prev) => [...prev, base64data]);
           };
           reader.readAsDataURL(file);
@@ -482,6 +486,7 @@ const LeanPromptInput = () => {
   const handleShuffle = () => {
     // Create a copy and shuffle it
     const shuffled = [...suggestions].sort(() => 0.5 - Math.random());
+
     // Take the first 4 items for display
     setCurrentSuggestions(shuffled.slice(0, 4));
   };
@@ -533,7 +538,7 @@ const LeanPromptContainer = () => {
 export default function LandingPage() {
   // Check if running in browser
   const [isMounted, setIsMounted] = useState(false);
-  
+
   // Only run on client
   React.useEffect(() => {
     setIsMounted(true);

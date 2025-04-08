@@ -7,45 +7,74 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// User model
 model User {
-  id            String         @id @default(uuid())
-  email         String         @unique
-  name          String?
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  projects      Project[]
-  conversations Conversation[]
+  id             String         @id @default(uuid())
+  email          String         @unique
+  name           String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  presentations  Presentation[]
 }
 
-model Project {
-  id            String         @id @default(uuid())
-  title         String
-  description   String?
-  status        String         @default("active")
-  userId        String
-  user          User           @relation(fields: [userId], references: [id])
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  conversations Conversation[]
+// Presentation model - represents an entire presentation deck
+model Presentation {
+  id          String       @id @default(uuid())
+  title       String
+  description String?      @db.Text
+  userId      String?      // Optional: link presentation to a user
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  slides      Slide[]
+  themeId     String?      // Optional: associated theme
+  theme       Theme?       @relation(fields: [themeId], references: [id], onDelete: SetNull)
+  analytics   Analytics?   // Optional: engagement tracking for the presentation
 }
 
-model Conversation {
-  id        String    @id @default(uuid())
-  title     String?
-  userId    String
-  user      User      @relation(fields: [userId], references: [id])
-  projectId String?
-  project   Project?  @relation(fields: [projectId], references: [id])
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  messages  Message[]
+// Slide model - represents a single slide/card in a presentation
+model Slide {
+  id             String         @id @default(uuid())
+  order          Int            // Position of the slide in the deck
+  content        String         @db.Text // Primary content; can be plain text or a JSON structure for basic info
+  presentationId String
+  presentation   Presentation   @relation(fields: [presentationId], references: [id], onDelete: Cascade)
+  elements       SlideElement[]
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
 }
 
-model Message {
-  id             String       @id @default(uuid())
-  content        String       @db.Text
-  role           String
-  conversationId String
-  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
-  createdAt      DateTime     @default(now())
+// SlideElement model - represents granular content within a slide
+model SlideElement {
+  id         String   @id @default(uuid())
+  type       String   // e.g., "text", "image", "video", "embedded", "chart", "form", "button"
+  data       Json     // JSON data holding element-specific details (e.g., video URL, chart data, etc.)
+  position   Json?    // Optional JSON for layout (e.g., { x: 10, y: 20, width: 300, height: 150 })
+  slideId    String
+  slide      Slide    @relation(fields: [slideId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// Theme model - represents design templates for presentations
+model Theme {
+  id             String         @id @default(uuid())
+  name           String         // Name of the theme
+  colorScheme    Json           // JSON for primary, secondary, accent colors
+  fontFamily     String         // Primary font used in the theme
+  layoutSettings Json           // JSON for additional layout/style configurations
+  presentations  Presentation[]  // Optional: presentations that use this theme
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+// Analytics model - tracks engagement for a presentation
+model Analytics {
+  id                String       @id @default(uuid())
+  presentationId    String       @unique
+  presentation      Presentation @relation(fields: [presentationId], references: [id], onDelete: Cascade)
+  viewCount         Int          @default(0)
+  engagementMetrics Json?        // JSON for detailed metrics (clicks, duration, interactions, etc.)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
 }

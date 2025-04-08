@@ -23,7 +23,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-import { AcmeIcon } from "@/components/ui/Acme";
+import { AIPresIcon } from "@/components/ui/Acme";
 import NotificationsCard from "@/components/ui/NotificationsCard";
 
 export default function Component() {
@@ -38,8 +38,8 @@ export default function Component() {
     >
       <NavbarBrand>
         <NavbarMenuToggle className="mr-2 h-6 sm:hidden" />
-        <AcmeIcon />
-        <p className="font-bold text-inherit">ACME</p>
+        <AIPresIcon />
+        <p className="font-bold text-inherit">AI Presentation Generator</p>
       </NavbarBrand>
       <NavbarContent
         className="ml-4 hidden h-12 w-full max-w-fit gap-4 rounded-full bg-content2 px-4 dark:bg-content1 sm:flex"
