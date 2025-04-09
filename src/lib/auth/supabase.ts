@@ -45,7 +45,11 @@ export const createClient = () => {
 
     // Always use mock client in CI environment for testing
     if (isCI || !supabaseUrl || !supabaseKey) {
-      console.info(isCI ? "Using mock client in CI environment" : "Missing Supabase credentials, using mock client");
+      console.info(
+        isCI
+          ? "Using mock client in CI environment"
+          : "Missing Supabase credentials, using mock client",
+      );
       return createMockClient() as unknown as ReturnType<
         typeof createBrowserClient<Database>
       >;

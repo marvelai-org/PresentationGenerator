@@ -16,6 +16,7 @@ The mock database system provides:
 ### Storage Layer (`mock-storage.ts`)
 
 The base storage layer provides:
+
 - In-memory data storage for both server and client environments
 - Browser localStorage persistence when available
 - CRUD operations on tables
@@ -24,6 +25,7 @@ The base storage layer provides:
 ### Client Integration (`supabase-client.ts`)
 
 The enhanced mock client:
+
 - Implements Supabase's query builder pattern
 - Provides support for filters, ordering, and pagination
 - Automatically activates when credentials are missing
@@ -40,14 +42,14 @@ import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 function MyComponent() {
   const supabase = createClientSupabaseClient();
-  
+
   // Use supabase as normal
   const fetchData = async () => {
     const { data, error } = await supabase
-      .from('presentations')
+      .from("presentations")
       .select()
-      .order('created_at', { ascending: false });
-      
+      .order("created_at", { ascending: false });
+
     // Handle data...
   };
 }
@@ -78,26 +80,26 @@ const supabase = createClientSupabaseClient();
 
 ```typescript
 // Basic select
-const { data } = await supabase.from('presentations').select();
+const { data } = await supabase.from("presentations").select();
 
 // Filtering
 const { data } = await supabase
-  .from('presentations')
+  .from("presentations")
   .select()
-  .eq('user_id', userId);
+  .eq("user_id", userId);
 
 // Sorting and limiting
 const { data } = await supabase
-  .from('presentations')
+  .from("presentations")
   .select()
-  .order('created_at', { ascending: false })
+  .order("created_at", { ascending: false })
   .limit(10);
 
 // Single record
 const { data } = await supabase
-  .from('presentations')
+  .from("presentations")
   .select()
-  .eq('id', presentationId)
+  .eq("id", presentationId)
   .single();
 ```
 
@@ -105,25 +107,23 @@ const { data } = await supabase
 
 ```typescript
 // Insert
-const { data, error } = await supabase
-  .from('presentations')
-  .insert({
-    title: 'New Presentation',
-    description: 'Created with mock client',
-    user_id: 'mock-user-1'
-  });
+const { data, error } = await supabase.from("presentations").insert({
+  title: "New Presentation",
+  description: "Created with mock client",
+  user_id: "mock-user-1",
+});
 
 // Update
 const { data, error } = await supabase
-  .from('presentations')
-  .update({ title: 'Updated Title' })
-  .eq('id', presentationId);
+  .from("presentations")
+  .update({ title: "Updated Title" })
+  .eq("id", presentationId);
 
 // Delete
 const { error } = await supabase
-  .from('presentations')
+  .from("presentations")
   .delete()
-  .eq('id', presentationId);
+  .eq("id", presentationId);
 ```
 
 ## Mock Database Schema
@@ -162,4 +162,4 @@ If you encounter issues with the mock database:
 1. Enable debug mode to see all operations
 2. Check browser console for warnings and errors
 3. Try resetting the mock data if you suspect data corruption
-4. For persistence issues in browsers, check localStorage access 
+4. For persistence issues in browsers, check localStorage access

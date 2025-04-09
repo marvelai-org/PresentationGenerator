@@ -33,7 +33,7 @@ This directory contains the components and functionality for the presentation ed
 
   - `SlideStyles.tsx`: Style components for slides
 
-- ****tests**/**: Unit and integration tests
+- \***\*tests**/\*\*: Unit and integration tests
   - Tests for core editor functionality
 
 ## Coding Standards

@@ -21,7 +21,7 @@ import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function MyClientComponent() {
   const supabase = createClientSupabaseClient();
-  
+
   // Use supabase here...
 }
 ```
@@ -35,7 +35,7 @@ import { createServerSupabaseClient } from "@/lib/auth/supabase-server";
 
 export default async function MyServerComponent() {
   const supabase = createServerSupabaseClient();
-  
+
   // Use supabase here...
 }
 ```
@@ -49,7 +49,7 @@ import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 
 export async function GET() {
   const supabase = createRouteSupabaseClient();
-  
+
   // Use supabase here...
 }
 ```
@@ -112,4 +112,4 @@ When extending the Supabase client functionality:
 
 1. Add new methods to both the real client implementation and the mock client
 2. Keep the interface identical between mock and real implementations
-3. Update this README with any new usage patterns 
+3. Update this README with any new usage patterns
