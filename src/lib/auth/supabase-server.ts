@@ -62,7 +62,7 @@ const shouldUseMockClient = () => {
  * This function should only be used in server components or server functions
  * as it relies on the `cookies()` function from next/headers
  */
-export function createServerSupabaseClient() {
+export async function createServerSupabaseClient() {
   try {
     if (shouldUseMockClient()) {
       console.info(
@@ -76,7 +76,10 @@ export function createServerSupabaseClient() {
       >;
     }
 
-    return supabaseCreateServerComponentClient<Database>({ cookies });
+    const cookieStore = cookies();
+    return supabaseCreateServerComponentClient<Database>({ 
+      cookies: () => cookieStore 
+    });
   } catch (error) {
     console.warn("⚠️ Supabase server client creation error:", error);
 
@@ -92,7 +95,7 @@ export function createServerSupabaseClient() {
  * This function should only be used in route handlers as it relies on the
  * `cookies()` function from next/headers
  */
-export function createRouteSupabaseClient() {
+export async function createRouteSupabaseClient() {
   try {
     if (shouldUseMockClient()) {
       console.info(
@@ -106,7 +109,10 @@ export function createRouteSupabaseClient() {
       >;
     }
 
-    return supabaseCreateRouteHandlerClient<Database>({ cookies });
+    const cookieStore = cookies();
+    return supabaseCreateRouteHandlerClient<Database>({ 
+      cookies: () => cookieStore 
+    });
   } catch (error) {
     console.warn("⚠️ Supabase route handler creation error:", error);
 
