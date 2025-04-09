@@ -70,6 +70,9 @@ if __name__ == "__main__":
     host = "127.0.0.1"  # Default to localhost for security
     # Allow override via environment variable for containerized environments
     if os.environ.get("PRODUCTION") == "true":
-        host = "0.0.0.0"  # Only use in containerized environments
+        # SECURITY NOTE: Only use 0.0.0.0 in containerized environments with proper network isolation
+        # This allows the service to be accessible from outside the container, but requires
+        # additional security measures like firewalls and proper authentication
+        host = "0.0.0.0"  # Binds to all network interfaces
     
     uvicorn.run("app:app", host=host, port=8000, reload=True) 

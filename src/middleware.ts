@@ -11,7 +11,7 @@ const createMiddlewareClient = (options: {
   res: NextResponse;
 }) => {
   // Check if we're in CI environment
-  const isCI = process.env.CI_ENVIRONMENT === "true";
+  const _isCI = process.env.CI_ENVIRONMENT === "true";
 
   try {
     // Use the original client

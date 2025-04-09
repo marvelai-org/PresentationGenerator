@@ -55,7 +55,7 @@
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 8px solid currentColor;
+  border-left: 8px solid currentcolor;
 }
 
 .arrow-left::before {
@@ -68,7 +68,7 @@
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-right: 8px solid currentColor;
+  border-right: 8px solid currentcolor;
 }
 
 .arrow-bidirectional::before {
@@ -81,7 +81,7 @@
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-right: 8px solid currentColor;
+  border-right: 8px solid currentcolor;
 }
 
 .arrow-bidirectional::after {
@@ -94,7 +94,7 @@
   height: 0;
   border-top: 6px solid transparent;
   border-bottom: 6px solid transparent;
-  border-left: 8px solid currentColor;
+  border-left: 8px solid currentcolor;
 }
 
 /* Circle line */
@@ -107,7 +107,7 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background-color: currentColor;
+  background-color: currentcolor;
 }
 
 /* Arrow bar */

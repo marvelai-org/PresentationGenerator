@@ -25,7 +25,7 @@ export default function Component() {
   const [success, setSuccess] = React.useState<string | null>(null);
 
   // Destructure but don't use it directly, to avoid the unused variable warning
-  const auth = useAuth();
+  const _auth = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClientSupabaseClient();
