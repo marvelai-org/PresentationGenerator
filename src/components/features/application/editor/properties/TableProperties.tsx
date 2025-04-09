@@ -52,22 +52,22 @@ export default function TableProperties({
 
   // Handle number input changes
   const handleNumberInput = (
-    property: string,
+    property: keyof TableData["style"],
     value: string,
   ) => {
     const numValue = parseInt(value);
 
     if (!isNaN(numValue)) {
-      handleStyleChange(property as keyof TableData["style"], numValue);
+      handleStyleChange(property, numValue);
     }
   };
 
   // Handle color input changes
   const handleColorChange = (
-    property: string,
+    property: keyof TableData["style"],
     value: string,
   ) => {
-    handleStyleChange(property as keyof TableData["style"], value);
+    handleStyleChange(property, value);
   };
 
   // Toggle header, footer, and other boolean options
