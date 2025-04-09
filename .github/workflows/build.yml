@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint-test-build:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,9 +35,7 @@ jobs:
         run: |
           echo "Next.js build output structure:"
           ls -la .next/ || echo ".next directory not found"
-          echo "Checking for standalone output:"
-          ls -la .next/standalone/ || echo ".next/standalone/ directory not found"
-      
+          
       # Docker build only on main branch pushes
       - name: Set up Docker Buildx
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -51,4 +49,4 @@ jobs:
           push: false
           tags: vibing-prod:latest
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-to: type=gha,mode=max 
