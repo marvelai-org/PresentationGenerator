@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, Any
 import uvicorn
+import os
 
 app = FastAPI(
     title="Presentation Generator AI Service",
@@ -13,7 +14,7 @@ app = FastAPI(
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # For production, replace with actual frontend origin
+    allow_origins=["http://localhost:3000", "https://presentationgenerator.vercel.app"],  # Replace with actual frontend origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,4 +65,11 @@ async def predict(request: PredictionRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True) 
+    # Use 127.0.0.1 for local development for security
+    # In production, the host should be controlled by environment variables
+    host = "127.0.0.1"  # Default to localhost for security
+    # Allow override via environment variable for containerized environments
+    if os.environ.get("PRODUCTION") == "true":
+        host = "0.0.0.0"  # Only use in containerized environments
+    
+    uvicorn.run("app:app", host=host, port=8000, reload=True) 

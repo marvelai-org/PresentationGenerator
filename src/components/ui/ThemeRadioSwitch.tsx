@@ -55,7 +55,6 @@ const ThemeRadioSwitch = React.forwardRef<
   Omit<RadioGroupProps, "children">
 >(({ classNames = {}, ...props }, ref) => (
   <RadioGroup
-    ref={ref}
     aria-label="Select a theme"
     classNames={{
       ...classNames,
@@ -63,6 +62,7 @@ const ThemeRadioSwitch = React.forwardRef<
     }}
     defaultValue="dark"
     orientation="horizontal"
+    ref={ref}
     {...props}
   >
     <ThemeRadioItem icon="solar:moon-linear" value="dark" />

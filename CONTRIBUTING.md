@@ -4,7 +4,7 @@ First off, thank you for considering contributing to AI Presentation Generator! 
 
 This document will help guide you through the contribution process, especially if you're new to open source. Don't worry if this is your first time contributing - we've designed this guide to be beginner-friendly.
 
-## 📋 Table of Contents
+## 📋 Table of Contents:
 
 - [Code of Conduct](#-code-of-conduct)
 - [How Can I Contribute?](#-how-can-i-contribute)
@@ -16,11 +16,11 @@ This document will help guide you through the contribution process, especially i
 - [Git Workflow](#-git-workflow)
 - [Communication](#-communication)
 
-## 📜 Code of Conduct
+## 📜 Code of Conduct:
 
 By participating in this project, you agree to follow our [Code of Conduct](CODE_OF_CONDUCT.md). Please make sure to read it to understand what behavior is expected in our community.
 
-## 🚀 How Can I Contribute?
+## 🚀 How Can I Contribute?:
 
 There are many ways you can contribute to AI Presentation Generator:
 
@@ -33,7 +33,7 @@ There are many ways you can contribute to AI Presentation Generator:
 
 Every contribution, big or small, is valuable and appreciated!
 
-## 🌱 Your First Contribution
+## 🌱 Your First Contribution:
 
 New to open source? Don't worry! Here's how to make your first contribution:
 
@@ -48,11 +48,11 @@ Not sure where to start? Here are some options:
 - Write tests for existing features
 - Fix a simple bug
 
-## 💻 Setting Up Your Development Environment
+## 💻 Setting Up Your Development Environment:
 
 Let's get your development environment ready:
 
-### Prerequisites
+### Prerequisites:
 
 - [Node.js](https://nodejs.org/) (v18 or later)
 - [npm](https://www.npmjs.com/) (v8 or later)
@@ -60,7 +60,7 @@ Let's get your development environment ready:
 - [Python](https://www.python.org/) (v3.9 or later, for AI service)
 - Text editor (we recommend [VS Code](https://code.visualstudio.com/))
 
-### Step-by-Step Setup
+### Step-by-Step Setup:
 
 1. **Fork the Repository**
    
@@ -115,7 +115,7 @@ Let's get your development environment ready:
    
    The AI service should now be running at [http://localhost:8000](http://localhost:8000).
 
-## 🔄 Making Changes
+## 🔄 Making Changes:
 
 Here's how to make changes to the codebase:
 
@@ -162,7 +162,7 @@ Here's how to make changes to the codebase:
    
    Follow our commit message guidelines (see [Git Workflow](#-git-workflow)).
 
-## 📤 Pull Requests
+## 📤 Pull Requests:
 
 Ready to submit your changes? Here's how:
 
@@ -194,11 +194,11 @@ Ready to submit your changes? Here's how:
 
    Your PR will be reviewed by at least one maintainer or code owner. Changes may be requested before merging.
 
-## 📝 Coding Conventions
+## 📝 Coding Conventions:
 
 We follow specific coding conventions to keep our codebase consistent:
 
-### General Guidelines
+### General Guidelines:
 
 - Use meaningful variable and function names
 - Write comments for complex logic
@@ -206,9 +206,9 @@ We follow specific coding conventions to keep our codebase consistent:
 - Follow the principle of "one function, one responsibility"
 - Write tests for new features or bug fixes
 
-### Language-Specific Guidelines
+### Language-Specific Guidelines:
 
-#### JavaScript/TypeScript
+#### JavaScript/TypeScript:
 
 - Use ES6+ features
 - Include TypeScript types for all functions and variables
@@ -216,27 +216,27 @@ We follow specific coding conventions to keep our codebase consistent:
 - Format code with Prettier
 - Follow ESLint rules
 
-#### CSS/Styling
+#### CSS/Styling:
 
 - Use Tailwind CSS utility classes
 - For complex components, consider using component-specific CSS modules
 - Follow a mobile-first approach for responsive design
 
-#### React
+#### React:
 
 - Use functional components with hooks
 - Avoid large component files (aim for under 300 lines)
 - Split complex components into smaller sub-components
 - Use proper prop types/interfaces
 
-#### Python (AI Service)
+#### Python (AI Service):
 
 - Follow PEP 8 style guidelines
 - Use type hints
 - Document functions and classes with docstrings
 - Use `async/await` for FastAPI endpoints
 
-## 🌿 Git Workflow
+## 🌿 Git Workflow:
 
 We follow a simple Git workflow:
 
@@ -245,7 +245,7 @@ We follow a simple Git workflow:
 3. **Feature Branches**: Create a new branch for each feature or bugfix
 4. **Pull Requests**: Submit PRs to merge your changes into the development branch
 
-### Commit Message Guidelines
+### Commit Message Guidelines:
 
 Write clear, descriptive commit messages in the imperative present tense:
 
@@ -265,7 +265,7 @@ Types include:
 - `test`: Adding or modifying tests
 - `chore`: Changes to the build process or auxiliary tools
 
-### Branch Naming Conventions
+### Branch Naming Conventions:
 
 Use descriptive branch names with the following prefixes:
 
@@ -281,7 +281,7 @@ Examples:
 - `bugfix/image-upload-error`
 - `docs/api-documentation`
 
-## 💬 Communication
+## 💬 Communication:
 
 Have questions or need help? Here's how to get in touch:
 
@@ -291,7 +291,7 @@ Have questions or need help? Here's how to get in touch:
 
 We aim to respond to all communications within 2-3 business days.
 
-## 🎓 Learning Resources
+## 🎓 Learning Resources:
 
 New to some of the technologies we use? Here are some helpful resources:
 
@@ -304,4 +304,4 @@ New to some of the technologies we use? Here are some helpful resources:
 
 ---
 
-Thank you for contributing to AI Presentation Generator! Your efforts help make this project better for everyone. 💖 
+Thank you for contributing to AI Presentation Generator! Your efforts help make this project better for everyone. 💖
