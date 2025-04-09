@@ -63,48 +63,48 @@ Let's get your development environment ready:
 ### Step-by-Step Setup:
 
 1. **Fork the Repository**
-   
+
    Click the "Fork" button at the top right of the [repository page](https://github.com/marvelai-org/PresentationGenerator).
-   
+
    ![Fork button example](https://docs.github.com/assets/images/help/repository/fork_button.jpg)
 
 2. **Clone Your Fork**
-   
+
    ```bash
    git clone https://github.com/YOUR-USERNAME/PresentationGenerator.git
    cd PresentationGenerator
    ```
 
 3. **Add the Original Repository as a Remote**
-   
+
    ```bash
    git remote add upstream https://github.com/marvelai-org/PresentationGenerator.git
    ```
 
 4. **Install Dependencies**
-   
+
    ```bash
    npm ci
    ```
 
 5. **Set Up Environment Variables**
-   
+
    ```bash
    cp .env.example .env
    ```
-   
+
    Edit the `.env` file with your own values (see the README for more details).
 
 6. **Run the Development Server**
-   
+
    ```bash
    npm run dev
    ```
-   
+
    The application should now be running at [http://localhost:3000](http://localhost:3000).
 
 7. **Set up the AI Service** (if working on AI features)
-   
+
    ```bash
    cd ai-services
    python -m venv venv
@@ -112,7 +112,7 @@ Let's get your development environment ready:
    pip install -r requirements.txt
    python app.py
    ```
-   
+
    The AI service should now be running at [http://localhost:8000](http://localhost:8000).
 
 ## 🔄 Making Changes:
@@ -120,46 +120,46 @@ Let's get your development environment ready:
 Here's how to make changes to the codebase:
 
 1. **Create a Branch**
-   
+
    ```bash
    git checkout -b your-branch-name
    ```
-   
+
    Use a descriptive branch name following our conventions (see [Git Workflow](#-git-workflow)).
 
 2. **Make Your Changes**
-   
+
    Edit the code using your text editor.
 
 3. **Test Your Changes**
-   
+
    ```bash
    npm test
    ```
-   
+
    Also ensure the application still works as expected by running it locally.
 
 4. **Format Your Code**
-   
+
    ```bash
    npm run format
    ```
 
 5. **Run Linting**
-   
+
    ```bash
    npm run lint
    ```
-   
+
    Fix any linting errors that appear.
 
 6. **Commit Your Changes**
-   
+
    ```bash
    git add .
    git commit -m "Your descriptive commit message"
    ```
-   
+
    Follow our commit message guidelines (see [Git Workflow](#-git-workflow)).
 
 ## 📤 Pull Requests:
@@ -167,27 +167,27 @@ Here's how to make changes to the codebase:
 Ready to submit your changes? Here's how:
 
 1. **Push Your Branch**
-   
+
    ```bash
    git push origin your-branch-name
    ```
 
 2. **Create a Pull Request**
-   
+
    Go to your fork on GitHub and click "Compare & pull request" next to your branch.
-   
+
    ![Compare & pull request button](https://docs.github.com/assets/images/help/pull_requests/pull-request-start-review-button.png)
 
 3. **Fill Out the Pull Request Template**
-   
+
    Provide a clear description of what your changes do and why they should be included.
 
 4. **Submit the Pull Request**
-   
+
    Click "Create pull request".
 
 5. **Respond to Feedback**
-   
+
    Project maintainers may suggest changes. Be responsive and address any feedback.
 
 6. **Wait for Review**
@@ -257,6 +257,7 @@ test: add tests for user authentication
 ```
 
 Types include:
+
 - `feat`: A new feature
 - `fix`: A bug fix
 - `docs`: Documentation changes
@@ -277,6 +278,7 @@ Use descriptive branch names with the following prefixes:
 - `release/version-number` - For release branches
 
 Examples:
+
 - `feature/slide-transitions`
 - `bugfix/image-upload-error`
 - `docs/api-documentation`

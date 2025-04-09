@@ -11,6 +11,7 @@ This report summarizes the comprehensive refactoring and improvements made to th
 The presentation editor components were reorganized from their original location in `src/app/dashboard/create/editor/components/` to a more standardized directory at `src/components/editor/`. This follows industry best practices for component organization and improves maintainability.
 
 **Files Moved:**
+
 - TableComponent.tsx
 - TableProperties.tsx
 - TableSelector.tsx
@@ -29,6 +30,7 @@ The presentation editor components were reorganized from their original location
 Common interfaces and types were extracted into dedicated type definition files to ensure consistency across components and reduce code duplication.
 
 **Created Type Files:**
+
 - `src/types/editor/index.ts` - Contains shared interfaces for:
   - TableData, TableCell, TableOptions
   - EmbedData
@@ -37,6 +39,7 @@ Common interfaces and types were extracted into dedicated type definition files 
   - TemplateType
 
 **Benefits:**
+
 - Improved code consistency
 - Better type safety
 - Easier maintenance and updates
@@ -49,6 +52,7 @@ Common interfaces and types were extracted into dedicated type definition files 
 All public methods and components were annotated with comprehensive JSDoc comments detailing purpose, parameters, and return types.
 
 **Example from TableComponent.tsx:**
+
 ```typescript
 /**
  * TableComponent renders an interactive table with editable cells
@@ -59,10 +63,10 @@ const TableComponent = ({
   isEditing = false,
   onUpdateTable,
   onSelectTable,
-  selected = false
+  selected = false,
 }: TableComponentProps) => {
   // ...
-}
+};
 ```
 
 ### Inline Commentary
@@ -70,29 +74,34 @@ const TableComponent = ({
 Clear inline comments were added to complex functions explaining key logic and design decisions:
 
 **Example from TableComponent.tsx:**
+
 ```typescript
 /**
  * Navigate between cells with arrow keys
  * @param key - The arrow key pressed
  * @param currentCellId - The ID of the current cell
  */
-const navigateWithArrowKeys = useCallback((key: string, currentCellId: string) => {
-  // Parse cell coordinates from ID
-  const [rowStr, colStr] = currentCellId.split('-').slice(1);
-  const currentRow = parseInt(rowStr);
-  const currentCol = parseInt(colStr);
-  
-  // Determine next cell based on arrow key direction
-  let nextRow = currentRow;
-  let nextCol = currentCol;
-  
-  // ...implementation...
-}, [tableData.rows, tableData.columns, tableData.cells]);
+const navigateWithArrowKeys = useCallback(
+  (key: string, currentCellId: string) => {
+    // Parse cell coordinates from ID
+    const [rowStr, colStr] = currentCellId.split("-").slice(1);
+    const currentRow = parseInt(rowStr);
+    const currentCol = parseInt(colStr);
+
+    // Determine next cell based on arrow key direction
+    let nextRow = currentRow;
+    let nextCol = currentCol;
+
+    // ...implementation...
+  },
+  [tableData.rows, tableData.columns, tableData.cells],
+);
 ```
 
 ### Developer Guide
 
 Created a comprehensive markdown file (`docs/presentation-editor.md`) that:
+
 - Outlines the overall architecture
 - Explains component relationships and responsibilities
 - Provides usage examples for each module
@@ -107,6 +116,7 @@ Created a comprehensive markdown file (`docs/presentation-editor.md`) that:
 Added comprehensive test files for previously untested functionality:
 
 **New Test Files:**
+
 - `src/components/editor/__tests__/embed.test.tsx`
 - `src/components/editor/__tests__/shape.test.tsx`
 - `src/components/editor/__tests__/editor-integration.test.tsx`
@@ -116,6 +126,7 @@ Added comprehensive test files for previously untested functionality:
 The new tests cover:
 
 **Embed Tests:**
+
 - URL validation for different platforms
 - Embed creation workflow
 - Rendering of embedded content
@@ -123,12 +134,14 @@ The new tests cover:
 - End-to-end embed workflow
 
 **Shape Tests:**
+
 - Shape selection interface
 - Shape categorization
 - Shape property updates
 - Style and position manipulation
 
 **Integration Tests:**
+
 - Complete editor workflow
 - Slide navigation and management
 - Content addition and removal
@@ -142,6 +155,7 @@ The new tests cover:
 Large components were refactored for better maintainability:
 
 **Optimizations Applied:**
+
 - Used `React.memo()` for pure components (e.g., TableComponent)
 - Applied `useCallback` for event handlers and complex functions
 - Implemented proper dependency arrays in hooks
@@ -153,14 +167,20 @@ Added memoization for expensive operations:
 
 ```typescript
 // Memoize the cell className calculation
-const getCellClassName = useCallback((rowIndex: number, colIndex: number): string => {
-  // Implementation...
-}, [tableData]);
+const getCellClassName = useCallback(
+  (rowIndex: number, colIndex: number): string => {
+    // Implementation...
+  },
+  [tableData],
+);
 
 // Memoize cell content rendering
-const renderCellContent = useCallback((cellId: string) => {
-  // Implementation...
-}, [tableData.cells, editingCell, cellContent, saveCell]);
+const renderCellContent = useCallback(
+  (cellId: string) => {
+    // Implementation...
+  },
+  [tableData.cells, editingCell, cellContent, saveCell],
+);
 ```
 
 ## 5. Error Handling Standardization
@@ -170,12 +190,14 @@ const renderCellContent = useCallback((cellId: string) => {
 Created a reusable `ErrorBoundary` component (`src/components/editor/ErrorBoundary.tsx`) for gracefully catching and displaying errors.
 
 Key features:
+
 - Customizable fallback UI
 - Error logging
 - Reset functionality
 - Component isolation
 
 **Usage Example:**
+
 ```jsx
 <ErrorBoundary id="table-component">
   <TableComponent {...props} />
@@ -194,11 +216,11 @@ const saveCell = useCallback(() => {
       updatedData.cells = { ...updatedData.cells };
       updatedData.cells[editingCell] = {
         ...updatedData.cells[editingCell],
-        content: cellContent
+        content: cellContent,
       };
       onUpdateTable(updatedData);
     } catch (error) {
-      console.error('Error saving cell content:', error);
+      console.error("Error saving cell content:", error);
     } finally {
       setEditingCell(null);
     }
@@ -213,8 +235,8 @@ Added fallback UI for error states:
 ```jsx
 if (!cell) {
   return (
-    <td 
-      key={cellId} 
+    <td
+      key={cellId}
       id={cellId}
       className="border border-red-500 p-2 bg-red-100"
     >
@@ -238,4 +260,4 @@ The refactoring work has significantly improved the presentation editor codebase
 
 5. **Error Handling**: Standardized error handling improves user experience by preventing cascading failures.
 
-These improvements have resulted in a more maintainable, robust, and performant presentation editor that better adheres to our development guidelines. 
+These improvements have resulted in a more maintainable, robust, and performant presentation editor that better adheres to our development guidelines.

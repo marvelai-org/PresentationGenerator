@@ -21,7 +21,7 @@ Apply the following protection rules to the `main` branch:
   - **Require review from Code Owners**: Enabled
 - **Require status checks to pass before merging**: Enabled
   - **Require branches to be up to date before merging**: Enabled
-  - *Note: Once CI is set up, require relevant status checks*
+  - _Note: Once CI is set up, require relevant status checks_
 - **Require conversation resolution before merging**: Enabled
 - **Do not allow bypassing the above settings**: Enabled
 - **Restrict who can push to matching branches**: Enabled
@@ -66,4 +66,4 @@ Consider adding additional protection rules for:
 
 - Branch protection rules are applied in order of specificity. Rules for specific branch names have higher priority than pattern rules.
 - Review and update these protection rules periodically as the project evolves.
-- Make sure your CI system is configured to report status checks back to GitHub for use in these protection rules. 
+- Make sure your CI system is configured to report status checks back to GitHub for use in these protection rules.

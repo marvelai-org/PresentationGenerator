@@ -62,4 +62,4 @@ For significant changes that affect the project's architecture, please reference
 
 If you have questions or need help with your contribution, feel free to open an issue for discussion.
 
-Thank you for contributing to AI Presentation Generator! 
+Thank you for contributing to AI Presentation Generator!
