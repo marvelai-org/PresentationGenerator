@@ -3,8 +3,9 @@
 import React, { useEffect } from "react";
 import { Button, Input, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 import { useRouter, useSearchParams } from "next/navigation";
+
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function ResetPassword() {
   const [password, setPassword] = React.useState("");

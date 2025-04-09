@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+
 import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function TestDbPage() {
@@ -16,6 +17,7 @@ export default function TestDbPage() {
       try {
         // Get the client
         const supabase = createClientSupabaseClient();
+
         addStatus("✅ Successfully created Supabase client");
 
         // Reset data (mock client specific)

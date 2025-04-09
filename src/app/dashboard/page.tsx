@@ -171,9 +171,24 @@ export default function DashboardPage() {
                       viewType === "list" ? "flex flex-row" : "h-full"
                     }`}
                   >
-                    <div 
+                    <div
+                      aria-label={`View presentation: ${presentation.title}`}
                       className="cursor-pointer absolute inset-0 z-10"
-                      onClick={() => router.push(`/dashboard/presentation/${presentation.id}`)}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/presentation/${presentation.id}`,
+                        )
+                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          router.push(
+                            `/dashboard/presentation/${presentation.id}`,
+                          );
+                        }
+                      }}
                     />
                     <CardBody
                       className={`p-0 overflow-hidden ${viewType === "list" ? "w-36" : ""}`}
@@ -274,9 +289,18 @@ export default function DashboardPage() {
                     viewType === "list" ? "h-24" : "h-full aspect-auto"
                   }`}
                 >
-                  <div 
+                  <div
+                    aria-label="Create new presentation"
                     className="cursor-pointer absolute inset-0 z-10"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => router.push("/dashboard/create")}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        router.push("/dashboard/create");
+                      }
+                    }}
                   />
                   <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
                     <div className="rounded-full bg-primary/10 p-3">

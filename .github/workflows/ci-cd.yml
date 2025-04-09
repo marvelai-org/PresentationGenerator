@@ -39,7 +39,7 @@ jobs:
           echo "SUPABASE_SERVICE_ROLE_KEY=mock-service-role-key" >> .env
           echo "CI_ENVIRONMENT=true" >> .env
           echo "NEXT_TELEMETRY_DISABLED=1" >> .env
-          
+
           # Display environment file (without secrets) for debugging
           echo "Environment file created (showing non-secret entries):"
           grep -v "KEY" .env || echo "No non-secret entries found"

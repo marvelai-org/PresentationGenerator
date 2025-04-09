@@ -3,6 +3,7 @@ import {
   createServerComponentClient as supabaseCreateServerComponentClient,
   createRouteHandlerClient as supabaseCreateRouteHandlerClient,
 } from "@supabase/auth-helpers-nextjs";
+
 import { Database } from "@/types/supabase";
 
 // Basic mock client implementation for server-side
@@ -69,6 +70,7 @@ export function createServerSupabaseClient() {
           ? "🔶 Using mock server client in CI environment"
           : "⚠️ Missing Supabase credentials, using mock server client",
       );
+
       return createMockServerClient() as unknown as ReturnType<
         typeof supabaseCreateServerComponentClient<Database>
       >;
@@ -77,6 +79,7 @@ export function createServerSupabaseClient() {
     return supabaseCreateServerComponentClient<Database>({ cookies });
   } catch (error) {
     console.warn("⚠️ Supabase server client creation error:", error);
+
     return createMockServerClient() as unknown as ReturnType<
       typeof supabaseCreateServerComponentClient<Database>
     >;
@@ -97,6 +100,7 @@ export function createRouteSupabaseClient() {
           ? "🔶 Using mock route handler in CI environment"
           : "⚠️ Missing Supabase credentials, using mock route handler",
       );
+
       return createMockServerClient() as unknown as ReturnType<
         typeof supabaseCreateRouteHandlerClient<Database>
       >;
@@ -105,6 +109,7 @@ export function createRouteSupabaseClient() {
     return supabaseCreateRouteHandlerClient<Database>({ cookies });
   } catch (error) {
     console.warn("⚠️ Supabase route handler creation error:", error);
+
     return createMockServerClient() as unknown as ReturnType<
       typeof supabaseCreateRouteHandlerClient<Database>
     >;

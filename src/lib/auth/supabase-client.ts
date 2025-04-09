@@ -1,13 +1,14 @@
 import { createClientComponentClient as supabaseCreateClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { Database } from "@/types/supabase";
+
 import {
-  getMockData,
   getRecords,
   insertRecords,
   updateRecords,
   deleteRecords,
   resetMockData,
 } from "../storage/mock-storage";
+
+import { Database } from "@/types/supabase";
 
 /**
  * Comprehensive mock client implementation
@@ -47,36 +48,42 @@ const createMockClient = () => {
         logOperation("filter:eq", column, value);
         query.filters.push({ type: "eq", column, value });
         filteredData = filteredData.filter((item) => item[column] === value);
+
         return builder;
       },
       neq: (column: string, value: any) => {
         logOperation("filter:neq", column, value);
         query.filters.push({ type: "neq", column, value });
         filteredData = filteredData.filter((item) => item[column] !== value);
+
         return builder;
       },
       gt: (column: string, value: any) => {
         logOperation("filter:gt", column, value);
         query.filters.push({ type: "gt", column, value });
         filteredData = filteredData.filter((item) => item[column] > value);
+
         return builder;
       },
       gte: (column: string, value: any) => {
         logOperation("filter:gte", column, value);
         query.filters.push({ type: "gte", column, value });
         filteredData = filteredData.filter((item) => item[column] >= value);
+
         return builder;
       },
       lt: (column: string, value: any) => {
         logOperation("filter:lt", column, value);
         query.filters.push({ type: "lt", column, value });
         filteredData = filteredData.filter((item) => item[column] < value);
+
         return builder;
       },
       lte: (column: string, value: any) => {
         logOperation("filter:lte", column, value);
         query.filters.push({ type: "lte", column, value });
         filteredData = filteredData.filter((item) => item[column] <= value);
+
         return builder;
       },
       like: (column: string, pattern: string) => {
@@ -85,9 +92,11 @@ const createMockClient = () => {
         // Convert SQL LIKE pattern to JS regex
         const regexPattern = pattern.replace(/%/g, ".*").replace(/_/g, ".");
         const regex = new RegExp(`^${regexPattern}$`, "i");
+
         filteredData = filteredData.filter((item) =>
           regex.test(String(item[column])),
         );
+
         return builder;
       },
       ilike: (column: string, pattern: string) => {
@@ -102,6 +111,7 @@ const createMockClient = () => {
         } else {
           filteredData = filteredData.filter((item) => item[column] === value);
         }
+
         return builder;
       },
       in: (column: string, values: any[]) => {
@@ -110,12 +120,14 @@ const createMockClient = () => {
         filteredData = filteredData.filter((item) =>
           values.includes(item[column]),
         );
+
         return builder;
       },
 
       // Order operations
       order: (column: string, options: { ascending?: boolean } = {}) => {
         const ascending = options.ascending !== false;
+
         logOperation("order", column, ascending ? "asc" : "desc");
 
         // Create a sort function
@@ -131,6 +143,7 @@ const createMockClient = () => {
           // Normal comparison
           if (aVal < bVal) return ascending ? -1 : 1;
           if (aVal > bVal) return ascending ? 1 : -1;
+
           return 0;
         });
 
@@ -139,6 +152,7 @@ const createMockClient = () => {
           limit: (count: number) => {
             logOperation("limit", count);
             filteredData = filteredData.slice(0, count);
+
             return Promise.resolve({ data: filteredData, error: null });
           },
         };
@@ -148,6 +162,7 @@ const createMockClient = () => {
       range: (from: number, to: number) => {
         logOperation("range", from, to);
         filteredData = filteredData.slice(from, to + 1); // Inclusive range
+
         return builder;
       },
 
@@ -155,6 +170,7 @@ const createMockClient = () => {
       limit: (count: number) => {
         logOperation("limit", count);
         filteredData = filteredData.slice(0, count);
+
         return builder;
       },
 
@@ -162,6 +178,7 @@ const createMockClient = () => {
       single: () => {
         logOperation("single", query);
         const result = filteredData.length > 0 ? filteredData[0] : null;
+
         return Promise.resolve({ data: result, error: null });
       },
 
@@ -258,9 +275,11 @@ const createMockClient = () => {
 
             selectedData = selectedData.map((item) => {
               const result: any = {};
+
               columnList.forEach((col) => {
                 result[col] = item[col];
               });
+
               return result;
             });
           }
@@ -278,6 +297,7 @@ const createMockClient = () => {
 
           // Add select method to allow chaining
           const enhanced = promise as any;
+
           enhanced.select = () =>
             createFilterBuilder(
               table,
@@ -294,6 +314,7 @@ const createMockClient = () => {
           return {
             eq: (column: string, value: any) => {
               logOperation("update.eq", column, value);
+
               return Promise.resolve(
                 updateRecords(table, updates, column, value),
               );
@@ -333,6 +354,7 @@ const createMockClient = () => {
           return {
             eq: (column: string, value: any) => {
               logOperation("delete.eq", column, value);
+
               return Promise.resolve(deleteRecords(table, column, value));
             },
             match: (criteria: Record<string, any>) => {
@@ -355,6 +377,7 @@ const createMockClient = () => {
         // RPC function simulation
         rpc: (fn: string, params: any) => {
           logOperation("rpc", fn, params);
+
           return Promise.resolve({
             data: null,
             error: new Error("RPC functions not implemented in mock client"),
@@ -371,6 +394,7 @@ const createMockClient = () => {
         return {
           upload: async (path: string, file: any) => {
             logOperation("storage.upload", path, file?.name || "file");
+
             return {
               data: { path: `${bucket}/${path}` },
               error: null,
@@ -378,6 +402,7 @@ const createMockClient = () => {
           },
           download: async (path: string) => {
             logOperation("storage.download", path);
+
             return {
               data: null,
               error: new Error(
@@ -387,16 +412,19 @@ const createMockClient = () => {
           },
           getPublicUrl: (path: string) => {
             logOperation("storage.getPublicUrl", path);
+
             return {
               publicUrl: `https://mock-storage.example.com/${bucket}/${path}`,
             };
           },
           list: async (prefix?: string) => {
             logOperation("storage.list", prefix);
+
             return { data: [], error: null };
           },
           remove: async (paths: string | string[]) => {
             logOperation("storage.remove", paths);
+
             return {
               data: { count: Array.isArray(paths) ? paths.length : 1 },
               error: null,
@@ -426,6 +454,7 @@ const shouldUseMockClient = () => {
     if (isLocalhost) {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
       const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
       return !supabaseUrl || !supabaseKey;
     }
   }
@@ -456,6 +485,7 @@ export function createClientSupabaseClient() {
           window.location.hostname === "127.0.0.1")
       ) {
         const isMockDebug = process.env.NEXT_PUBLIC_MOCK_DEBUG === "true";
+
         if (isMockDebug) {
           console.log("👨‍💻 Using mock client in dev environment");
         }
@@ -476,6 +506,7 @@ export function createClientSupabaseClient() {
     return supabaseCreateClientComponentClient<Database>();
   } catch (error) {
     console.warn("⚠️ Supabase client creation error:", error);
+
     // Use unknown as an intermediate step in the type cast to avoid TypeScript errors
     return createMockClient() as unknown as ReturnType<
       typeof supabaseCreateClientComponentClient<Database>
@@ -488,5 +519,6 @@ export function createClientComponentClient(options?: any) {
   console.warn(
     "⚠️ createClientComponentClient is deprecated, please use createClientSupabaseClient instead",
   );
+
   return createClientSupabaseClient();
 }

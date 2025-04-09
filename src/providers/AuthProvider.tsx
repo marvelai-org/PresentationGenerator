@@ -8,8 +8,9 @@ import {
   useState,
   useEffect,
 } from "react";
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 import { useRouter } from "next/navigation";
+
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 interface AuthContextType {
   isAuthenticated: boolean;

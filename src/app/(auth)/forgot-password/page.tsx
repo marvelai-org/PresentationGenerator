@@ -3,6 +3,7 @@
 import React from "react";
 import { Button, Input, Link, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function ForgotPassword() {

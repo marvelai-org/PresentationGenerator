@@ -34,6 +34,7 @@ async function mockDatabaseDemo() {
   const { data: allPresentations } = await supabase
     .from("presentations")
     .select();
+
   console.log(`- Found ${allPresentations?.length || 0} presentations`);
 
   // Get a specific presentation
@@ -42,6 +43,7 @@ async function mockDatabaseDemo() {
     .select()
     .eq("id", "1")
     .single();
+
   console.log(`- Retrieved presentation: "${presentation?.title}"`);
 
   // Get presentations with filter and order
@@ -51,6 +53,7 @@ async function mockDatabaseDemo() {
     .eq("user_id", "mock-user-1")
     .order("created_at", { ascending: false })
     .limit(5);
+
   console.log(
     `- Retrieved ${userPresentations?.length || 0} presentations for user`,
   );
@@ -135,6 +138,7 @@ async function mockDatabaseDemo() {
   const { data: finalPresentations } = await supabase
     .from("presentations")
     .select();
+
   console.log(`- Final presentation count: ${finalPresentations?.length || 0}`);
 
   console.log("\n🏁 Mock Database Demo Complete");

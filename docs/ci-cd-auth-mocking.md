@@ -8,20 +8,22 @@ Our application uses Supabase for authentication and database operations, but we
 
 ### How it Works
 
-1. **Environment Detection**: 
+1. **Environment Detection**:
+
    - The application checks for the presence of a `CI_ENVIRONMENT` variable
    - When set to `true`, the application automatically uses mock implementations
 
 2. **Separate Client and Server Implementation**:
    We've implemented a clean separation between client and server Supabase clients:
-   
+
    - Client-side: `src/lib/auth/supabase-client.ts` - Safe for client components
    - Server-side: `src/lib/auth/supabase-server.ts` - For server components and API routes
    - Storage utilities: `src/lib/storage/mock-storage.ts` - For database operations
-   
+
    Each has both real and mock implementations that match the Supabase interface.
 
 3. **Next.js Configuration**:
+
    - The `next.config.js` file includes special handling for CI environments
    - It sets default environment variables if they're missing
    - It configures enhanced build caching through the custom cache handler
@@ -70,9 +72,9 @@ import { createServerSupabaseClient } from "@/lib/auth/supabase-server";
 
 export default async function MyServerComponent() {
   const supabase = createServerSupabaseClient();
-  
+
   // Use supabase here for auth and database operations
-  const { data } = await supabase.from('users').select();
+  const { data } = await supabase.from("users").select();
 }
 ```
 
@@ -87,16 +89,16 @@ import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function MyClientComponent() {
   const supabase = createClientSupabaseClient();
-  
+
   // Use supabase here for auth and database operations
   const fetchData = async () => {
-    const { data } = await supabase.from('presentations').select();
+    const { data } = await supabase.from("presentations").select();
     // Process data...
   };
 }
 ```
 
-### Route Handlers 
+### Route Handlers
 
 For API routes, use the `createRouteSupabaseClient` function:
 
@@ -106,9 +108,9 @@ import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 
 export async function GET() {
   const supabase = createRouteSupabaseClient();
-  
+
   // Use supabase here for auth and database operations
-  const { data } = await supabase.from('presentations').select();
+  const { data } = await supabase.from("presentations").select();
   return Response.json({ data });
 }
 ```
@@ -127,27 +129,27 @@ The mock database implementation provides:
 ```typescript
 // Query data
 const { data } = await supabase
-  .from('presentations')
+  .from("presentations")
   .select()
-  .eq('user_id', userId)
-  .order('created_at', { ascending: false });
+  .eq("user_id", userId)
+  .order("created_at", { ascending: false });
 
 // Insert data
 const { data, error } = await supabase
-  .from('presentations')
-  .insert({ title: 'New Presentation', user_id: userId });
+  .from("presentations")
+  .insert({ title: "New Presentation", user_id: userId });
 
 // Update data
 const { data, error } = await supabase
-  .from('presentations')
-  .update({ title: 'Updated Title' })
-  .eq('id', presentationId);
+  .from("presentations")
+  .update({ title: "Updated Title" })
+  .eq("id", presentationId);
 
 // Delete data
 const { error } = await supabase
-  .from('presentations')
+  .from("presentations")
   .delete()
-  .eq('id', presentationId);
+  .eq("id", presentationId);
 ```
 
 ### Debug Mode
@@ -174,11 +176,13 @@ If you need to extend the mock clients with additional functionality:
 ### Common Issues
 
 1. **Build failures related to server/client components**:
+
    - Ensure client components import from `supabase-client.ts`
    - Ensure server components import from `supabase-server.ts`
    - Never import `cookies` from "next/headers" in client components
 
 2. **Authentication errors during prerendering**:
+
    - Make sure static page generation has access to mock clients
    - Check for middleware or layout components that might be blocking access
 
@@ -192,16 +196,19 @@ If you need to extend the mock clients with additional functionality:
 Add temporary logging to see which client is being used:
 
 ```typescript
-console.log('Client type:', 
-  process.env.CI_ENVIRONMENT === 'true' ? '🔶 MOCK' : '✅ REAL',
-  'in', typeof window !== 'undefined' ? 'BROWSER' : 'SERVER');
+console.log(
+  "Client type:",
+  process.env.CI_ENVIRONMENT === "true" ? "🔶 MOCK" : "✅ REAL",
+  "in",
+  typeof window !== "undefined" ? "BROWSER" : "SERVER",
+);
 
 // Reset mock data if needed
-if (process.env.CI_ENVIRONMENT === 'true') {
+if (process.env.CI_ENVIRONMENT === "true") {
   (supabase as any).resetMockData();
 }
 ```
 
 ---
 
-For any questions about this strategy, please open an issue on GitHub. 
+For any questions about this strategy, please open an issue on GitHub.

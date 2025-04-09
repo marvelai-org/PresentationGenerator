@@ -50,6 +50,7 @@ export const createClient = () => {
           ? "Using mock client in CI environment"
           : "Missing Supabase credentials, using mock client",
       );
+
       return createMockClient() as unknown as ReturnType<
         typeof createBrowserClient<Database>
       >;

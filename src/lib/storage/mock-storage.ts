@@ -56,11 +56,13 @@ export function getMockData(): MockDatabase {
   if (typeof window !== "undefined") {
     try {
       const storedData = localStorage.getItem("supabase_mock_db");
+
       if (storedData) {
         return JSON.parse(storedData);
       } else {
         // Initialize with seed data if not exists
         localStorage.setItem("supabase_mock_db", JSON.stringify(initialData));
+
         return JSON.parse(JSON.stringify(initialData));
       }
     } catch (e) {
@@ -69,6 +71,7 @@ export function getMockData(): MockDatabase {
         "Failed to access localStorage, using in-memory storage:",
         e,
       );
+
       return memoryStorage;
     }
   } else {
@@ -178,6 +181,7 @@ export function insertRecords(
     };
   } catch (error) {
     console.error("Mock DB insertion error:", error);
+
     return { data: null, error };
   }
 }
@@ -216,9 +220,12 @@ export function updateRecords(
           ...updates,
           updated_at: now,
         };
+
         updatedRecords.push(updatedRecord);
+
         return updatedRecord;
       }
+
       return record;
     });
 
@@ -228,6 +235,7 @@ export function updateRecords(
     return { data: updatedRecords, error: null };
   } catch (error) {
     console.error("Mock DB update error:", error);
+
     return { data: null, error };
   }
 }
@@ -270,6 +278,7 @@ export function deleteRecords(
     };
   } catch (error) {
     console.error("Mock DB deletion error:", error);
+
     return { data: null, error };
   }
 }

@@ -12,6 +12,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 import { useAuth } from "@/providers/AuthProvider";
 

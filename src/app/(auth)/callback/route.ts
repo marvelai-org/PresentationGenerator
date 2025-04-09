@@ -1,7 +1,6 @@
-import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
-import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 import { rateLimiterByIP } from "@/lib/utils/rate-limiter";
 
 // Required for static export
