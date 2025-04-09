@@ -151,7 +151,10 @@ export default function ShapeProperties({
         <div className="space-y-4">
           {/* Fill Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="fillColor"
+            >
               Fill Color
             </label>
             <div className="flex flex-wrap gap-2 mb-2">
@@ -178,6 +181,7 @@ export default function ShapeProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="fillColor"
                 placeholder="#FFFFFF"
                 size="sm"
                 value={selectedShape.style?.backgroundColor || ""}
@@ -190,10 +194,10 @@ export default function ShapeProperties({
 
           {/* Border Style */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="borderStyle" className="block text-sm font-medium text-gray-300 mb-2">
               Border Style
             </label>
-            <div className="flex gap-2">
+            <div id="borderStyle" className="flex gap-2">
               <Button
                 className={
                   selectedShape.style?.borderStyle === "none"
@@ -283,7 +287,7 @@ export default function ShapeProperties({
           {selectedShape.style?.borderStyle &&
             selectedShape.style.borderStyle !== "none" && (
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="borderColor" className="block text-sm font-medium text-gray-300 mb-2">
                   Border Color
                 </label>
                 <div className="flex flex-wrap gap-2 mb-2">
@@ -305,6 +309,7 @@ export default function ShapeProperties({
                     }}
                   />
                   <Input
+                    id="borderColor"
                     className="flex-1"
                     classNames={{
                       input: "bg-gray-800 text-white",
@@ -325,10 +330,11 @@ export default function ShapeProperties({
           {selectedShape.style?.borderStyle &&
             selectedShape.style.borderStyle !== "none" && (
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="borderWidth" className="block text-sm font-medium text-gray-300 mb-2">
                   Border Width: {selectedShape.style?.borderWidth || 1}px
                 </label>
                 <Slider
+                  id="borderWidth"
                   className="max-w-md"
                   maxValue={10}
                   minValue={1}
@@ -344,10 +350,11 @@ export default function ShapeProperties({
 
           {/* Opacity */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="opacity" className="block text-sm font-medium text-gray-300 mb-2">
               Opacity: {Math.round((selectedShape.style?.opacity || 1) * 100)}%
             </label>
             <Slider
+              id="opacity"
               className="max-w-md"
               maxValue={1}
               minValue={0}
@@ -364,11 +371,12 @@ export default function ShapeProperties({
         <div className="space-y-4">
           {/* Width */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="width" className="block text-sm font-medium text-gray-300 mb-2">
               Width: {selectedShape.width || 100}px
             </label>
             <div className="flex items-center gap-2">
               <Slider
+                id="width"
                 className="max-w-md flex-1"
                 maxValue={500}
                 minValue={10}
@@ -634,25 +642,25 @@ export default function ShapeProperties({
 
           {/* Alignment */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label htmlFor="alignmentControls" className="block text-sm font-medium text-gray-300 mb-2">
               Alignment
             </label>
-            <div className="flex items-center gap-2">
-              <Button isIconOnly color="default" size="sm" variant="flat">
+            <div id="alignmentControls" className="flex items-center gap-2">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align left">
                 <Icon
                   icon="material-symbols:align-horizontal-left"
                   width={16}
                 />
               </Button>
 
-              <Button isIconOnly color="default" size="sm" variant="flat">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align center horizontally">
                 <Icon
                   icon="material-symbols:align-horizontal-center"
                   width={16}
                 />
               </Button>
 
-              <Button isIconOnly color="default" size="sm" variant="flat">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align right">
                 <Icon
                   icon="material-symbols:align-horizontal-right"
                   width={16}
@@ -661,18 +669,18 @@ export default function ShapeProperties({
 
               <div className="h-6 w-px bg-gray-700 mx-1" />
 
-              <Button isIconOnly color="default" size="sm" variant="flat">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align top">
                 <Icon icon="material-symbols:align-vertical-top" width={16} />
               </Button>
 
-              <Button isIconOnly color="default" size="sm" variant="flat">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align center vertically">
                 <Icon
                   icon="material-symbols:align-vertical-center"
                   width={16}
                 />
               </Button>
 
-              <Button isIconOnly color="default" size="sm" variant="flat">
+              <Button isIconOnly color="default" size="sm" variant="flat" aria-label="Align bottom">
                 <Icon
                   icon="material-symbols:align-vertical-bottom"
                   width={16}

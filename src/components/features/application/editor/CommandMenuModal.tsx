@@ -111,13 +111,13 @@ interface CommandMenuTab {
 interface CommandMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title?: string;
+  _title?: string;
   searchPlaceholder?: string;
   onSearch?: (query: string) => void;
   tabs?: CommandMenuTab[];
   children?: ReactNode;
   showSearch?: boolean;
-  closeOnSelect?: boolean;
+  _closeOnSelect?: boolean;
   modalSize?:
     | "sm"
     | "md"
@@ -133,19 +133,19 @@ interface CommandMenuModalProps {
 export default function CommandMenuModal({
   isOpen,
   onClose,
-  title = "Command Menu",
+  _title = "Command Menu",
   searchPlaceholder = "Search...",
   onSearch,
   tabs,
   children,
   showSearch = true,
-  closeOnSelect = true,
+  _closeOnSelect = true,
   modalSize = "2xl",
 }: CommandMenuModalProps) {
   const [query, setQuery] = useState("");
   const [activeTab, setActiveTab] = useState<string>(tabs?.[0]?.key || "");
   const slots = cmdkModal();
-  const eventRef = useRef<"mouse" | "keyboard">();
+  const _eventRef = useRef<"mouse" | "keyboard">();
 
   const handleSearch = useCallback(
     (value: string) => {
@@ -278,7 +278,7 @@ interface CommandMenuItemProps {
   isActive?: boolean;
   onSelect: () => void;
   onHover?: () => void;
-  index?: number;
+  _index?: number;
 }
 
 export function CommandMenuItem({
@@ -288,7 +288,7 @@ export function CommandMenuItem({
   isActive = false,
   onSelect,
   onHover,
-  index,
+  _index,
 }: CommandMenuItemProps) {
   const slots = cmdkModal();
 

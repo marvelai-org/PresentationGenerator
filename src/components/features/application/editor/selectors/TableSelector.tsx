@@ -190,6 +190,14 @@ export default function TableSelector({
               ${selectedTemplate === template.id ? "border-primary" : "border-transparent hover:border-default-300"}
             `}
             onClick={() => handleTemplateSelect(template.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                handleTemplateSelect(template.id);
+              }
+            }}
+            aria-label={`Select ${template.name} table template`}
           >
             <div className="bg-content2 h-28 rounded-md flex items-center justify-center mb-3">
               {/* Template preview - would be an image in production */}
@@ -247,6 +255,14 @@ export default function TableSelector({
                       onMouseEnter={() =>
                         handleTableSizeHover(rowIndex, colIndex)
                       }
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          handleTableSizeHover(rowIndex, colIndex);
+                        }
+                      }}
+                      aria-label={`Select table size ${rowIndex + 1}x${colIndex + 1}`}
                     />
                   ))}
                 </div>
@@ -258,10 +274,11 @@ export default function TableSelector({
           </div>
           <div className="flex-1">
             <div className="mb-4">
-              <label className="text-default-600 text-sm block mb-1">
+              <label className="text-default-600 text-sm block mb-1" htmlFor="tableRows">
                 Rows
               </label>
               <Input
+                id="tableRows"
                 classNames={{
                   input: "bg-content1 text-default-900",
                   inputWrapper: "bg-content1 data-[hover=true]:bg-content2",
@@ -274,10 +291,11 @@ export default function TableSelector({
               />
             </div>
             <div>
-              <label className="text-default-600 text-sm block mb-1">
+              <label className="text-default-600 text-sm block mb-1" htmlFor="tableColumns">
                 Columns
               </label>
               <Input
+                id="tableColumns"
                 classNames={{
                   input: "bg-content1 text-default-900",
                   inputWrapper: "bg-content1 data-[hover=true]:bg-content2",
@@ -359,8 +377,9 @@ export default function TableSelector({
         <h3 className="text-default-900 font-medium mb-3">Border</h3>
         <div className="flex gap-8">
           <div className="flex-1">
-            <label className="text-default-600 text-sm block mb-1">Style</label>
+            <label className="text-default-600 text-sm block mb-1" htmlFor="borderStyle">Style</label>
             <select
+              id="borderStyle"
               className="w-full rounded-md bg-content1 border border-default-300 p-2 text-default-900"
               value={customTableOptions.borderStyle}
               onChange={(e) =>
@@ -374,8 +393,9 @@ export default function TableSelector({
             </select>
           </div>
           <div className="flex-1">
-            <label className="text-default-600 text-sm block mb-1">Width</label>
+            <label className="text-default-600 text-sm block mb-1" htmlFor="borderWidth">Width</label>
             <Input
+              id="borderWidth"
               classNames={{
                 input: "bg-content1 text-default-900",
                 inputWrapper: "bg-content1 data-[hover=true]:bg-content2",
@@ -550,7 +570,7 @@ export default function TableSelector({
       modalSize="3xl"
       searchPlaceholder="Search table templates..."
       tabs={tabs}
-      title="Insert Table"
+      _title="Insert Table"
       onClose={onClose}
       onSearch={setSearchTerm}
     />
