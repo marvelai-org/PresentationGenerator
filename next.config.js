@@ -22,9 +22,6 @@ const nextConfig = {
   // Enable more efficient build caching
   experimental: {
     optimizeCss: true,
-    turbotrace: {
-      logLevel: 'error'
-    }
   }
 };
 
@@ -42,9 +39,6 @@ if (process.env.CI_ENVIRONMENT === 'true') {
     // For CI environments, we want fast builds without too much analysis
     staticWorkerRequestDeduping: true,
   };
-  
-  // Use the correct property name for cache handler
-  nextConfig.cacheHandler = require.resolve('./src/lib/build/ci-cache-handler.js');
 }
 
 module.exports = nextConfig;

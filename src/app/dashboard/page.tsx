@@ -167,14 +167,14 @@ export default function DashboardPage() {
                 {recentPresentations.map((presentation) => (
                   <Card
                     key={presentation.id}
-                    isPressable
                     className={`bg-content1/50 group relative ${
                       viewType === "list" ? "flex flex-row" : "h-full"
                     }`}
-                    onPress={() =>
-                      router.push(`/dashboard/presentation/${presentation.id}`)
-                    }
                   >
+                    <div 
+                      className="cursor-pointer absolute inset-0 z-10"
+                      onClick={() => router.push(`/dashboard/presentation/${presentation.id}`)}
+                    />
                     <CardBody
                       className={`p-0 overflow-hidden ${viewType === "list" ? "w-36" : ""}`}
                     >
@@ -191,7 +191,7 @@ export default function DashboardPage() {
 
                           {/* Overlay with quick actions on hover */}
                           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <div className="flex gap-2 mt-auto mb-4">
+                            <div className="flex gap-2 mt-auto mb-4 relative z-20">
                               <Tooltip content="Edit">
                                 <Button
                                   isIconOnly
@@ -270,12 +270,14 @@ export default function DashboardPage() {
 
                 {/* Create New Card */}
                 <Card
-                  isPressable
                   className={`border-2 border-dashed border-default-200 flex items-center justify-center hover:border-primary hover:bg-primary/5 transition-all ${
                     viewType === "list" ? "h-24" : "h-full aspect-auto"
                   }`}
-                  onPress={() => router.push("/dashboard/create")}
                 >
+                  <div 
+                    className="cursor-pointer absolute inset-0 z-10"
+                    onClick={() => router.push("/dashboard/create")}
+                  />
                   <CardBody className="flex flex-col items-center justify-center gap-2 p-6">
                     <div className="rounded-full bg-primary/10 p-3">
                       <Icon
