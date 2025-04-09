@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { 
-  createServerComponentClient,
-  createRouteHandlerClient
+  createServerComponentClient as supabaseCreateServerComponentClient,
+  createRouteHandlerClient as supabaseCreateRouteHandlerClient
 } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
 
@@ -65,13 +65,13 @@ export function createServerSupabaseClient() {
       console.info(process.env.CI_ENVIRONMENT === 'true'
         ? '🔶 Using mock server client in CI environment'
         : '⚠️ Missing Supabase credentials, using mock server client');
-      return createMockServerClient() as ReturnType<typeof createServerComponentClient<Database>>;
+      return createMockServerClient() as ReturnType<typeof supabaseCreateServerComponentClient<Database>>;
     }
     
-    return createServerComponentClient<Database>({ cookies });
+    return supabaseCreateServerComponentClient<Database>({ cookies });
   } catch (error) {
     console.warn('⚠️ Supabase server client creation error:', error);
-    return createMockServerClient() as ReturnType<typeof createServerComponentClient<Database>>;
+    return createMockServerClient() as ReturnType<typeof supabaseCreateServerComponentClient<Database>>;
   }
 }
 
@@ -87,12 +87,12 @@ export function createRouteSupabaseClient() {
       console.info(process.env.CI_ENVIRONMENT === 'true'
         ? '🔶 Using mock route handler in CI environment'
         : '⚠️ Missing Supabase credentials, using mock route handler');
-      return createMockServerClient() as ReturnType<typeof createRouteHandlerClient<Database>>;
+      return createMockServerClient() as ReturnType<typeof supabaseCreateRouteHandlerClient<Database>>;
     }
     
-    return createRouteHandlerClient<Database>({ cookies });
+    return supabaseCreateRouteHandlerClient<Database>({ cookies });
   } catch (error) {
     console.warn('⚠️ Supabase route handler creation error:', error);
-    return createMockServerClient() as ReturnType<typeof createRouteHandlerClient<Database>>;
+    return createMockServerClient() as ReturnType<typeof supabaseCreateRouteHandlerClient<Database>>;
   }
 } 
