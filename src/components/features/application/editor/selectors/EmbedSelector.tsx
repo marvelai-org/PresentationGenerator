@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button, Input, Card } from "@heroui/react";
+import Image from "next/image";
 
 import CommandMenuModal from "../CommandMenuModal";
 
@@ -276,10 +277,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -290,9 +294,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -342,10 +346,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -356,9 +363,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -407,10 +414,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -421,9 +431,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -472,10 +482,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -486,9 +499,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -537,10 +550,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -551,9 +567,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -602,10 +618,13 @@ export default function EmbedSelector({
             <Card className="bg-content2">
               <div className="p-4">
                 <div className="aspect-video bg-black mb-3 flex items-center justify-center overflow-hidden rounded-lg">
-                  <img
+                  <Image
                     alt={embedPreview.title}
                     className="w-full h-auto"
+                    height={360}
                     src={embedPreview.thumbnailUrl}
+                    unoptimized={embedPreview.thumbnailUrl.startsWith("/")}
+                    width={640}
                   />
                 </div>
                 <h4 className="text-default-900 font-medium">
@@ -616,9 +635,9 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button 
+                  <Button
                     aria-label="Add embed to presentation"
-                    color="primary" 
+                    color="primary"
                     onPress={handleAddEmbed}
                   >
                     Add to Presentation
@@ -673,12 +692,12 @@ export default function EmbedSelector({
 
   return (
     <CommandMenuModal
+      _title="Embed Content"
       isOpen={isOpen}
       modalSize="3xl"
       searchPlaceholder="Search embeds..."
       showSearch={false}
       tabs={tabs}
-      _title="Embed Content"
       onClose={onClose}
       onSearch={setSearchTerm}
     />
