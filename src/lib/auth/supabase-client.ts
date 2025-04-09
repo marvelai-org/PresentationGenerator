@@ -515,7 +515,7 @@ export function createClientSupabaseClient() {
 }
 
 // For backward compatibility - will be deprecated
-export function createClientComponentClient(options?: any) {
+export function createClientComponentClient(_options?: any) {
   console.warn(
     "⚠️ createClientComponentClient is deprecated, please use createClientSupabaseClient instead",
   );

@@ -24,7 +24,7 @@ export default function TestDbPage() {
         try {
           (supabase as any).resetMockData?.();
           addStatus("✅ Reset mock database to initial state");
-        } catch (e) {
+        } catch (_e) {
           addStatus("⚠️ Not using mock client, resetMockData not available");
         }
 
@@ -40,7 +40,7 @@ export default function TestDbPage() {
         addStatus(`✅ Found ${presentations?.length || 0} presentations`);
 
         // Test insert functionality
-        const { data: newPresentation, error: insertError } = await supabase
+        const { data: _newPresentation, error: insertError } = await supabase
           .from("presentations")
           .insert({
             title: "Test Presentation",
@@ -68,10 +68,11 @@ export default function TestDbPage() {
         );
 
         // Test update functionality
-        const { data: updatedPresentation, error: updateError } = await supabase
-          .from("presentations")
-          .update({ title: "Updated Title" })
-          .eq("id", presentationId);
+        const { data: _updatedPresentation, error: updateError } =
+          await supabase
+            .from("presentations")
+            .update({ title: "Updated Title" })
+            .eq("id", presentationId);
 
         if (updateError) {
           throw new Error(`Update failed: ${updateError.message}`);

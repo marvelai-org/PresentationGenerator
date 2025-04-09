@@ -171,11 +171,9 @@ export default function DashboardPage() {
                       viewType === "list" ? "flex flex-row" : "h-full"
                     }`}
                   >
-                    <div
+                    <button
                       aria-label={`View presentation: ${presentation.title}`}
-                      className="cursor-pointer absolute inset-0 z-10"
-                      role="button"
-                      tabIndex={0}
+                      className="cursor-pointer absolute inset-0 z-10 border-0 bg-transparent appearance-none"
                       onClick={() =>
                         router.push(
                           `/dashboard/presentation/${presentation.id}`,
@@ -289,11 +287,9 @@ export default function DashboardPage() {
                     viewType === "list" ? "h-24" : "h-full aspect-auto"
                   }`}
                 >
-                  <div
+                  <button
                     aria-label="Create new presentation"
-                    className="cursor-pointer absolute inset-0 z-10"
-                    role="button"
-                    tabIndex={0}
+                    className="cursor-pointer absolute inset-0 z-10 border-0 bg-transparent appearance-none"
                     onClick={() => router.push("/dashboard/create")}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {

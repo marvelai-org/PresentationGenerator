@@ -34,9 +34,9 @@ export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
   // Check for CI environment
-  const isCI = process.env.CI_ENVIRONMENT === "true";
+  const _isCI = process.env.CI_ENVIRONMENT === "true";
 
-  if (isCI) {
+  if (_isCI) {
     console.info(
       "CI environment detected in middleware, bypassing authentication",
     );
