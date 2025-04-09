@@ -50,47 +50,74 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
-      - name: Verify artifacts exist
+        
+      # Debug Next.js output structure
+      - name: Debug build output
         run: |
-          # Check if all required paths exist before uploading
-          missing_paths=()
+          echo "Current directory structure:"
+          ls -la
+          echo "Next.js build output structure:"
+          ls -la .next/ || echo ".next directory not found"
+          echo "Checking for standalone output:"
+          ls -la .next/standalone/ || echo ".next/standalone/ directory not found"
+          echo "next.config.js content:"
+          cat next.config.js
           
-          if [ ! -d ".next" ]; then
-            missing_paths+=(".next")
-          fi
+      # Verify paths exist before upload
+      - name: Verify artifact paths
+        run: |
+          mkdir -p artifact-bundle
           
-          if [ ! -d "public" ]; then
-            missing_paths+=("public")
-          fi
-          
-          if [ ! -f "package.json" ]; then
-            missing_paths+=("package.json")
-          fi
-          
-          if [ ! -f "package-lock.json" ]; then
-            missing_paths+=("package-lock.json")
-          fi
-          
-          if [ ! -f "next.config.js" ]; then
-            missing_paths+=("next.config.js")
-          fi
-          
-          if [ ${#missing_paths[@]} -ne 0 ]; then
-            echo "Error: The following required paths are missing: ${missing_paths[*]}"
+          # Copy files to a staging directory with verification
+          if [ -d ".next" ]; then
+            echo ".next directory found, copying..."
+            cp -r .next artifact-bundle/
+          else
+            echo "ERROR: .next directory not found"
             exit 1
           fi
           
-          echo "All required paths exist, proceeding with artifact upload."
+          if [ -d "public" ]; then
+            echo "public directory found, copying..."
+            cp -r public artifact-bundle/
+          else
+            echo "ERROR: public directory not found"
+            exit 1
+          fi
+          
+          if [ -f "package.json" ]; then
+            echo "package.json found, copying..."
+            cp package.json artifact-bundle/
+          else
+            echo "ERROR: package.json not found"
+            exit 1
+          fi
+          
+          if [ -f "package-lock.json" ]; then
+            echo "package-lock.json found, copying..."
+            cp package-lock.json artifact-bundle/
+          else
+            echo "ERROR: package-lock.json not found"
+            exit 1
+          fi
+          
+          if [ -f "next.config.js" ]; then
+            echo "next.config.js found, copying..."
+            cp next.config.js artifact-bundle/
+          else
+            echo "ERROR: next.config.js not found"
+            exit 1
+          fi
+          
+          echo "All files verified and copied to artifact-bundle directory"
+          ls -la artifact-bundle/
+          
+      # Upload with a simpler path configuration
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-files
-          path: |
-            .next/
-            public/
-            package.json
-            package-lock.json
-            next.config.js
+          path: artifact-bundle
 
   docker:
     runs-on: ubuntu-latest
@@ -98,19 +125,20 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Download build artifacts
         uses: actions/download-artifact@v3
         with:
           name: build-files
-          path: .
-      - name: Check downloaded artifacts
+          path: ./
+          
+      # Debug downloaded artifacts
+      - name: Verify downloaded artifacts
         run: |
-          echo "Current directory structure:"
+          echo "Downloaded artifacts structure:"
           ls -la
-          echo "Next.js build directory structure:"
+          echo "Next.js build directory:"
           ls -la .next/ || echo ".next directory not found"
+          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
       - name: Build Docker image
