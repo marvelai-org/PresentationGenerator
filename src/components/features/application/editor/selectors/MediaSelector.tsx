@@ -329,11 +329,11 @@ export default function MediaSelector({
 
   return (
     <CommandMenuModal
+      _title="Media Library"
       isOpen={isOpen}
       modalSize="4xl"
       searchPlaceholder="Search for images, icons, or stickers..."
       tabs={tabs}
-      _title="Media Library"
       onClose={onClose}
       onSearch={handleSearch}
     />

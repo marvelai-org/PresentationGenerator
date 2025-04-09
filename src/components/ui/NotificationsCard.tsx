@@ -146,6 +146,7 @@ export default function Component(props: CardProps) {
             Mark all as read
           </Button>
         </div>
+
         <Tabs
           aria-label="Notifications"
           classNames={{
@@ -187,6 +188,7 @@ export default function Component(props: CardProps) {
           <Tab key="archive" title="Archive" />
         </Tabs>
       </CardHeader>
+
       <CardBody className="w-full gap-0 p-0">
         <ScrollShadow className="h-[500px] w-full">
           {activeNotifications?.length > 0 ? (
@@ -207,6 +209,7 @@ export default function Component(props: CardProps) {
           )}
         </ScrollShadow>
       </CardBody>
+
       <CardFooter className="justify-end gap-2 px-4">
         <Button
           variant={activeTab === NotificationTabs.Archive ? "flat" : "light"}

@@ -61,14 +61,14 @@ export default function EmbedProperties({
   // Handler for aspect ratio lock changes
   const handleAspectRatioLockChange = (shouldMaintain: boolean) => {
     setMaintainAspectRatio(shouldMaintain);
-    
+
     if (shouldMaintain && selectedEmbed && aspectRatio) {
       // If turning on aspect ratio maintenance, adjust the height
       const [aspectWidth, aspectHeight] = aspectRatio.split(":").map(Number);
       const newHeight = Math.round((width * aspectHeight) / aspectWidth);
-      
+
       setHeight(newHeight);
-      
+
       if (selectedEmbed) {
         applyChanges({
           height: newHeight,

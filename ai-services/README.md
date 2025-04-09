@@ -11,6 +11,7 @@ This is the AI service component of the Presentation Generator application. It p
 ## Setup and Installation
 
 1. Create a virtual environment (recommended):
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
@@ -24,6 +25,7 @@ This is the AI service component of the Presentation Generator application. It p
 ## Running the Service
 
 Start the service with:
+
 ```bash
 python app.py
 ```
@@ -31,6 +33,7 @@ python app.py
 This will start the service at `http://localhost:8000`.
 
 For development with automatic reloading:
+
 ```bash
 uvicorn app:app --reload
 ```
@@ -38,9 +41,11 @@ uvicorn app:app --reload
 ## API Endpoints
 
 ### Health Check
+
 - `GET /` - Returns a simple status message to confirm the service is running
 
 ### Prediction
+
 - `POST /predict` - Generates presentation content based on a prompt
   - Request body:
     ```json
@@ -79,6 +84,7 @@ Place your model files and scripts in the `models/` directory. Update `app.py` t
 ## Environment Variables
 
 Create a `.env` file in the ai-services directory with the following variables:
+
 ```
 # AI API Keys
 OPENAI_API_KEY=your_openai_api_key
@@ -95,4 +101,4 @@ DEBUG=True
 - Implement model versioning
 - Add caching for repeated requests
 - Implement logging and monitoring
-- Create Docker support for easier deployment 
+- Create Docker support for easier deployment

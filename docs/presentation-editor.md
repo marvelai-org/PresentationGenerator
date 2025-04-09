@@ -60,13 +60,15 @@ The Table module allows users to create, edit, and style tables within slides.
 #### Components:
 
 1. **TableSelector**
+
    - Purpose: Creates new tables with customizable options
-   - Features: 
+   - Features:
      - Template selection
      - Custom table dimensions
      - Header/footer configuration
 
 2. **TableComponent**
+
    - Purpose: Renders and enables interaction with tables
    - Features:
      - Cell editing
@@ -113,6 +115,7 @@ The Embed module enables users to embed external content, such as videos, music,
 #### Components:
 
 1. **EmbedSelector**
+
    - Purpose: Interface for selecting and configuring embedded content
    - Features:
      - URL validation
@@ -120,6 +123,7 @@ The Embed module enables users to embed external content, such as videos, music,
      - Preview generation
 
 2. **EmbedComponent**
+
    - Purpose: Renders embedded content
    - Features:
      - Responsive sizing
@@ -240,6 +244,7 @@ Test files are located alongside their respective components in `__tests__` dire
 ### Common Issues
 
 1. **Table editing not working**:
+
    - Check that the table is selected
    - Verify that cell IDs follow the expected format
 
@@ -254,4 +259,4 @@ Set `localStorage.debug = 'editor:*'` in the browser console to enable debug log
 
 ---
 
-For additional assistance, please contact the development team. 
+For additional assistance, please contact the development team.

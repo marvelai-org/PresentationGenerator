@@ -3,7 +3,8 @@
 import React from "react";
 import { Button, Input, Link, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function ForgotPassword() {
   const [email, setEmail] = React.useState("");
@@ -11,7 +12,7 @@ export default function ForgotPassword() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState(false);
 
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

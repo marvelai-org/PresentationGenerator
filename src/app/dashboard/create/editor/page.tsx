@@ -1518,8 +1518,8 @@ export default function PresentationEditorPage() {
 
           <div className="w-full max-w-5xl aspect-[16/9] rounded-lg overflow-hidden shadow-2xl">
             <EditableSlide
-              slide={_currentSlide}
               _onAddContent={() => handleAddContent(_currentSlide.id)}
+              slide={_currentSlide}
               onEmbedSelect={handleEmbedSelectionChange}
               onRemoveContent={(contentId: string) =>
                 handleRemoveContent(_currentSlide.id, contentId)
