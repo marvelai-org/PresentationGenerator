@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { Button, Input, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@/lib/auth/supabase-client";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ResetPassword() {

@@ -8,7 +8,7 @@ import {
   useState,
   useEffect,
 } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@/lib/auth/supabase-client";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {

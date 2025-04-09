@@ -3,7 +3,7 @@
 import React from "react";
 import { Button, Input, Link, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@/lib/auth/supabase-client";
 
 export default function ForgotPassword() {
   const [email, setEmail] = React.useState("");

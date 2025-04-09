@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClientComponentClient } from "@/lib/auth/supabase-client";
 
 export default function Component() {
   const [username, setUsername] = React.useState("");

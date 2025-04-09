@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
+import { createRouteHandlerClient } from "@/lib/auth/supabase-client";
 import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
