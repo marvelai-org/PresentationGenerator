@@ -13,7 +13,7 @@ import {
 import { Icon } from "@iconify/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function Component() {
   const [email, setEmail] = React.useState("");

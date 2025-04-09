@@ -41,8 +41,10 @@ if (process.env.CI_ENVIRONMENT === 'true') {
     ...nextConfig.experimental,
     // For CI environments, we want fast builds without too much analysis
     staticWorkerRequestDeduping: true,
-    incrementalCacheHandlerPath: require.resolve('./src/lib/build/ci-cache-handler.js'),
   };
+  
+  // Use the correct property name for cache handler
+  nextConfig.cacheHandler = require.resolve('./src/lib/build/ci-cache-handler.js');
 }
 
 module.exports = nextConfig;
