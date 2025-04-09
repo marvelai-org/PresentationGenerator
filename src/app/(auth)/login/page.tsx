@@ -12,7 +12,8 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClientComponentClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Component() {
   const [email, setEmail] = React.useState("");
@@ -22,9 +23,10 @@ export default function Component() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<string | null>(null);
 
+  const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
 
   // Check for message query parameter
   React.useEffect(() => {

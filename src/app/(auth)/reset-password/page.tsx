@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { Button, Input, Form, Alert } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { createClientComponentClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function ResetPassword() {
@@ -17,7 +17,7 @@ export default function ResetPassword() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
 
   // Check if we have the necessary parameters from the reset email
   useEffect(() => {

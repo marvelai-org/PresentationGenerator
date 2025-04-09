@@ -1,10 +1,14 @@
 import { cookies } from 'next/headers';
 import { 
-  createServerComponentClient as originalCreateServerComponentClient
+  createServerComponentClient,
+  createRouteHandlerClient
 } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
 
+// Basic mock client implementation for server-side
 const createMockServerClient = () => {
+  console.warn('Using mock Supabase server client - some functionality will be limited');
+  
   return {
     auth: {
       getUser: async () => ({ 
@@ -15,10 +19,18 @@ const createMockServerClient = () => {
         data: { session: null }, 
         error: null 
       }),
+      signInWithPassword: async () => ({
+        data: null,
+        error: { message: "Mock server client" }
+      }),
+      signOut: async () => ({ error: null }),
     },
     from: () => ({
       select: () => ({
         eq: () => Promise.resolve({ data: [], error: null }),
+        order: () => ({
+          limit: () => Promise.resolve({ data: [], error: null }),
+        }),
         single: () => Promise.resolve({ data: null, error: null }),
       }),
       insert: () => Promise.resolve({ data: null, error: null }),
@@ -32,24 +44,55 @@ const createMockServerClient = () => {
   };
 };
 
-export function createServerComponentClient() {
+// Check if we should use mock client
+const shouldUseMockClient = () => {
+  const isCI = process.env.CI_ENVIRONMENT === 'true';
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  return isCI || !supabaseUrl || !supabaseKey;
+};
+
+/**
+ * Creates a Supabase client for Server Components
+ * 
+ * This function should only be used in server components or server functions
+ * as it relies on the `cookies()` function from next/headers
+ */
+export function createServerSupabaseClient() {
   try {
-    const isCI = process.env.CI_ENVIRONMENT === 'true';
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    // Use mock client in CI environment or when credentials are missing
-    if (isCI || !supabaseUrl || !supabaseKey) {
-      console.info(isCI 
-        ? 'Using mock server client in CI environment' 
-        : 'Missing Supabase credentials, using mock server client');
-      return createMockServerClient() as ReturnType<typeof originalCreateServerComponentClient<Database>>;
+    if (shouldUseMockClient()) {
+      console.info(process.env.CI_ENVIRONMENT === 'true'
+        ? '🔶 Using mock server client in CI environment'
+        : '⚠️ Missing Supabase credentials, using mock server client');
+      return createMockServerClient() as ReturnType<typeof createServerComponentClient<Database>>;
     }
-
-    // Use the original client when credentials are available
-    return originalCreateServerComponentClient<Database>({ cookies });
+    
+    return createServerComponentClient<Database>({ cookies });
   } catch (error) {
-    console.warn('Supabase server client creation error:', error);
-    return createMockServerClient() as ReturnType<typeof originalCreateServerComponentClient<Database>>;
+    console.warn('⚠️ Supabase server client creation error:', error);
+    return createMockServerClient() as ReturnType<typeof createServerComponentClient<Database>>;
+  }
+}
+
+/**
+ * Creates a Supabase client for Route Handlers 
+ * 
+ * This function should only be used in route handlers as it relies on the 
+ * `cookies()` function from next/headers
+ */
+export function createRouteSupabaseClient() {
+  try {
+    if (shouldUseMockClient()) {
+      console.info(process.env.CI_ENVIRONMENT === 'true'
+        ? '🔶 Using mock route handler in CI environment'
+        : '⚠️ Missing Supabase credentials, using mock route handler');
+      return createMockServerClient() as ReturnType<typeof createRouteHandlerClient<Database>>;
+    }
+    
+    return createRouteHandlerClient<Database>({ cookies });
+  } catch (error) {
+    console.warn('⚠️ Supabase route handler creation error:', error);
+    return createMockServerClient() as ReturnType<typeof createRouteHandlerClient<Database>>;
   }
 } 

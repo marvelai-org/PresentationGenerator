@@ -8,7 +8,7 @@ import {
   useState,
   useEffect,
 } from "react";
-import { createClientComponentClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
   const router = useRouter();
 
   useEffect(() => {

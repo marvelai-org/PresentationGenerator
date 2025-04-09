@@ -19,11 +19,13 @@ const nextConfig = {
   env: {
     CI_ENVIRONMENT: process.env.CI_ENVIRONMENT || 'false',
   },
-  // Disable strict error handling during static page generation in CI
-  onDemandEntries: {
-    // Treats warnings as warnings, not errors when using CI
-    errorOnInvalid: process.env.CI_ENVIRONMENT !== 'true',
-  },
+  // Enable more efficient build caching
+  experimental: {
+    optimizeCss: true,
+    turbotrace: {
+      logLevel: 'error'
+    }
+  }
 };
 
 // Special configuration for CI environments to handle authentication during build
@@ -34,11 +36,12 @@ if (process.env.CI_ENVIRONMENT === 'true') {
   process.env.NEXT_PUBLIC_SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://mock-project.supabase.co';
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'mock-anon-key';
   
-  // Configure build output
+  // Additional CI-specific configurations
   nextConfig.experimental = {
     ...nextConfig.experimental,
-    // Force static rendering for CI builds
-    appDir: true,
+    // For CI environments, we want fast builds without too much analysis
+    staticWorkerRequestDeduping: true,
+    incrementalCacheHandlerPath: require.resolve('./src/lib/build/ci-cache-handler.js'),
   };
 }
 

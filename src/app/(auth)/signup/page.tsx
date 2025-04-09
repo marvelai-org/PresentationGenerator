@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
 
 export default function Component() {
   const [username, setUsername] = React.useState("");
@@ -27,7 +27,7 @@ export default function Component() {
   const [agreeToTerms, setAgreeToTerms] = React.useState(false);
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
 
   const toggleVisibility = () => setIsVisible(!isVisible);
   const toggleConfirmVisibility = () => setIsConfirmVisible(!isConfirmVisible);
