@@ -41,8 +41,11 @@ export const createClient = () => {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const isCI = process.env.CI_ENVIRONMENT === "true";
 
-    if (!supabaseUrl || !supabaseKey) {
+    // Always use mock client in CI environment for testing
+    if (isCI || !supabaseUrl || !supabaseKey) {
+      console.info(isCI ? "Using mock client in CI environment" : "Missing Supabase credentials, using mock client");
       return createMockClient() as unknown as ReturnType<
         typeof createBrowserClient<Database>
       >;

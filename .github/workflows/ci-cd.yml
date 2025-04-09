@@ -12,37 +12,61 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
           cache: "npm"
-          
+
       - name: Install dependencies
         run: npm ci
-        
+
+      - name: Set up environment variables
+        run: |
+          # Copy example environment file
+          cp .env.example .env
+          # Set mock Supabase values for CI environment
+          echo "NEXT_PUBLIC_SUPABASE_URL=https://mock-project.supabase.co" >> .env
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key" >> .env
+          echo "SUPABASE_SERVICE_ROLE_KEY=mock-service-role-key" >> .env
+          echo "CI_ENVIRONMENT=true" >> .env
+          
+          # Display environment file (without secrets) for debugging
+          echo "Environment file created (showing non-secret entries):"
+          grep -v "KEY" .env || echo "No non-secret entries found"
+
       - name: Run linting
         run: npm run lint
-        
+
       - name: Run tests
         run: npm test || echo "No tests found"
-        
+        env:
+          # Set these values directly in the environment for the test step
+          NEXT_PUBLIC_SUPABASE_URL: https://mock-project.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: mock-anon-key
+          CI_ENVIRONMENT: true
+
       - name: Build application
         run: npm run build
-        
+        env:
+          # Set these values directly in the environment for the build step
+          NEXT_PUBLIC_SUPABASE_URL: https://mock-project.supabase.co
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: mock-anon-key
+          CI_ENVIRONMENT: true
+
       - name: Verify build output
         run: |
           echo "Next.js build output structure:"
           ls -la .next/ || echo ".next directory not found"
           echo "Checking for standalone output:"
           ls -la .next/standalone/ || echo ".next/standalone/ directory not found"
-      
+
       # Docker build only on main branch pushes
       - name: Set up Docker Buildx
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Build Docker image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v4
@@ -52,3 +76,7 @@ jobs:
           tags: vibing-prod:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            NEXT_PUBLIC_SUPABASE_URL=https://mock-project.supabase.co
+            NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key
+            CI_ENVIRONMENT=true

@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "echo \"No tests specified yet. Skipping tests.\" && exit 0"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
