@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { createServerComponentClient } from "@/lib/auth/supabase-client";
+import { createServerSupabaseClient } from "@/lib/auth/supabase-server";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerSupabaseClient();
 
   const {
     data: { user },

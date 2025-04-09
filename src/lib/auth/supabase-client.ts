@@ -1,4 +1,4 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClientComponentClient as supabaseCreateClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
 import { 
   getMockData, 
@@ -417,13 +417,13 @@ export function createClientSupabaseClient() {
           ? '🔶 Using mock client in CI environment'
           : '⚠️ Missing Supabase credentials, using mock client');
       }
-      return createMockClient() as ReturnType<typeof createClientComponentClient<Database>>;
+      return createMockClient() as ReturnType<typeof supabaseCreateClientComponentClient<Database>>;
     }
     
-    return createClientComponentClient<Database>();
+    return supabaseCreateClientComponentClient<Database>();
   } catch (error) {
     console.warn('⚠️ Supabase client creation error:', error);
-    return createMockClient() as ReturnType<typeof createClientComponentClient<Database>>;
+    return createMockClient() as ReturnType<typeof supabaseCreateClientComponentClient<Database>>;
   }
 }
 
