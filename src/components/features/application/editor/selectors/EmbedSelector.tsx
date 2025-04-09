@@ -261,6 +261,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -289,7 +290,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>
@@ -322,6 +327,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -350,7 +356,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>
@@ -382,6 +392,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -410,7 +421,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>
@@ -442,6 +457,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -470,7 +486,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>
@@ -502,6 +522,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -530,7 +551,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>
@@ -562,6 +587,7 @@ export default function EmbedSelector({
           {error && <p className="text-danger text-sm mt-1">{error}</p>}
         </div>
         <Button
+          aria-label="Generate embed preview"
           color="primary"
           isDisabled={!isValidUrl}
           isLoading={isLoading}
@@ -590,7 +616,11 @@ export default function EmbedSelector({
                 </p>
 
                 <div className="mt-6 flex justify-end">
-                  <Button color="primary" onPress={handleAddEmbed}>
+                  <Button 
+                    aria-label="Add embed to presentation"
+                    color="primary" 
+                    onPress={handleAddEmbed}
+                  >
                     Add to Presentation
                   </Button>
                 </div>

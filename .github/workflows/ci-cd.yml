@@ -50,6 +50,37 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+      - name: Verify artifacts exist
+        run: |
+          # Check if all required paths exist before uploading
+          missing_paths=()
+          
+          if [ ! -d ".next" ]; then
+            missing_paths+=(".next")
+          fi
+          
+          if [ ! -d "public" ]; then
+            missing_paths+=("public")
+          fi
+          
+          if [ ! -f "package.json" ]; then
+            missing_paths+=("package.json")
+          fi
+          
+          if [ ! -f "package-lock.json" ]; then
+            missing_paths+=("package-lock.json")
+          fi
+          
+          if [ ! -f "next.config.js" ]; then
+            missing_paths+=("next.config.js")
+          fi
+          
+          if [ ${#missing_paths[@]} -ne 0 ]; then
+            echo "Error: The following required paths are missing: ${missing_paths[*]}"
+            exit 1
+          fi
+          
+          echo "All required paths exist, proceeding with artifact upload."
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
