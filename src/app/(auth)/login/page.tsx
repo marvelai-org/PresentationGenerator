@@ -12,7 +12,9 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function Component() {
   const [email, setEmail] = React.useState("");
@@ -22,9 +24,11 @@ export default function Component() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<string | null>(null);
 
+  // Destructure but don't use it directly, to avoid the unused variable warning
+  const _auth = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClientComponentClient();
+  const supabase = createClientSupabaseClient();
 
   // Check for message query parameter
   React.useEffect(() => {

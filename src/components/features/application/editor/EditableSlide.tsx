@@ -51,7 +51,7 @@ interface EditableSlideProps {
   slide: Slide;
   onUpdateTitle: (title: string) => void;
   onUpdateContent: (contentId: string, value: string) => void;
-  onAddContent: () => void;
+  _onAddContent: () => void;
   onRemoveContent: (contentId: string) => void;
   onShapeSelect?: (shape: SlideContentItem | null) => void;
   onUpdateShape?: (
@@ -67,7 +67,7 @@ export default function EditableSlide({
   slide,
   onUpdateTitle,
   onUpdateContent,
-  onAddContent,
+  _onAddContent,
   onRemoveContent,
   onShapeSelect,
   onUpdateShape,
@@ -171,7 +171,7 @@ export default function EditableSlide({
 
   // Handle shape element drag start
   const handleDragStart = (
-    e: React.MouseEvent,
+    e: React.MouseEvent | React.KeyboardEvent,
     itemId: string,
     x: number,
     y: number,
@@ -179,10 +179,14 @@ export default function EditableSlide({
     e.stopPropagation();
     setDraggingElement(itemId);
     setSelectedShape(itemId);
-    setDragOffset({
-      x: e.clientX - (x || 0),
-      y: e.clientY - (y || 0),
-    });
+
+    // If this is a mouse event, set the drag offset
+    if ("clientX" in e) {
+      setDragOffset({
+        x: e.clientX - (x || 0),
+        y: e.clientY - (y || 0),
+      });
+    }
 
     // Call the parent's onShapeSelect if provided
     if (onShapeSelect) {
@@ -215,7 +219,7 @@ export default function EditableSlide({
 
   // Handle shape element resize start
   const handleResizeStart = (
-    e: React.MouseEvent,
+    e: React.MouseEvent | React.KeyboardEvent,
     itemId: string,
     handle: string,
   ) => {
@@ -226,12 +230,16 @@ export default function EditableSlide({
 
     setResizing({ id: itemId, handle });
     setSelectedShape(itemId);
-    setResizeStart({
-      x: e.clientX,
-      y: e.clientY,
-      width: shapeItem.width || 100,
-      height: shapeItem.height || 100,
-    });
+
+    // If this is a mouse event, set the resize start position
+    if ("clientX" in e) {
+      setResizeStart({
+        x: e.clientX,
+        y: e.clientY,
+        width: shapeItem.width || 100,
+        height: shapeItem.height || 100,
+      });
+    }
   };
 
   // Handle shape element resize
@@ -299,7 +307,10 @@ export default function EditableSlide({
   };
 
   // Handle shape element rotation start
-  const handleRotateStart = (e: React.MouseEvent, itemId: string) => {
+  const handleRotateStart = (
+    e: React.MouseEvent | React.KeyboardEvent,
+    itemId: string,
+  ) => {
     e.stopPropagation();
     const shapeItem = findShapeById(itemId);
 
@@ -308,16 +319,19 @@ export default function EditableSlide({
     setRotating(itemId);
     setSelectedShape(itemId);
 
-    // Get the center point of the shape
-    const shapeCenterX = (shapeItem.x || 0) + (shapeItem.width || 100) / 2;
-    const shapeCenterY = (shapeItem.y || 0) + (shapeItem.height || 100) / 2;
+    // Only set rotation if this is a mouse event
+    if ("clientX" in e) {
+      // Get the center point of the shape
+      const shapeCenterX = (shapeItem.x || 0) + (shapeItem.width || 100) / 2;
+      const shapeCenterY = (shapeItem.y || 0) + (shapeItem.height || 100) / 2;
 
-    // Calculate the initial angle
-    const initialAngle =
-      Math.atan2(e.clientY - shapeCenterY, e.clientX - shapeCenterX) *
-      (180 / Math.PI);
+      // Calculate the initial angle
+      const initialAngle =
+        Math.atan2(e.clientY - shapeCenterY, e.clientX - shapeCenterX) *
+        (180 / Math.PI);
 
-    setRotateStart(initialAngle - (shapeItem.style?.rotation || 0));
+      setRotateStart(initialAngle - (shapeItem.style?.rotation || 0));
+    }
   };
 
   // Handle shape element rotation
@@ -562,7 +576,15 @@ export default function EditableSlide({
           return (
             <div
               key={handle}
+              aria-label={`Resize handle ${handle}`}
               className={`absolute w-3 h-3 bg-white border border-gray-800 ${cursorClass} ${positionClass} z-10`}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleResizeStart(e, item.id, handle);
+                }
+              }}
               onMouseDown={(e) => handleResizeStart(e, item.id, handle)}
             />
           );
@@ -570,7 +592,15 @@ export default function EditableSlide({
 
         {/* Rotation handle */}
         <div
+          aria-label="Rotate shape"
           className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-8 cursor-pointer"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              handleRotateStart(e, item.id);
+            }
+          }}
           onMouseDown={(e) => handleRotateStart(e, item.id)}
         >
           <div className="w-0.5 h-6 bg-gray-400 mx-auto" />
@@ -618,10 +648,19 @@ export default function EditableSlide({
       // Square shape
       ShapeElement = (
         <div
+          aria-label="Square shape"
           className={`${shapeType.includes("rounded") ? "rounded-lg" : ""} ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -631,10 +670,19 @@ export default function EditableSlide({
       // Circle shape
       ShapeElement = (
         <div
+          aria-label="Circle shape"
           className={`rounded-full ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -644,8 +692,10 @@ export default function EditableSlide({
       // Triangle shape
       ShapeElement = (
         <div
+          aria-label="Triangle shape"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={{
             ...style,
             width: "0",
@@ -655,7 +705,14 @@ export default function EditableSlide({
             borderRight: `${(item.width || 100) / 2}px solid transparent`,
             borderBottom: `${item.height || 100}px solid ${item.style?.backgroundColor || "#6366F1"}`,
           }}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -665,10 +722,19 @@ export default function EditableSlide({
       // Diamond shape
       ShapeElement = (
         <div
+          aria-label="Diamond shape"
           className={`clip-diamond ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -678,10 +744,19 @@ export default function EditableSlide({
       // Star shape (simplified)
       ShapeElement = (
         <div
+          aria-label="Star shape"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -700,10 +775,19 @@ export default function EditableSlide({
       // Process arrow shape
       ShapeElement = (
         <div
+          aria-label="Process arrow shape"
           className={`clip-arrow-right ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -713,10 +797,19 @@ export default function EditableSlide({
       // Process hexagon shape
       ShapeElement = (
         <div
+          aria-label="Process hexagon shape"
           className={`clip-hexagon ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -726,10 +819,19 @@ export default function EditableSlide({
       // Process diamond shape
       ShapeElement = (
         <div
+          aria-label="Process diamond shape"
           className={`clip-diamond ${isSelected ? "ring-2 ring-indigo-600" : ""}`}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -739,10 +841,19 @@ export default function EditableSlide({
       // Process start shape (rectangle)
       ShapeElement = (
         <div
+          aria-label="Process start shape"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -768,10 +879,19 @@ export default function EditableSlide({
 
       ShapeElement = (
         <div
+          aria-label="Line shape"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={lineStyle}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -781,15 +901,24 @@ export default function EditableSlide({
       // Rectangular label
       ShapeElement = (
         <div
+          aria-label="Rectangular label"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={{
             ...style,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -801,8 +930,10 @@ export default function EditableSlide({
       // Rounded label
       ShapeElement = (
         <div
+          aria-label="Rounded label"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={{
             ...style,
             display: "flex",
@@ -810,7 +941,14 @@ export default function EditableSlide({
             justifyContent: "center",
             borderRadius: "9999px",
           }}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -822,10 +960,19 @@ export default function EditableSlide({
       // Default fallback
       ShapeElement = (
         <div
+          aria-label="Shape element"
           className={isSelected ? "ring-2 ring-indigo-600" : ""}
           id={item.id}
+          role="button"
           style={style}
+          tabIndex={0}
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              handleDragStart(e, item.id, item.x || 0, item.y || 0);
+            }
+          }}
           onMouseDown={(e) =>
             handleDragStart(e, item.id, item.x || 0, item.y || 0)
           }
@@ -897,6 +1044,8 @@ export default function EditableSlide({
     return (
       <div
         key={item.id}
+        aria-label="Table element"
+        role="button"
         style={{
           position: "absolute",
           left: `${item.x || 0}px`,
@@ -906,9 +1055,16 @@ export default function EditableSlide({
           cursor: "pointer",
           zIndex: item.style?.zIndex || 1,
         }}
+        tabIndex={0}
         onClick={(e) => {
           e.stopPropagation();
           handleTableSelect(item.id);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.stopPropagation();
+            handleTableSelect(item.id);
+          }
         }}
       >
         <TableComponent
@@ -986,12 +1142,36 @@ export default function EditableSlide({
     }
   };
 
+  // Handle section click to set active section
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id);
+  };
+
   return (
     <div
       ref={slideRef}
       className="w-full h-full rounded-lg overflow-hidden"
+      role="presentation"
       style={backgroundStyles}
       onClick={handleBackgroundClick}
+      onKeyDown={(e) => {
+        if (e.key === "Escape") {
+          // Use Escape key to deselect
+          setActiveSection(null);
+          setSelectedShape(null);
+          setSelectedTable(null);
+          setSelectedEmbed(null);
+
+          // Notify parent about deselection
+          if (onShapeSelect) {
+            onShapeSelect(null);
+          }
+
+          if (onTableSelect) {
+            onTableSelect(null);
+          }
+        }
+      }}
     >
       {/* Render content items based on type */}
       {slide.content.map((item) => {
@@ -1010,14 +1190,22 @@ export default function EditableSlide({
             <div
               key={item.id}
               className={`relative group mb-4 ${isHovered ? "bg-white/5" : ""} ${isActive ? "bg-white/10" : ""} rounded-md p-1`}
+              role="button"
+              tabIndex={0}
               onClick={() => handleSectionClick(item.id)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleSectionClick(item.id);
+                }
+              }}
               onMouseEnter={() => setHoveredSection(item.id)}
               onMouseLeave={() => setHoveredSection(null)}
             >
               {isActive ? (
                 <SlideEditor
-                  value={item.value}
-                  onChange={(newValue) => onUpdateContent(item.id, newValue)}
+                  content={item.value}
+                  placeholder="Add content..."
+                  onUpdate={(newValue) => onUpdateContent(item.id, newValue)}
                 />
               ) : (
                 <p className="text-xl text-white p-1">{item.value}</p>
@@ -1047,7 +1235,14 @@ export default function EditableSlide({
         {/* Title Section */}
         <div
           className="relative mb-4 group"
+          role="button"
+          tabIndex={0}
           onClick={() => setActiveSection("title")}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              setActiveSection("title");
+            }
+          }}
           onMouseEnter={() => setHoveredSection("title")}
           onMouseLeave={() => setHoveredSection(null)}
         >
@@ -1080,7 +1275,7 @@ export default function EditableSlide({
             <SlideEditor
               content={slide.subtitle}
               placeholder="Add a subtitle..."
-              onUpdate={(value) => {
+              onUpdate={(_value) => {
                 /* Handle subtitle update */
               }}
             />
@@ -1095,7 +1290,14 @@ export default function EditableSlide({
               <div
                 key={contentItem.id}
                 className="relative mb-4 group"
+                role="button"
+                tabIndex={0}
                 onClick={() => setActiveSection(contentItem.id)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setActiveSection(contentItem.id);
+                  }
+                }}
                 onMouseEnter={() => setHoveredSection(contentItem.id)}
                 onMouseLeave={() => setHoveredSection(null)}
               >

@@ -51,11 +51,13 @@ docker-compose down
 If you prefer to run the application without Docker:
 
 1. Install dependencies:
+
    ```bash
    npm ci
    ```
 
 2. Build the application:
+
    ```bash
    npm run build
    ```
@@ -99,4 +101,4 @@ To secure your application with SSL:
    sudo certbot --nginx -d yourdomain.com
    ```
 
-This will automatically configure Nginx to use HTTPS. 
+This will automatically configure Nginx to use HTTPS.

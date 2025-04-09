@@ -31,6 +31,7 @@ A next-generation AI-powered presentation creation platform that transforms your
 - [Project Structure](#-project-structure)
 - [Architecture](#️-architecture)
 - [API](#-api)
+- [CI/CD & Testing](#-cicd--testing)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -105,22 +106,26 @@ npm run format
 This repository includes a Python-based AI service for presentation generation:
 
 1. Navigate to the AI service directory:
+
 ```bash
 cd ai-services
 ```
 
 2. Create a virtual environment (optional but recommended):
+
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows, use: venv\Scripts\activate
 ```
 
 3. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 4. Run the service:
+
 ```bash
 python app.py
 ```
@@ -173,6 +178,15 @@ QDRANT_API_KEY="your-qdrant-api-key"
 QDRANT_URL="your-qdrant-url"
 ```
 
+For local development without Supabase credentials, you can enable mock authentication:
+
+```bash
+# Set CI_ENVIRONMENT to true in your .env file
+echo "CI_ENVIRONMENT=true" >> .env
+```
+
+This enables the mock Supabase client which allows the application to function without real credentials.
+
 ## 📁 Project Structure
 
 ```
@@ -217,8 +231,31 @@ The AI service provides endpoints for generating and editing presentations:
 - `POST /preview-slide` - Generates a preview image for a slide
 
 Full API documentation is available when running the service at:
+
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
+
+## 🧪 CI/CD & Testing
+
+### CI/CD Pipeline
+
+The project includes GitHub Actions workflows for continuous integration and deployment:
+
+- Automated linting and testing
+- Build process for the Next.js application
+- Docker image creation for easy deployment
+
+All workflows are vendor-agnostic and focused on building, testing, and packaging the application for self-hosting.
+
+### Authentication in CI Environment
+
+For CI/CD environments, the project uses a mock authentication strategy that:
+
+- Automatically detects CI environments
+- Uses mock Supabase clients and dummy credentials
+- Allows builds and tests to run without real authentication keys
+
+For more information, see [docs/ci-cd-auth-mocking.md](docs/ci-cd-auth-mocking.md).
 
 ## 👥 Contributing
 

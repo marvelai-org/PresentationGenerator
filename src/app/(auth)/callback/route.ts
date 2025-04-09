@@ -1,7 +1,6 @@
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import { NextResponse, type NextRequest } from "next/server";
 
+import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 import { rateLimiterByIP } from "@/lib/utils/rate-limiter";
 
 // Required for static export
@@ -39,7 +38,7 @@ export async function GET(request: NextRequest) {
     const code = requestUrl.searchParams.get("code");
 
     if (code) {
-      const supabase = createRouteHandlerClient({ cookies: () => cookies() });
+      const supabase = createRouteSupabaseClient();
 
       await supabase.auth.exchangeCodeForSession(code);
 

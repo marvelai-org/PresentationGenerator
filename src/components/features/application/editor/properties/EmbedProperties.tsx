@@ -14,7 +14,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-import { EmbedData } from "./EmbedSelector";
+import { EmbedData } from "../selectors/EmbedSelector";
 
 interface EmbedPropertiesProps {
   selectedEmbed: EmbedData | null;
@@ -57,6 +57,25 @@ export default function EmbedProperties({
       }
     }
   }, [selectedEmbed]);
+
+  // Handler for aspect ratio lock changes
+  const handleAspectRatioLockChange = (shouldMaintain: boolean) => {
+    setMaintainAspectRatio(shouldMaintain);
+
+    if (shouldMaintain && selectedEmbed && aspectRatio) {
+      // If turning on aspect ratio maintenance, adjust the height
+      const [aspectWidth, aspectHeight] = aspectRatio.split(":").map(Number);
+      const newHeight = Math.round((width * aspectHeight) / aspectWidth);
+
+      setHeight(newHeight);
+
+      if (selectedEmbed) {
+        applyChanges({
+          height: newHeight,
+        });
+      }
+    }
+  };
 
   // Handler for width changes with aspect ratio maintenance
   const handleWidthChange = (newWidth: number) => {
@@ -305,7 +324,7 @@ export default function EmbedProperties({
                 color="primary"
                 isSelected={maintainAspectRatio}
                 size="sm"
-                onChange={setMaintainAspectRatio}
+                onValueChange={handleAspectRatioLockChange}
               />
             </div>
           </div>
@@ -493,8 +512,8 @@ export default function EmbedProperties({
                     color="primary"
                     isSelected={autoplay}
                     size="sm"
-                    onChange={(checked) =>
-                      handlePlayerOptionChange("autoplay", checked)
+                    onValueChange={(isSelected) =>
+                      handlePlayerOptionChange("autoplay", isSelected)
                     }
                   />
                 </div>
@@ -504,8 +523,8 @@ export default function EmbedProperties({
                     color="primary"
                     isSelected={loop}
                     size="sm"
-                    onChange={(checked) =>
-                      handlePlayerOptionChange("loop", checked)
+                    onValueChange={(isSelected) =>
+                      handlePlayerOptionChange("loop", isSelected)
                     }
                   />
                 </div>
@@ -515,8 +534,8 @@ export default function EmbedProperties({
                     color="primary"
                     isSelected={controls}
                     size="sm"
-                    onChange={(checked) =>
-                      handlePlayerOptionChange("controls", checked)
+                    onValueChange={(isSelected) =>
+                      handlePlayerOptionChange("controls", isSelected)
                     }
                   />
                 </div>

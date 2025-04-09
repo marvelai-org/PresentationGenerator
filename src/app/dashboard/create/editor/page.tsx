@@ -505,28 +505,31 @@ const SortableSlide: React.FC<SortableSlideProps> = ({
 };
 
 // EditableSlide component props type
-interface EditableSlideProps {
+interface _EditableSlideProps {
   slide: Slide;
-  onAddContent: (slideId: number) => void;
+  _onAddContent: (slideId: number) => void;
   onRemoveContent: (contentId: string) => void;
   onUpdateContent: (contentId: string, value: string) => void;
   onUpdateTitle: (title: string) => void;
   onShapeSelect: (shape: SlideContentItem | null) => void;
   onTableSelect: (table: SlideContentItem | null) => void;
   onEmbedSelect: (embed: SlideContentItem | null) => void;
-  onUpdateShape: (shapeId: string, properties: Partial<SlideContentItem["style"]>) => void;
+  onUpdateShape: (
+    shapeId: string,
+    properties: Partial<SlideContentItem["style"]>,
+  ) => void;
   onUpdateTable: (tableId: string, properties: Partial<TableData>) => void;
 }
 
 // Update the EmbedSelector component type
-interface EmbedSelectorProps {
+interface _EmbedSelectorProps {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (embedData: EmbedData) => void;
 }
 
 // Define a ShapeContentItem type alias to match what ShapeProperties expects
-type ShapeContentItem = Omit<SlideContentItem, 'style'> & {
+type ShapeContentItem = Omit<SlideContentItem, "style"> & {
   style?: {
     color?: string;
     borderColor?: string;
@@ -604,7 +607,7 @@ export default function PresentationEditorPage() {
       activationConstraint: {
         distance: 8,
       },
-    })
+    }),
   );
 
   // Add a useEffect for handling escape key to close modals
@@ -955,20 +958,25 @@ export default function PresentationEditorPage() {
   };
 
   // Add this function to update embed properties
-  const updateEmbedProperties = (embedId: string, properties: Partial<EmbedData>) => {
+  const updateEmbedProperties = (
+    embedId: string,
+    properties: Partial<EmbedData>,
+  ) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === _currentSlide.id);
-    
+
     if (slideIndex !== -1) {
       const slide = slidesCopy[slideIndex];
-      const contentIndex = slide.content.findIndex((item) => item.id === embedId);
-      
+      const contentIndex = slide.content.findIndex(
+        (item) => item.id === embedId,
+      );
+
       if (contentIndex !== -1 && slide.content[contentIndex].embedData) {
         slidesCopy[slideIndex] = {
           ...slide,
           content: [...slide.content],
         };
-        
+
         slidesCopy[slideIndex].content[contentIndex] = {
           ...slide.content[contentIndex],
           embedData: {
@@ -976,27 +984,32 @@ export default function PresentationEditorPage() {
             ...properties,
           },
         };
-        
+
         setSlides(slidesCopy);
       }
     }
   };
 
   // Add this function to update table properties
-  const updateTableProperties = (tableId: string, updatedData: Partial<TableData>) => {
+  const updateTableProperties = (
+    tableId: string,
+    updatedData: Partial<TableData>,
+  ) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === _currentSlide.id);
-    
+
     if (slideIndex !== -1) {
       const slide = slidesCopy[slideIndex];
-      const contentIndex = slide.content.findIndex((item) => item.id === tableId);
-      
+      const contentIndex = slide.content.findIndex(
+        (item) => item.id === tableId,
+      );
+
       if (contentIndex !== -1 && slide.content[contentIndex].tableData) {
         slidesCopy[slideIndex] = {
           ...slide,
           content: [...slide.content],
         };
-        
+
         slidesCopy[slideIndex].content[contentIndex] = {
           ...slide.content[contentIndex],
           tableData: {
@@ -1004,12 +1017,12 @@ export default function PresentationEditorPage() {
             ...updatedData,
           },
         };
-        
+
         setSlides(slidesCopy);
       }
     }
   };
-  
+
   // Define a helper function to convert EmbedData to SlideContentItem
   const createEmbedItem = (embedData: EmbedData): SlideContentItem => {
     return {
@@ -1042,7 +1055,7 @@ export default function PresentationEditorPage() {
 
     closeEmbedSelector();
   };
-  
+
   const _findEmbedById = (id: string) => {
     return slides[currentSlideIndex].content.find(
       (item) => item.id === id && item.type === "embed",
@@ -1053,19 +1066,19 @@ export default function PresentationEditorPage() {
   const handleAddContent = (slideId: number) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === slideId);
-    
+
     if (slideIndex !== -1) {
       const newContentItem: SlideContentItem = {
         id: `content-${Date.now()}`,
         type: "text",
         value: "New content",
       };
-      
+
       slidesCopy[slideIndex] = {
         ...slidesCopy[slideIndex],
         content: [...slidesCopy[slideIndex].content, newContentItem],
       };
-      
+
       setSlides(slidesCopy);
     }
   };
@@ -1074,38 +1087,44 @@ export default function PresentationEditorPage() {
   const handleRemoveContent = (slideId: number, contentId: string) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === slideId);
-    
+
     if (slideIndex !== -1) {
       slidesCopy[slideIndex] = {
         ...slidesCopy[slideIndex],
-        content: slidesCopy[slideIndex].content.filter(item => item.id !== contentId),
+        content: slidesCopy[slideIndex].content.filter(
+          (item) => item.id !== contentId,
+        ),
       };
-      
+
       setSlides(slidesCopy);
     }
   };
 
   // Update slide content
-  const updateSlideContent = (slideId: number, contentId: string, value: string) => {
+  const updateSlideContent = (
+    slideId: number,
+    contentId: string,
+    value: string,
+  ) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === slideId);
-    
+
     if (slideIndex !== -1) {
       const contentIndex = slidesCopy[slideIndex].content.findIndex(
-        (item) => item.id === contentId
+        (item) => item.id === contentId,
       );
-      
+
       if (contentIndex !== -1) {
         slidesCopy[slideIndex] = {
           ...slidesCopy[slideIndex],
           content: [...slidesCopy[slideIndex].content],
         };
-        
+
         slidesCopy[slideIndex].content[contentIndex] = {
           ...slidesCopy[slideIndex].content[contentIndex],
           value,
         };
-        
+
         setSlides(slidesCopy);
       }
     }
@@ -1115,38 +1134,41 @@ export default function PresentationEditorPage() {
   const updateSlideTitle = (slideId: number, title: string) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === slideId);
-    
+
     if (slideIndex !== -1) {
       slidesCopy[slideIndex] = {
         ...slidesCopy[slideIndex],
         title,
       };
-      
+
       setSlides(slidesCopy);
     }
   };
 
   // Update shape properties
-  const updateShapeProperties = (shapeId: string, properties: Partial<ShapeContentItem>) => {
+  const updateShapeProperties = (
+    shapeId: string,
+    properties: Partial<ShapeContentItem>,
+  ) => {
     const slidesCopy = [...slides];
     const slideIndex = slidesCopy.findIndex((s) => s.id === _currentSlide.id);
-    
+
     if (slideIndex !== -1) {
       const slide = slidesCopy[slideIndex];
       const shapeIndex = slide.content.findIndex((item) => item.id === shapeId);
-      
+
       if (shapeIndex !== -1) {
         slidesCopy[slideIndex] = {
           ...slide,
           content: [...slide.content],
         };
-        
+
         // Update the shape with new properties
         slidesCopy[slideIndex].content[shapeIndex] = {
           ...slide.content[shapeIndex],
           ...properties,
         };
-        
+
         setSlides(slidesCopy);
       }
     }
@@ -1213,7 +1235,14 @@ export default function PresentationEditorPage() {
               title={
                 <div
                   className="flex items-center gap-1"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => openMediaSelector()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      openMediaSelector();
+                    }
+                  }}
                 >
                   <Icon icon="material-symbols:image" width={20} />
                   <span>Media</span>
@@ -1225,7 +1254,14 @@ export default function PresentationEditorPage() {
               title={
                 <div
                   className="flex items-center gap-1"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => openShapeSelector()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      openShapeSelector();
+                    }
+                  }}
                 >
                   <Icon icon="material-symbols:shapes" width={20} />
                   <span>Shape</span>
@@ -1255,7 +1291,14 @@ export default function PresentationEditorPage() {
               title={
                 <div
                   className="flex items-center gap-1"
+                  role="button"
+                  tabIndex={0}
                   onClick={() => openTableSelector()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      openTableSelector();
+                    }
+                  }}
                 >
                   <Icon icon="material-symbols:table" width={20} />
                   <span>Table</span>
@@ -1267,10 +1310,19 @@ export default function PresentationEditorPage() {
               title={
                 <div
                   className="flex items-center gap-1"
+                  role="button"
+                  tabIndex={0}
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
                     openEmbedSelector();
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      openEmbedSelector();
+                    }
                   }}
                 >
                   <Icon icon="material-symbols:code" width={20} />
@@ -1466,8 +1518,8 @@ export default function PresentationEditorPage() {
 
           <div className="w-full max-w-5xl aspect-[16/9] rounded-lg overflow-hidden shadow-2xl">
             <EditableSlide
+              _onAddContent={() => handleAddContent(_currentSlide.id)}
               slide={_currentSlide}
-              onAddContent={() => handleAddContent(_currentSlide.id)}
               onEmbedSelect={handleEmbedSelectionChange}
               onRemoveContent={(contentId: string) =>
                 handleRemoveContent(_currentSlide.id, contentId)
@@ -1754,7 +1806,14 @@ export default function PresentationEditorPage() {
             <div className="grid grid-cols-3 gap-4">
               <div
                 className="bg-gray-800 p-2 rounded hover:ring-2 hover:ring-indigo-500 cursor-pointer transition-all"
+                role="button"
+                tabIndex={0}
                 onClick={() => addSlideFromTemplate("title")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    addSlideFromTemplate("title");
+                  }
+                }}
               >
                 <div
                   className="bg-black h-32 rounded flex flex-col items-center justify-center p-3"
@@ -1777,7 +1836,14 @@ export default function PresentationEditorPage() {
 
               <div
                 className="bg-gray-800 p-2 rounded hover:ring-2 hover:ring-indigo-500 cursor-pointer transition-all"
+                role="button"
+                tabIndex={0}
                 onClick={() => addSlideFromTemplate("textAndImage")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    addSlideFromTemplate("textAndImage");
+                  }
+                }}
               >
                 <div
                   className="bg-black h-32 rounded flex flex-col p-3"
@@ -1808,7 +1874,14 @@ export default function PresentationEditorPage() {
 
               <div
                 className="bg-gray-800 p-2 rounded hover:ring-2 hover:ring-indigo-500 cursor-pointer transition-all"
+                role="button"
+                tabIndex={0}
                 onClick={() => addSlideFromTemplate("bulletList")}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    addSlideFromTemplate("bulletList");
+                  }
+                }}
               >
                 <div
                   className="bg-black h-32 rounded flex flex-col p-3"

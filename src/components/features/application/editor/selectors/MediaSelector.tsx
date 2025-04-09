@@ -17,7 +17,7 @@ export default function MediaSelector({
   isOpen,
 }: MediaSelectorProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [activeTab, setActiveTab] = useState("images");
+  const [_activeTab, _setActiveTab] = useState("images");
 
   // Sample image data
   const images = [
@@ -85,7 +85,14 @@ export default function MediaSelector({
           <div
             key={image.id}
             className="cursor-pointer hover:opacity-90 transition-all"
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect(image.url)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(image.url);
+              }
+            }}
           >
             <div
               className="h-40 rounded-lg bg-gray-800 mb-2"
@@ -120,7 +127,14 @@ export default function MediaSelector({
                   <div
                     key={index}
                     className="h-24 rounded-lg bg-content2/50 flex items-center justify-center cursor-pointer hover:bg-content3 transition-all"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => onSelect(`/stickers/${item}`)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        onSelect(`/stickers/${item}`);
+                      }
+                    }}
                   >
                     <div className="w-16 h-16 bg-content3 rounded-md" />
                   </div>
@@ -144,7 +158,14 @@ export default function MediaSelector({
           <div
             key={index}
             className="h-16 w-16 rounded-lg bg-content2/50 flex items-center justify-center cursor-pointer hover:bg-content3 transition-all"
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect(`icon-${index}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(`icon-${index}`);
+              }
+            }}
           >
             <Icon
               className="text-default-500"
@@ -170,7 +191,14 @@ export default function MediaSelector({
           <div
             key={index}
             className="h-16 w-16 rounded-lg bg-content2/50 flex items-center justify-center cursor-pointer hover:bg-content3 transition-all"
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect(`icon-filled-${index}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(`icon-filled-${index}`);
+              }
+            }}
           >
             <Icon
               className="text-default-500"
@@ -207,7 +235,14 @@ export default function MediaSelector({
         <div
           key={index}
           className="h-24 rounded-lg bg-content2/50 flex items-center justify-center cursor-pointer hover:bg-content3 transition-all"
+          role="button"
+          tabIndex={0}
           onClick={() => onSelect(`shape-${shape}`)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              onSelect(`shape-${shape}`);
+            }
+          }}
         >
           <div
             className={`w-16 h-16 ${shape === "circle" ? "rounded-full" : ""} ${shape === "triangle" ? "triangle" : ""} bg-primary`}
@@ -224,7 +259,14 @@ export default function MediaSelector({
           <div
             key={index}
             className="h-40 rounded-lg bg-content2/50 p-4 cursor-pointer hover:bg-content3 transition-all"
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect(`chart-${chart}`)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                onSelect(`chart-${chart}`);
+              }
+            }}
           >
             <div className="text-default-500 text-sm mb-2">
               {chart.charAt(0).toUpperCase() + chart.slice(1)} Chart
@@ -277,22 +319,21 @@ export default function MediaSelector({
   ];
 
   // Sidebar items for left navigation panel
-  const sidebarItems = [
-    { label: "Images", icon: "material-symbols:image" },
-    { label: "Videos", icon: "material-symbols:videocam" },
-    { label: "Unsplash", icon: "bi:unsplash", group: "Integrations" },
-    { label: "Giphy", icon: "simple-icons:giphy", group: "Integrations" },
-    { label: "Icons8", icon: "simple-icons:icons8", group: "Integrations" },
-    { label: "Brandfetch", icon: "logos:brandfetch", group: "Integrations" },
+  const _sidebarItems = [
+    { key: "images", label: "Images" },
+    { key: "stickers", label: "Stickers" },
+    { key: "icons", label: "Icons" },
+    { key: "shapes", label: "Shapes" },
+    { key: "charts", label: "Charts" },
   ];
 
   return (
     <CommandMenuModal
+      _title="Media Library"
       isOpen={isOpen}
       modalSize="4xl"
       searchPlaceholder="Search for images, icons, or stickers..."
       tabs={tabs}
-      title="Media Library"
       onClose={onClose}
       onSearch={handleSearch}
     />

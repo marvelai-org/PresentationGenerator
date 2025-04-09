@@ -170,7 +170,7 @@ jest.mock("../EditableSlide", () => ({
   default: ({
     slide,
     onUpdateTitle,
-    onUpdateContent,
+    _onUpdateContent,
     onAddContent,
     onRemoveContent,
     onShapeSelect,

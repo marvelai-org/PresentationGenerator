@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-import { TableData } from "./TableComponent";
+import { TableData } from "@/types/editor";
 
 interface TablePropertiesProps {
   tableData: TableData;
@@ -36,38 +36,32 @@ export default function TableProperties({
     });
   };
 
-  // Handle changes to style properties
-  const handleStyleChange = <K extends keyof TableData["style"]>(
-    property: K,
-    value: any,
-  ) => {
-    onUpdateTable({
-      ...tableData,
-      style: {
-        ...(tableData.style || {}),
-        [property]: value,
-      },
-    });
-  };
-
   // Handle number input changes
   const handleNumberInput = (
-    property: keyof TableData["style"],
+    property: "borderWidth" | "width",
     value: string,
   ) => {
     const numValue = parseInt(value);
 
     if (!isNaN(numValue)) {
-      handleStyleChange(property, numValue);
+      if (property === "borderWidth") {
+        onUpdateTable({
+          ...tableData,
+          style: {
+            ...(tableData.style || {}),
+            borderWidth: numValue,
+          },
+        });
+      } else if (property === "width") {
+        onUpdateTable({
+          ...tableData,
+          style: {
+            ...(tableData.style || {}),
+            width: numValue,
+          },
+        });
+      }
     }
-  };
-
-  // Handle color input changes
-  const handleColorChange = (
-    property: keyof TableData["style"],
-    value: string,
-  ) => {
-    handleStyleChange(property, value);
   };
 
   // Toggle header, footer, and other boolean options
@@ -121,7 +115,10 @@ export default function TableProperties({
         <div className="space-y-4">
           {/* Border Style */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="borderStyle"
+            >
               Border Style
             </label>
             <Dropdown>
@@ -131,6 +128,7 @@ export default function TableProperties({
                   endContent={
                     <Icon icon="material-symbols:arrow-drop-down" width={24} />
                   }
+                  id="borderStyle"
                   variant="flat"
                 >
                   <div className="flex items-center">
@@ -142,27 +140,72 @@ export default function TableProperties({
               </DropdownTrigger>
               <DropdownMenu aria-label="Border Style Options">
                 <DropdownItem
-                  onClick={() => handleStyleChange("borderStyle", "solid")}
+                  key="solid"
+                  onClick={() =>
+                    onUpdateTable({
+                      ...tableData,
+                      style: {
+                        ...(tableData.style || {}),
+                        borderStyle: "solid",
+                      },
+                    })
+                  }
                 >
                   Solid
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => handleStyleChange("borderStyle", "dashed")}
+                  key="dashed"
+                  onClick={() =>
+                    onUpdateTable({
+                      ...tableData,
+                      style: {
+                        ...(tableData.style || {}),
+                        borderStyle: "dashed",
+                      },
+                    })
+                  }
                 >
                   Dashed
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => handleStyleChange("borderStyle", "dotted")}
+                  key="dotted"
+                  onClick={() =>
+                    onUpdateTable({
+                      ...tableData,
+                      style: {
+                        ...(tableData.style || {}),
+                        borderStyle: "dotted",
+                      },
+                    })
+                  }
                 >
                   Dotted
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => handleStyleChange("borderStyle", "double")}
+                  key="double"
+                  onClick={() =>
+                    onUpdateTable({
+                      ...tableData,
+                      style: {
+                        ...(tableData.style || {}),
+                        borderStyle: "double",
+                      },
+                    })
+                  }
                 >
                   Double
                 </DropdownItem>
                 <DropdownItem
-                  onClick={() => handleStyleChange("borderStyle", "none")}
+                  key="none"
+                  onClick={() =>
+                    onUpdateTable({
+                      ...tableData,
+                      style: {
+                        ...(tableData.style || {}),
+                        borderStyle: "none",
+                      },
+                    })
+                  }
                 >
                   None
                 </DropdownItem>
@@ -172,22 +215,37 @@ export default function TableProperties({
 
           {/* Border Width */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="borderWidth"
+            >
               Border Width: {tableData.style?.borderWidth || 1}px
             </label>
             <div className="flex items-center gap-2">
               <Slider
+                aria-valuemax={10}
+                aria-valuemin={0}
+                aria-valuenow={tableData.style?.borderWidth || 1}
+                aria-valuetext={`${tableData.style?.borderWidth || 1} pixels`}
                 className="max-w-md flex-1"
+                id="borderWidth"
                 maxValue={10}
                 minValue={0}
                 size="sm"
                 step={1}
                 value={tableData.style?.borderWidth || 1}
                 onChange={(value) =>
-                  handleStyleChange("borderWidth", value as number)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      borderWidth: value as number,
+                    },
+                  })
                 }
               />
               <Input
+                aria-labelledby="borderWidth"
                 className="w-20"
                 classNames={{
                   input: "bg-gray-800 text-white",
@@ -207,12 +265,17 @@ export default function TableProperties({
 
           {/* Border Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="borderColor"
+            >
               Border Color
             </label>
             <div className="flex items-center gap-2">
               <div
+                aria-label={`Current border color: ${tableData.style?.borderColor || "#E5E7EB"}`}
                 className="w-6 h-6 rounded border border-gray-600"
+                role="img"
                 style={{
                   backgroundColor: tableData.style?.borderColor || "#E5E7EB",
                 }}
@@ -223,20 +286,34 @@ export default function TableProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="borderColor"
                 placeholder="#E5E7EB"
                 size="sm"
                 type="text"
                 value={tableData.style?.borderColor || "#E5E7EB"}
                 onChange={(e) =>
-                  handleColorChange("borderColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      borderColor: e.target.value,
+                    },
+                  })
                 }
               />
               <input
+                aria-labelledby="borderColor"
                 className="w-8 h-8 cursor-pointer bg-transparent border-0"
                 type="color"
                 value={tableData.style?.borderColor || "#E5E7EB"}
                 onChange={(e) =>
-                  handleColorChange("borderColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      borderColor: e.target.value,
+                    },
+                  })
                 }
               />
             </div>
@@ -244,12 +321,17 @@ export default function TableProperties({
 
           {/* Header Background Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="headerBackground"
+            >
               Header Background
             </label>
             <div className="flex items-center gap-2">
               <div
+                aria-label={`Current header background color: ${tableData.style?.headerBackgroundColor || "#4F46E5"}`}
                 className="w-6 h-6 rounded border border-gray-600"
+                role="img"
                 style={{
                   backgroundColor:
                     tableData.style?.headerBackgroundColor || "#4F46E5",
@@ -261,20 +343,34 @@ export default function TableProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="headerBackground"
                 placeholder="#4F46E5"
                 size="sm"
                 type="text"
                 value={tableData.style?.headerBackgroundColor || "#4F46E5"}
                 onChange={(e) =>
-                  handleColorChange("headerBackgroundColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      headerBackgroundColor: e.target.value,
+                    },
+                  })
                 }
               />
               <input
+                aria-labelledby="headerBackground"
                 className="w-8 h-8 cursor-pointer bg-transparent border-0"
                 type="color"
                 value={tableData.style?.headerBackgroundColor || "#4F46E5"}
                 onChange={(e) =>
-                  handleColorChange("headerBackgroundColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      headerBackgroundColor: e.target.value,
+                    },
+                  })
                 }
               />
             </div>
@@ -282,12 +378,17 @@ export default function TableProperties({
 
           {/* Header Text Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="headerTextColor"
+            >
               Header Text Color
             </label>
             <div className="flex items-center gap-2">
               <div
+                aria-label={`Current header text color: ${tableData.style?.headerTextColor || "#FFFFFF"}`}
                 className="w-6 h-6 rounded border border-gray-600"
+                role="img"
                 style={{
                   backgroundColor:
                     tableData.style?.headerTextColor || "#FFFFFF",
@@ -299,20 +400,34 @@ export default function TableProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="headerTextColor"
                 placeholder="#FFFFFF"
                 size="sm"
                 type="text"
                 value={tableData.style?.headerTextColor || "#FFFFFF"}
                 onChange={(e) =>
-                  handleColorChange("headerTextColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      headerTextColor: e.target.value,
+                    },
+                  })
                 }
               />
               <input
+                aria-labelledby="headerTextColor"
                 className="w-8 h-8 cursor-pointer bg-transparent border-0"
                 type="color"
                 value={tableData.style?.headerTextColor || "#FFFFFF"}
                 onChange={(e) =>
-                  handleColorChange("headerTextColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      headerTextColor: e.target.value,
+                    },
+                  })
                 }
               />
             </div>
@@ -320,12 +435,17 @@ export default function TableProperties({
 
           {/* Footer Background Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="footerBackgroundColor"
+            >
               Footer Background
             </label>
             <div className="flex items-center gap-2">
               <div
+                aria-label={`Current footer background color: ${tableData.style?.footerBackgroundColor || "#F3F4F6"}`}
                 className="w-6 h-6 rounded border border-gray-600"
+                role="img"
                 style={{
                   backgroundColor:
                     tableData.style?.footerBackgroundColor || "#F3F4F6",
@@ -337,20 +457,34 @@ export default function TableProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="footerBackgroundColor"
                 placeholder="#F3F4F6"
                 size="sm"
                 type="text"
                 value={tableData.style?.footerBackgroundColor || "#F3F4F6"}
                 onChange={(e) =>
-                  handleColorChange("footerBackgroundColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      footerBackgroundColor: e.target.value,
+                    },
+                  })
                 }
               />
               <input
+                aria-labelledby="footerBackgroundColor"
                 className="w-8 h-8 cursor-pointer bg-transparent border-0"
                 type="color"
                 value={tableData.style?.footerBackgroundColor || "#F3F4F6"}
                 onChange={(e) =>
-                  handleColorChange("footerBackgroundColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      footerBackgroundColor: e.target.value,
+                    },
+                  })
                 }
               />
             </div>
@@ -358,12 +492,17 @@ export default function TableProperties({
 
           {/* Footer Text Color */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="footerTextColor"
+            >
               Footer Text Color
             </label>
             <div className="flex items-center gap-2">
               <div
+                aria-label={`Current footer text color: ${tableData.style?.footerTextColor || "#000000"}`}
                 className="w-6 h-6 rounded border border-gray-600"
+                role="img"
                 style={{
                   backgroundColor:
                     tableData.style?.footerTextColor || "#000000",
@@ -375,20 +514,34 @@ export default function TableProperties({
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                id="footerTextColor"
                 placeholder="#000000"
                 size="sm"
                 type="text"
                 value={tableData.style?.footerTextColor || "#000000"}
                 onChange={(e) =>
-                  handleColorChange("footerTextColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      footerTextColor: e.target.value,
+                    },
+                  })
                 }
               />
               <input
+                aria-labelledby="footerTextColor"
                 className="w-8 h-8 cursor-pointer bg-transparent border-0"
                 type="color"
                 value={tableData.style?.footerTextColor || "#000000"}
                 onChange={(e) =>
-                  handleColorChange("footerTextColor", e.target.value)
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      footerTextColor: e.target.value,
+                    },
+                  })
                 }
               />
             </div>
@@ -400,20 +553,32 @@ export default function TableProperties({
         <div className="space-y-4">
           {/* Table Width */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="tableWidth"
+            >
               Table Width
             </label>
             <div className="flex items-center gap-2">
               <Input
-                className="flex-1"
+                className="w-32"
                 classNames={{
                   input: "bg-gray-800 text-white",
                   inputWrapper: "bg-gray-800 border-gray-700",
                 }}
+                placeholder="100%"
                 size="sm"
                 type="text"
                 value={tableData.style?.width?.toString() || "100%"}
-                onChange={(e) => handleStyleChange("width", e.target.value)}
+                onChange={(e) =>
+                  onUpdateTable({
+                    ...tableData,
+                    style: {
+                      ...(tableData.style || {}),
+                      width: e.target.value,
+                    },
+                  })
+                }
               />
               <Dropdown>
                 <DropdownTrigger>
@@ -427,27 +592,72 @@ export default function TableProperties({
                 </DropdownTrigger>
                 <DropdownMenu aria-label="Width Options">
                   <DropdownItem
-                    onClick={() => handleStyleChange("width", "100%")}
+                    key="width-100"
+                    onClick={() =>
+                      onUpdateTable({
+                        ...tableData,
+                        style: {
+                          ...(tableData.style || {}),
+                          width: "100%",
+                        },
+                      })
+                    }
                   >
                     Full width (100%)
                   </DropdownItem>
                   <DropdownItem
-                    onClick={() => handleStyleChange("width", "75%")}
+                    key="width-75"
+                    onClick={() =>
+                      onUpdateTable({
+                        ...tableData,
+                        style: {
+                          ...(tableData.style || {}),
+                          width: "75%",
+                        },
+                      })
+                    }
                   >
                     75%
                   </DropdownItem>
                   <DropdownItem
-                    onClick={() => handleStyleChange("width", "50%")}
+                    key="width-50"
+                    onClick={() =>
+                      onUpdateTable({
+                        ...tableData,
+                        style: {
+                          ...(tableData.style || {}),
+                          width: "50%",
+                        },
+                      })
+                    }
                   >
                     50%
                   </DropdownItem>
                   <DropdownItem
-                    onClick={() => handleStyleChange("width", "25%")}
+                    key="width-25"
+                    onClick={() =>
+                      onUpdateTable({
+                        ...tableData,
+                        style: {
+                          ...(tableData.style || {}),
+                          width: "25%",
+                        },
+                      })
+                    }
                   >
                     25%
                   </DropdownItem>
                   <DropdownItem
-                    onClick={() => handleStyleChange("width", "auto")}
+                    key="width-auto"
+                    onClick={() =>
+                      onUpdateTable({
+                        ...tableData,
+                        style: {
+                          ...(tableData.style || {}),
+                          width: "auto",
+                        },
+                      })
+                    }
                   >
                     Auto
                   </DropdownItem>
@@ -458,12 +668,20 @@ export default function TableProperties({
 
           {/* Rows and Columns */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="tableRows"
+            >
               Rows: {tableData.rows}
             </label>
             <div className="flex items-center gap-2 mb-4">
               <Slider
+                aria-valuemax={20}
+                aria-valuemin={1}
+                aria-valuenow={tableData.rows}
+                aria-valuetext={`${tableData.rows} rows`}
                 className="max-w-md flex-1"
+                id="tableRows"
                 maxValue={20}
                 minValue={1}
                 size="sm"
@@ -474,6 +692,7 @@ export default function TableProperties({
                 }
               />
               <Input
+                aria-labelledby="tableRows"
                 className="w-20"
                 classNames={{
                   input: "bg-gray-800 text-white",
@@ -494,12 +713,20 @@ export default function TableProperties({
               />
             </div>
 
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label
+              className="block text-sm font-medium text-gray-300 mb-2"
+              htmlFor="tableColumns"
+            >
               Columns: {tableData.columns}
             </label>
             <div className="flex items-center gap-2">
               <Slider
+                aria-valuemax={20}
+                aria-valuemin={1}
+                aria-valuenow={tableData.columns}
+                aria-valuetext={`${tableData.columns} columns`}
                 className="max-w-md flex-1"
+                id="tableColumns"
                 maxValue={20}
                 minValue={1}
                 size="sm"
@@ -510,6 +737,7 @@ export default function TableProperties({
                 }
               />
               <Input
+                aria-labelledby="tableColumns"
                 className="w-20"
                 classNames={{
                   input: "bg-gray-800 text-white",
@@ -593,9 +821,14 @@ export default function TableProperties({
           {/* Preview */}
           <div>
             <h3 className="text-sm font-medium text-gray-300 mb-2">Preview</h3>
-            <div className="bg-gray-800 p-3 rounded-lg">
+            <div
+              aria-label="Table preview"
+              className="bg-gray-800 p-3 rounded-lg"
+              role="region"
+            >
               <div className="overflow-auto max-h-48">
                 <table
+                  aria-label="Table preview"
                   className="border-collapse w-full"
                   style={{
                     borderCollapse: "collapse",

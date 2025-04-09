@@ -33,3 +33,17 @@ build/
 # IDE settings
 .vscode/
 .idea/
+
+# GitHub workflows and templates
+.github/
+
+# Documentation
+docs/
+
+# Specific config files that don't need formatting
+.dockerignore
+LICENSE
+
+# Ignore all files in the extras directory
+extras
+extras/**/*
