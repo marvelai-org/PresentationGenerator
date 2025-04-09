@@ -18,7 +18,7 @@ import {
 import { Icon } from "@iconify/react";
 import { useRouter } from "next/navigation";
 
-import NavigationHeaderWithHeadingCTA from "@/components/layout/NavigationHeader/NavigationHeaderWithHeadingCTA";
+import NavigationHeaderWithHeadingCTA from "@/components/layout/NavigationHeader/NavigationHeader";
 
 // Sample data for presentations
 const recentPresentations = [

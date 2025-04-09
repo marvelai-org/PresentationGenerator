@@ -4,10 +4,7 @@ import "@/styles/globals.css";
 import { Metadata, Viewport } from "next";
 import clsx from "clsx";
 
-// Import all providers
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { HeroUIProvider } from "@/providers/HeroUIProvider";
-import { AuthProvider } from "@/providers/AuthProvider";
+import { Providers } from "./providers";
 import { siteConfig } from "@/config/site";
 import { fontSans } from "@/config/fonts";
 
@@ -43,15 +40,11 @@ export default function RootLayout({
           fontSans.variable,
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          <HeroUIProvider>
-            <AuthProvider>
-              <div className="relative flex flex-col h-screen">
-                <main className="flex-grow">{children}</main>
-              </div>
-            </AuthProvider>
-          </HeroUIProvider>
-        </ThemeProvider>
+        <Providers>
+          <div className="relative flex flex-col h-screen">
+            <main className="flex-grow">{children}</main>
+          </div>
+        </Providers>
       </body>
     </html>
   );

@@ -118,8 +118,5 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.svg).*)",
     "/api/:path*",
     "/dashboard/:path*",
-    "/projects/:path*",
-    "/documents/:path*",
-    "/conversations/:path*",
   ],
 };

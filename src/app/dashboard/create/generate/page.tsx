@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // Import from the marketing landing page components
-import { PromptInputFullLineComponent } from "@/components/features/marketing/landing-page/LeanPromptInputFullLine";
+import { PromptInputFullLineComponent } from "@/components/features/ai/prompt-inputs/components/PromptInputFullLine";
 
 const examplePrompts = [
   {
