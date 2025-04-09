@@ -38,7 +38,7 @@ export default function TableProperties({
 
   // Handle changes to style properties
   const handleStyleChange = (
-    property: string,
+    property: keyof TableData["style"],
     value: string | number | undefined,
   ) => {
     onUpdateTable({
@@ -58,7 +58,7 @@ export default function TableProperties({
     const numValue = parseInt(value);
 
     if (!isNaN(numValue)) {
-      handleStyleChange(property, numValue);
+      handleStyleChange(property as keyof TableData["style"], numValue);
     }
   };
 
@@ -67,7 +67,7 @@ export default function TableProperties({
     property: string,
     value: string,
   ) => {
-    handleStyleChange(property, value);
+    handleStyleChange(property as keyof TableData["style"], value);
   };
 
   // Toggle header, footer, and other boolean options
