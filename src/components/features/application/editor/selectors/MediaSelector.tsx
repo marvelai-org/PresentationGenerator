@@ -27,21 +27,36 @@ export default function MediaSelector({
       type: "abstract",
       title: "Earth Abstract",
     },
-    { id: 2, url: "/unsplash-1.jpg", type: "abstract", title: "Blue Abstract" },
+    { 
+      id: 2, 
+      url: "https://placehold.co/600x400/3b82f6/ffffff?text=Blue+Abstract", 
+      type: "abstract", 
+      title: "Blue Abstract" 
+    },
     {
       id: 3,
-      url: "/unsplash-2.jpg",
+      url: "https://placehold.co/600x400/6366f1/ffffff?text=Data+Visualization",
       type: "data",
       title: "Data Visualization",
     },
     {
       id: 4,
-      url: "/unsplash-3.jpg",
+      url: "https://placehold.co/600x400/ec4899/ffffff?text=Colorful+Abstract",
       type: "abstract",
       title: "Colorful Abstract",
     },
-    { id: 5, url: "/unsplash-4.jpg", type: "tech", title: "Technology" },
-    { id: 6, url: "/unsplash-5.jpg", type: "3d", title: "3D Shapes" },
+    { 
+      id: 5, 
+      url: "https://placehold.co/600x400/06b6d4/ffffff?text=Technology", 
+      type: "tech", 
+      title: "Technology" 
+    },
+    { 
+      id: 6, 
+      url: "https://placehold.co/600x400/14b8a6/ffffff?text=3D+Shapes", 
+      type: "3d", 
+      title: "3D Shapes" 
+    },
   ];
 
   // Sample icons/stickers

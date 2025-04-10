@@ -30,28 +30,22 @@ export default function MyClientComponent() {
 
 For server components, use the `createServerSupabaseClient` function:
 
-```tsx
+```typescript
 import { createServerSupabaseClient } from "@/lib/auth/supabase-server";
 
-export default async function MyServerComponent() {
-  const supabase = createServerSupabaseClient();
-
-  // Use supabase here...
-}
+// This function is async, so we need to await it
+const supabase = await createServerSupabaseClient();
 ```
 
 ### In API Route Handlers
 
 For API route handlers, use the `createRouteSupabaseClient` function:
 
-```tsx
+```typescript
 import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 
-export async function GET() {
-  const supabase = createRouteSupabaseClient();
-
-  // Use supabase here...
-}
+// In an async route handler
+const supabase = await createRouteSupabaseClient();
 ```
 
 ## Mock Client Implementation

@@ -66,16 +66,11 @@ echo "NEXT_PUBLIC_MOCK_DEBUG=true" >> .env
 
 For server components, use the `createServerSupabaseClient` function:
 
-```tsx
-// In a server component
+```typescript
 import { createServerSupabaseClient } from "@/lib/auth/supabase-server";
 
-export default async function MyServerComponent() {
-  const supabase = createServerSupabaseClient();
-
-  // Use supabase here for auth and database operations
-  const { data } = await supabase.from("users").select();
-}
+// This function is async, so we need to await it
+const supabase = await createServerSupabaseClient();
 ```
 
 ### Client Components
@@ -102,17 +97,11 @@ export default function MyClientComponent() {
 
 For API routes, use the `createRouteSupabaseClient` function:
 
-```tsx
-// In an API route handler
+```typescript
 import { createRouteSupabaseClient } from "@/lib/auth/supabase-server";
 
-export async function GET() {
-  const supabase = createRouteSupabaseClient();
-
-  // Use supabase here for auth and database operations
-  const { data } = await supabase.from("presentations").select();
-  return Response.json({ data });
-}
+// In an async route handler
+const supabase = await createRouteSupabaseClient();
 ```
 
 ## Mock Database Implementation

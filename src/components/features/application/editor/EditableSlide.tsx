@@ -110,12 +110,14 @@ export default function EditableSlide({
     position: "relative",
   };
 
-  if (slide.image) {
-    backgroundStyles.backgroundImage = `url(${slide.image})`;
-  }
-
+  // Use conditional logic to determine which background to apply
   if (slide.gradient) {
-    backgroundStyles.background = slide.gradient;
+    // Use backgroundImage instead of background shorthand
+    backgroundStyles.backgroundImage = slide.gradient;
+    // Clear backgroundColor if we're using a gradient
+    backgroundStyles.backgroundColor = '';
+  } else if (slide.image) {
+    backgroundStyles.backgroundImage = `url(${slide.image})`;
   }
 
   // Special styling for the first slide (title slide)
