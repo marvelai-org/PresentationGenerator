@@ -1,104 +1,125 @@
-# Presentation Generator AI Service
+# AI Presentation Generator Service
 
-This is the AI service component of the Presentation Generator application. It provides the backend API for generating presentation content using various AI models.
+A comprehensive AI service for generating professional presentations, including outlines, slide content, and images.
 
-## Directory Structure
+## Features
 
-- `app.py` - The main FastAPI application with API endpoints
-- `requirements.txt` - Python dependencies
-- `models/` - Directory for ML model files and related scripts
+- **Outline Generation**: Creates structured presentation outlines from topics
+- **Slide Content Generation**: Produces detailed content for each slide
+- **Image Generation**: Creates relevant visuals for slides
+- **Multi-Language Support**: Generate presentations in various languages
+- **Reference Material Integration**: Use existing documents as references
 
-## Setup and Installation
+## Getting Started
 
-1. Create a virtual environment (recommended):
+### Prerequisites
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+- Python 3.10 or higher
+- Poetry for dependency management
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### Installation
 
-## Running the Service
-
-Start the service with:
+1. Clone the repository and navigate to the ai-services directory:
 
 ```bash
-python app.py
+git clone https://github.com/your-org/PresentationGenerator.git
+cd PresentationGenerator/ai-services
 ```
 
-This will start the service at `http://localhost:8000`.
-
-For development with automatic reloading:
+2. Install dependencies with Poetry:
 
 ```bash
-uvicorn app:app --reload
+poetry install
+```
+
+3. Set up environment variables:
+
+```bash
+cp .env.example .env
+```
+
+4. Edit the `.env` file with your API keys and configuration.
+
+### Running the Service
+
+> **Note:** All scripts have been moved to the `scripts/` directory in the project root for better organization.
+
+#### Development mode:
+
+```bash
+# From project root
+npm run ai:dev
+
+# Or using the script directly
+./scripts/ai-service/run_dev.sh
+```
+
+#### Production mode:
+
+```bash
+# From project root
+npm run ai:start
+
+# Or using the script directly
+./scripts/ai-service/run.sh
+```
+
+#### Setup and Utility Scripts
+
+```bash
+# Set up API credentials
+npm run ai:setup-credentials
+
+# Set up Supabase integration
+npm run ai:setup-supabase
+
+# Fix image generation issues
+npm run ai:fix-images
+```
+
+## Project Structure
+
+```
+ai-services/
+├── modules/                 # Core functionality modules
+│   ├── image_generator/     # Image generation module
+│   ├── outline_generator/   # Outline generation module
+│   └── slide_generator/     # Slide content generation module
+├── src/                     # Source package
+│   └── ai_services/         # Main package
+│       ├── modules/         # Internal module references
+│       ├── utils/           # Utility functions
+│       ├── __init__.py
+│       ├── __main__.py      # Command-line entry point
+│       └── main.py          # FastAPI application definition
+├── static/                  # Static files and media storage
+├── tests/                   # Test suite
+├── utils/                   # Utility scripts
+├── app.py                   # Wrapper script for backward compatibility
+├── .env.example             # Example environment configuration
+├── pyproject.toml           # Project definition and dependencies
+└── README.md                # Project documentation
 ```
 
 ## API Endpoints
 
-### Health Check
+The service provides RESTful API endpoints:
 
-- `GET /` - Returns a simple status message to confirm the service is running
+- `GET /`: Health check endpoint
+- `POST /generate/outline`: Generate presentation outline from a topic
+- `POST /generate/slides`: Generate slide content from outline titles
+- `POST /generate/images`: Generate images for slides
 
-### Prediction
+Detailed API documentation is available at the `/docs` (Swagger UI) and `/redoc` (ReDoc) endpoints when the service is running.
 
-- `POST /predict` - Generates presentation content based on a prompt
-  - Request body:
-    ```json
-    {
-      "prompt": "string",
-      "options": {
-        "property1": "any type"
-      }
-    }
-    ```
-  - Response:
-    ```json
-    {
-      "status": "success",
-      "data": {
-        "title": "string",
-        "slides": [
-          {
-            "title": "string",
-            "content": "string"
-          }
-        ],
-        "metadata": {
-          "prompt": "string",
-          "options": {},
-          "generationTime": "string"
-        }
-      }
-    }
-    ```
+## Development Guidelines
 
-## Adding AI Models
+- Use absolute imports (`from ai_services.utils import...`) for consistency
+- Add docstrings to all functions and modules
+- Include unit tests for new features
+- Keep sensitive credentials out of version control
+- Use the existing module structure for new features
 
-Place your model files and scripts in the `models/` directory. Update `app.py` to utilize these models when processing prediction requests.
+## License
 
-## Environment Variables
-
-Create a `.env` file in the ai-services directory with the following variables:
-
-```
-# AI API Keys
-OPENAI_API_KEY=your_openai_api_key
-COHERE_API_KEY=your_cohere_api_key
-
-# Service Configuration
-PORT=8000
-DEBUG=True
-```
-
-## Future Improvements
-
-- Add authentication for API endpoints
-- Implement model versioning
-- Add caching for repeated requests
-- Implement logging and monitoring
-- Create Docker support for easier deployment
+This project is licensed under the MIT License - see the LICENSE file for details.

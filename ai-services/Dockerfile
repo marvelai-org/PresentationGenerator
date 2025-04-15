@@ -1,54 +1,50 @@
-FROM python:3.10-slim AS builder
-
-# Set working directory
-WORKDIR /app
-
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gcc && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
-
-# Final stage
 FROM python:3.10-slim
+
+WORKDIR /app
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app \
-    PRODUCTION=true
+    POETRY_VIRTUALENVS_CREATE=false \
+    POETRY_NO_INTERACTION=1
 
-# Create non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
-WORKDIR /app
+# Install Poetry
+RUN pip install --no-cache-dir poetry
 
-# Copy wheels from builder stage
-COPY --from=builder /app/wheels /wheels
-COPY --from=builder /app/requirements.txt .
+# Copy pyproject.toml and poetry.lock (if exists)
+COPY pyproject.toml poetry.lock* ./
 
 # Install dependencies
-RUN pip install --no-cache /wheels/* && \
-    rm -rf /wheels
+RUN poetry install --no-root --without dev
 
 # Copy application code
+# Exclude any sensitive files (credentials, .env) from copy
 COPY . .
 
-# Change ownership to non-root user
-RUN chown -R appuser:appuser /app
+# Create directory for credentials if needed
+RUN mkdir -p /app/credentials
 
-# Switch to non-root user
-USER appuser
-
-# Expose port
+# Expose the port the app runs on
 EXPOSE 8000
 
-# Run the application
-# In production containers, we need to bind to 0.0.0.0
-# App will use PRODUCTION env var to determine appropriate host binding
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"] 
+# IMPORTANT: When running the container, mount volumes or set environment variables:
+# docker run -p 8000:8000 \
+#   -e GOOGLE_API_KEY=your-api-key \
+#   -e SUPABASE_SERVICE_KEY=your-supabase-key \
+#   -e TOGETHER_API_KEY=your-together-key \
+#   -e OPENROUTER_API_KEY=your-openrouter-key \
+#   -v /path/to/your/credentials.json:/app/credentials/google-credentials.json \
+#   -e GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/google-credentials.json \
+#   your-image-name
+
+# Command to run the application
+CMD ["poetry", "run", "start"]
