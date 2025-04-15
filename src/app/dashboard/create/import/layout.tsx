@@ -1,9 +1,9 @@
-import { ReactNode } from "react";
+import React from 'react';
 
-import { Providers } from "@/app/providers";
+import { Providers } from '@/app/providers';
 
 interface ImportLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function ImportLayout({ children }: ImportLayoutProps) {

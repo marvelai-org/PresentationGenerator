@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Button, Input, Link, Form, Alert } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import React from 'react';
+import { Button, Input, Link, Alert } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
 
 export default function ForgotPassword() {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState(false);
@@ -30,7 +30,7 @@ export default function ForgotPassword() {
 
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || "Failed to send reset link. Please try again.");
+      setError(err.message || 'Failed to send reset link. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -61,11 +61,7 @@ export default function ForgotPassword() {
             Reset link sent! Check your email for further instructions.
           </Alert>
         ) : (
-          <Form
-            className="flex flex-col gap-3"
-            validationBehavior="native"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             <Input
               isRequired
               description="We'll send a password reset link to this email"
@@ -81,18 +77,12 @@ export default function ForgotPassword() {
               className="w-full"
               color="primary"
               isLoading={isLoading}
-              spinner={
-                <Icon
-                  className="animate-spin"
-                  icon="lucide:loader-2"
-                  width={24}
-                />
-              }
+              spinner={<Icon className="animate-spin" icon="lucide:loader-2" width={24} />}
               type="submit"
             >
               Send Reset Link
             </Button>
-          </Form>
+          </form>
         )}
       </div>
     </div>

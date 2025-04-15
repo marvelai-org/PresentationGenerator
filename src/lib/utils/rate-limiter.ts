@@ -1,6 +1,6 @@
 // src/lib/rate-limiter.ts
-import { NextApiRequest, NextApiResponse } from "next";
-import { LRUCache } from "lru-cache";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { LRUCache } from 'lru-cache';
 
 interface Bucket {
   tokens: number;
@@ -27,10 +27,7 @@ const bucketCache = new LRUCache<string, Bucket>({
  * @param limit Maximum allowed tokens per window.
  * @returns True if the request is allowed; otherwise, false.
  */
-function checkRateLimitForKey(
-  key: string,
-  limit: number = MAX_TOKENS,
-): boolean {
+function checkRateLimitForKey(key: string, limit: number = MAX_TOKENS): boolean {
   const now = Date.now();
   // Retrieve the current bucket for this key, or initialize one.
   let bucket = bucketCache.get(key);
@@ -68,14 +65,10 @@ function checkRateLimitForKey(
  * @param limit Maximum allowed requests per window (default is 10).
  * @returns True if allowed, false if rate limit exceeded.
  */
-export function rateLimiter(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  limit?: number,
-): boolean {
+export function rateLimiter(req: NextApiRequest, res: NextApiResponse, limit?: number): boolean {
   // Extract IP address from headers or socket.
-  const token = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-  const key = Array.isArray(token) ? token[0] : token || "";
+  const token = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+  const key = Array.isArray(token) ? token[0] : token || '';
 
   return checkRateLimitForKey(key, limit);
 }

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Button,
   Input,
@@ -9,7 +9,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-} from "@heroui/react";
+} from '@heroui/react';
 
 interface URLImporterProps {
   isOpen: boolean;
@@ -17,12 +17,8 @@ interface URLImporterProps {
   onImport: (url: string) => void;
 }
 
-export default function URLImporter({
-  isOpen,
-  onClose,
-  onImport,
-}: URLImporterProps) {
-  const [url, setUrl] = useState("");
+export default function URLImporter({ isOpen, onClose, onImport }: URLImporterProps) {
+  const [url, setUrl] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,8 +26,8 @@ export default function URLImporter({
     try {
       const urlObj = new URL(inputUrl);
 
-      if (urlObj.protocol !== "http:" && urlObj.protocol !== "https:") {
-        setError("URL must start with http:// or https://");
+      if (urlObj.protocol !== 'http:' && urlObj.protocol !== 'https:') {
+        setError('URL must start with http:// or https://');
 
         return false;
       }
@@ -40,7 +36,7 @@ export default function URLImporter({
 
       return true;
     } catch {
-      setError("Please enter a valid URL");
+      setError('Please enter a valid URL');
 
       return false;
     }
@@ -62,20 +58,18 @@ export default function URLImporter({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">
-          Import from URL
-        </ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">Import from URL</ModalHeader>
         <ModalBody>
           <p className="text-default-500 mb-4">
             This will extract the text from the webpage you enter.
           </p>
           <Input
-            color={error ? "danger" : "default"}
+            color={error ? 'danger' : 'default'}
             errorMessage={error}
             label="URL"
             placeholder="https://www.example.com/"
             value={url}
-            onValueChange={(value) => {
+            onValueChange={value => {
               setUrl(value);
               if (error) validateUrl(value);
             }}

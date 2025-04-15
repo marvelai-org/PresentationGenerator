@@ -14,10 +14,10 @@ export interface TableCell {
   style?: {
     backgroundColor?: string;
     color?: string;
-    textAlign?: "left" | "center" | "right";
-    fontWeight?: "normal" | "bold";
-    fontStyle?: "normal" | "italic";
-    textDecoration?: "none" | "underline";
+    textAlign?: 'left' | 'center' | 'right';
+    fontWeight?: 'normal' | 'bold';
+    fontStyle?: 'normal' | 'italic';
+    textDecoration?: 'none' | 'underline';
     borderTop?: string;
     borderRight?: string;
     borderBottom?: string;
@@ -132,4 +132,42 @@ export interface Slide {
 /**
  * Utility type for slide templates
  */
-export type TemplateType = "title" | "textAndImage" | "bulletList";
+export type TemplateType =
+  // Basic layouts
+  | 'title'
+  | 'textAndImage'
+  | 'bulletList'
+  | 'blankCard'
+  | 'imageAndText'
+  | 'textAndImage'
+  | 'twoColumns'
+  | 'twoColumnWithHeading'
+  | 'threeColumns'
+  | 'threeColumnWithHeading'
+  | 'fourColumns'
+  | 'titleWithBullets'
+  | 'titleWithBulletsAndImage'
+
+  // Card layouts
+  | 'accentLeft'
+  | 'accentRight'
+  | 'accentTop'
+  | 'accentRightFit'
+  | 'accentLeftFit'
+  | 'accentBackground'
+
+  // Image-focused layouts
+  | 'twoImageColumns'
+  | 'threeImageColumns'
+  | 'fourImageColumns'
+  | 'imagesWithText'
+  | 'imageGallery'
+  | 'teamPhotos'
+
+  // Collections and sequences
+  | 'textBoxes'
+  | 'timeline'
+  | 'largeBulletList'
+  | 'iconsWithText'
+  | 'smallIconsWithText'
+  | 'arrows';

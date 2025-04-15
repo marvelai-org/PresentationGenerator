@@ -1,17 +1,15 @@
 // src/lib/auth/supabase.ts
-import { createBrowserClient } from "@supabase/ssr";
+import { createBrowserClient } from '@supabase/ssr';
 
-import { Database } from "@/types/supabase"; // You might need to create this type
+import { Database } from '@/types/supabase'; // You might need to create this type
 
 // Mock client for build time or when environment variables are missing
 const createMockClient = () => {
   return {
     auth: {
-      getSession: () =>
-        Promise.resolve({ data: { session: null }, error: null }),
+      getSession: () => Promise.resolve({ data: { session: null }, error: null }),
       getUser: () => Promise.resolve({ data: { user: null }, error: null }),
-      signInWithPassword: () =>
-        Promise.resolve({ data: null, error: { message: "Mock client" } }),
+      signInWithPassword: () => Promise.resolve({ data: null, error: { message: 'Mock client' } }),
       signInWithOtp: () => Promise.resolve({ data: null, error: null }),
       signUp: () => Promise.resolve({ data: { user: null }, error: null }),
       signOut: () => Promise.resolve({ error: null }),
@@ -41,27 +39,23 @@ export const createClient = () => {
   try {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-    const isCI = process.env.CI_ENVIRONMENT === "true";
+    const isCI = process.env.CI_ENVIRONMENT === 'true';
 
     // Always use mock client in CI environment for testing
     if (isCI || !supabaseUrl || !supabaseKey) {
       console.info(
         isCI
-          ? "Using mock client in CI environment"
-          : "Missing Supabase credentials, using mock client",
+          ? 'Using mock client in CI environment'
+          : 'Missing Supabase credentials, using mock client'
       );
 
-      return createMockClient() as unknown as ReturnType<
-        typeof createBrowserClient<Database>
-      >;
+      return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
     }
 
     return createBrowserClient<Database>(supabaseUrl, supabaseKey);
   } catch (error) {
-    console.warn("Supabase client creation error:", error);
+    console.warn('Supabase client creation error:', error);
 
-    return createMockClient() as unknown as ReturnType<
-      typeof createBrowserClient<Database>
-    >;
+    return createMockClient() as unknown as ReturnType<typeof createBrowserClient<Database>>;
   }
 };

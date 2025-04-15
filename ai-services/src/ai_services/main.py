@@ -5,6 +5,12 @@ FastAPI application for Presentation Generator AI Services.
 import logging
 import os
 from typing import Any
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+env_path = Path(__file__).resolve().parent.parent.parent.parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 from fastapi import BackgroundTasks, FastAPI
 from fastapi.middleware.cors import CORSMiddleware

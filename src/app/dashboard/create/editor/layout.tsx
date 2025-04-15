@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import React from 'react';
 
-import { Providers } from "@/app/providers";
-import "./styles.css";
+import { Providers } from '@/app/providers';
+import './styles.css';
 
 interface EditorLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function EditorLayout({ children }: EditorLayoutProps) {

@@ -1,57 +1,44 @@
-"use client";
+'use client';
 
-import React from "react";
-import {
-  Button,
-  Input,
-  Checkbox,
-  Link,
-  Divider,
-  Form,
-  Alert,
-} from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useState } from 'react';
+import { Button, Input, Checkbox, Link, Divider, Alert } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
-import { useAuth } from "@/providers/AuthProvider";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
+import { useAuth } from '@/providers/AuthProvider';
 
-export default function Component() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [isVisible, setIsVisible] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [error, setError] = React.useState<string | null>(null);
-  const [success, setSuccess] = React.useState<string | null>(null);
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   // Destructure but don't use it directly, to avoid the unused variable warning
   const _auth = useAuth();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClientSupabaseClient();
 
   // Check for message query parameter
   React.useEffect(() => {
-    const message = searchParams?.get("message");
+    const message = searchParams?.get('message');
 
-    if (message === "password_reset_success") {
-      setSuccess(
-        "Password has been reset successfully. Please log in with your new password.",
-      );
-    } else if (message === "callback_failed") {
-      setError("Authentication failed. Please try again.");
-    } else if (message === "missing_code") {
-      setError("Missing authentication code. Please try again.");
+    if (message === 'password_reset_success') {
+      setSuccess('Password has been reset successfully. Please log in with your new password.');
+    } else if (message === 'callback_failed') {
+      setError('Authentication failed. Please try again.');
+    } else if (message === 'missing_code') {
+      setError('Missing authentication code. Please try again.');
     }
   }, [searchParams]);
 
-  const toggleVisibility = () => setIsVisible(!isVisible);
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setError(null);
-    setSuccess(null);
     setIsLoading(true);
+    setError(null);
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -59,17 +46,20 @@ export default function Component() {
         password,
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      router.push("/dashboard");
+      router.push('/dashboard');
+      router.refresh();
     } catch (err: any) {
-      setError(err.message || "Login failed");
+      setError(err.message || 'Failed to login. Please check your credentials.');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSocialLogin = async (provider: "google" | "github") => {
+  const handleSocialLogin = async (provider: 'google' | 'github') => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -87,17 +77,24 @@ export default function Component() {
   return (
     <div className="flex min-h-screen w-full items-center justify-center bg-gradient-to-br from-rose-400 via-fuchsia-500 to-indigo-500 p-2 sm:p-4 lg:p-8">
       <div className="flex w-full max-w-sm flex-col gap-4 rounded-large bg-content1 px-8 pb-10 pt-6 shadow-large">
-        <p className="pb-2 text-xl font-medium">Log In</p>
-        {error && <Alert color="danger">{error}</Alert>}
-        {success && <Alert color="success">{success}</Alert>}
-        <Form
-          className="flex flex-col gap-3"
-          validationBehavior="native"
-          onSubmit={handleSubmit}
-        >
+        <div className="flex flex-col">
+          <p className="pb-2 text-xl font-medium">Login</p>
+          <p className="text-sm">Log in to your account</p>
+        </div>
+        {error && (
+          <Alert className="mb-2" color="danger">
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert className="mb-2" color="success">
+            {success}
+          </Alert>
+        )}
+        <form className="flex flex-col gap-3" onSubmit={handleLogin}>
           <Input
             isRequired
-            label="Email Address"
+            label="Email"
             name="email"
             placeholder="Enter your email"
             type="email"
@@ -107,43 +104,19 @@ export default function Component() {
           />
           <Input
             isRequired
-            endContent={
-              <Button
-                isIconOnly
-                type="button"
-                variant="light"
-                onPress={toggleVisibility}
-              >
-                {isVisible ? (
-                  <Icon
-                    className="pointer-events-none text-2xl text-default-400"
-                    icon="solar:eye-closed-linear"
-                  />
-                ) : (
-                  <Icon
-                    className="pointer-events-none text-2xl text-default-400"
-                    icon="solar:eye-bold"
-                  />
-                )}
-              </Button>
-            }
             label="Password"
             name="password"
             placeholder="Enter your password"
-            type={isVisible ? "text" : "password"}
+            type="password"
             value={password}
             variant="bordered"
             onValueChange={setPassword}
           />
-          <div className="flex w-full items-center justify-between px-1 py-2">
-            <Checkbox name="remember" size="sm">
+          <div className="flex items-center justify-between">
+            <Checkbox isSelected={rememberMe} onValueChange={setRememberMe}>
               Remember me
             </Checkbox>
-            <Link
-              className="text-default-500"
-              href="/forgot-password"
-              size="sm"
-            >
+            <Link className="cursor-pointer text-primary" href="/forgot-password">
               Forgot password?
             </Link>
           </div>
@@ -151,18 +124,19 @@ export default function Component() {
             className="w-full"
             color="primary"
             isLoading={isLoading}
-            spinner={
-              <Icon
-                className="animate-spin"
-                icon="lucide:loader-2"
-                width={24}
-              />
-            }
+            spinner={<Icon className="animate-spin" icon="lucide:loader-2" width={24} />}
             type="submit"
           >
-            Log In
+            Login
           </Button>
-        </Form>
+        </form>
+        <Divider className="my-2" />
+        <div className="flex justify-center gap-2">
+          <span className="text-sm text-default-500">Don't have an account?</span>
+          <Link className="cursor-pointer text-primary text-sm" href="/signup">
+            Sign up
+          </Link>
+        </div>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
           <p className="shrink-0 text-tiny text-default-500">OR</p>
@@ -172,26 +146,18 @@ export default function Component() {
           <Button
             startContent={<Icon icon="flat-color-icons:google" width={24} />}
             variant="bordered"
-            onPress={() => handleSocialLogin("google")}
+            onPress={() => handleSocialLogin('google')}
           >
             Continue with Google
           </Button>
           <Button
-            startContent={
-              <Icon className="text-default-500" icon="fe:github" width={24} />
-            }
+            startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
             variant="bordered"
-            onPress={() => handleSocialLogin("github")}
+            onPress={() => handleSocialLogin('github')}
           >
             Continue with Github
           </Button>
         </div>
-        <p className="text-center text-small">
-          Need to create an account?&nbsp;
-          <Link href="/signup" size="sm">
-            Sign Up
-          </Link>
-        </p>
       </div>
     </div>
   );

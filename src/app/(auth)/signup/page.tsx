@@ -1,25 +1,17 @@
-"use client";
+'use client';
 
-import React from "react";
-import {
-  Button,
-  Input,
-  Checkbox,
-  Link,
-  Divider,
-  Form,
-  Alert,
-} from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { useRouter } from "next/navigation";
+import React from 'react';
+import { Button, Input, Checkbox, Link, Divider, Alert } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import { useRouter } from 'next/navigation';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
 
 export default function Component() {
-  const [username, setUsername] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [username, setUsername] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [isVisible, setIsVisible] = React.useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -39,13 +31,13 @@ export default function Component() {
     setSuccess(null);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
 
       return;
     }
 
     if (!agreeToTerms) {
-      setError("You must agree to the Terms and Privacy Policy");
+      setError('You must agree to the Terms and Privacy Policy');
 
       return;
     }
@@ -66,13 +58,13 @@ export default function Component() {
 
       if (data?.user?.identities?.length === 0) {
         setSuccess(
-          "You already have an account. Please check your email for the login link or try signing in.",
+          'You already have an account. Please check your email for the login link or try signing in.'
         );
       } else {
-        router.push("/confirmation");
+        router.push('/confirmation');
       }
     } catch (err: any) {
-      setError(err.message || "Sign up failed");
+      setError(err.message || 'Sign up failed');
     } finally {
       setIsLoading(false);
     }
@@ -94,15 +86,15 @@ export default function Component() {
 
       if (error) throw error;
 
-      setSuccess("Magic link sent! Please check your email.");
+      setSuccess('Magic link sent! Please check your email.');
     } catch (err: any) {
-      setError(err.message || "Failed to send magic link");
+      setError(err.message || 'Failed to send magic link');
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleSocialSignup = async (provider: "google" | "github") => {
+  const handleSocialSignup = async (provider: 'google' | 'github') => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -123,11 +115,7 @@ export default function Component() {
         <p className="pb-2 text-xl font-medium">Sign Up</p>
         {error && <Alert color="danger">{error}</Alert>}
         {success && <Alert color="success">{success}</Alert>}
-        <Form
-          className="flex flex-col gap-3"
-          validationBehavior="native"
-          onSubmit={handleSubmit}
-        >
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <Input
             isRequired
             label="Username"
@@ -168,7 +156,7 @@ export default function Component() {
             label="Password"
             name="password"
             placeholder="Enter your password"
-            type={isVisible ? "text" : "password"}
+            type={isVisible ? 'text' : 'password'}
             value={password}
             variant="bordered"
             onValueChange={setPassword}
@@ -193,7 +181,7 @@ export default function Component() {
             label="Confirm Password"
             name="confirmPassword"
             placeholder="Confirm your password"
-            type={isConfirmVisible ? "text" : "password"}
+            type={isConfirmVisible ? 'text' : 'password'}
             value={confirmPassword}
             variant="bordered"
             onValueChange={setConfirmPassword}
@@ -218,27 +206,16 @@ export default function Component() {
             className="w-full"
             color="primary"
             isLoading={isLoading}
-            spinner={
-              <Icon
-                className="animate-spin"
-                icon="lucide:loader-2"
-                width={24}
-              />
-            }
+            spinner={<Icon className="animate-spin" icon="lucide:loader-2" width={24} />}
             type="submit"
           >
             Sign Up
           </Button>
 
-          <Button
-            className="w-full mt-2"
-            color="secondary"
-            type="button"
-            onPress={handleOtpSignup}
-          >
+          <Button className="w-full mt-2" color="secondary" type="button" onPress={handleOtpSignup}>
             Send Magic Link Instead
           </Button>
-        </Form>
+        </form>
         <div className="flex items-center gap-4 py-2">
           <Divider className="flex-1" />
           <p className="shrink-0 text-tiny text-default-500">OR</p>
@@ -248,16 +225,14 @@ export default function Component() {
           <Button
             startContent={<Icon icon="flat-color-icons:google" width={24} />}
             variant="bordered"
-            onPress={() => handleSocialSignup("google")}
+            onPress={() => handleSocialSignup('google')}
           >
             Continue with Google
           </Button>
           <Button
-            startContent={
-              <Icon className="text-default-500" icon="fe:github" width={24} />
-            }
+            startContent={<Icon className="text-default-500" icon="fe:github" width={24} />}
             variant="bordered"
-            onPress={() => handleSocialSignup("github")}
+            onPress={() => handleSocialSignup('github')}
           >
             Continue with Github
           </Button>

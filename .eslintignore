@@ -28,10 +28,11 @@ docs/
 # Specific config files that don't need linting
 .dockerignore
 .env*
+!.env.example
+!.env.local.example
 LICENSE
 *.md
 *.json
 
 # Ignore all files in the extras directory
-extras
-extras/**/*
+extras/

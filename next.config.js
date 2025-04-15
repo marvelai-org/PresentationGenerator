@@ -3,7 +3,13 @@ const nextConfig = {
   reactStrictMode: true,
   output: "standalone",
   images: {
-    domains: ["img.youtube.com", "vumbnail.com"],
+    domains: [
+      "img.youtube.com", 
+      "vumbnail.com", 
+      "picsum.photos", 
+      "localhost",
+      "pgimage.supabase.co"
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -12,6 +18,14 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "vumbnail.com",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
       },
     ],
   },

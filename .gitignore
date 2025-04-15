@@ -25,7 +25,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
+!.env.example
+!.env.local.example
 
 # vercel
 .vercel
@@ -33,7 +36,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-.env
 
 # Editor directories and files
 .vscode/
@@ -41,3 +43,7 @@ next-env.d.ts
 
 # Ignore all files in the extras directory
 extras/*
+
+# TODO: Remove these files when ready, they've been moved to docs/supabase
+# ai-services/SUPABASE_SETUP.md
+# ai-services/supabase_rls_policy.sql

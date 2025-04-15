@@ -5,7 +5,7 @@
  * To run this as a test, you would need to set up a testing framework like Jest or Vitest.
  */
 
-import { createClientSupabaseClient } from "../auth/supabase-client";
+import { createClientSupabaseClient } from "../../src/lib/auth/supabase-client";
 
 /**
  * Example function demonstrating how to use the mock Supabase client
@@ -74,16 +74,26 @@ async function mockDatabaseDemo() {
   if (insertError) {
     console.log(`- Error inserting presentation: ${insertError.message}`);
   } else {
-    console.log(`- Inserted presentation with id: ${newPresentation?.id}`);
+    // Type assertion to handle the potentially undefined id
+    const presentationData = newPresentation as any;
+    const presentationId = Array.isArray(presentationData) 
+      ? presentationData[0]?.id 
+      : presentationData?.id;
+    console.log(`- Inserted presentation with id: ${presentationId}`);
 
     // Insert a slide for this presentation
     const { data: newSlide } = await supabase.from("slides").insert({
-      presentation_id: newPresentation?.id,
+      presentation_id: presentationId,
       content: "This is a test slide created via the mock client",
       order: 1,
     });
 
-    console.log(`- Added slide with id: ${newSlide?.id}`);
+    // Type assertion for slide id
+    const slideData = newSlide as any;
+    const slideId = Array.isArray(slideData) 
+      ? slideData[0]?.id 
+      : slideData?.id;
+    console.log(`- Added slide with id: ${slideId}`);
   }
 
   // 3. UPDATE operations
@@ -101,7 +111,12 @@ async function mockDatabaseDemo() {
   if (updateError) {
     console.log(`- Error updating presentation: ${updateError.message}`);
   } else {
-    console.log(`- Updated presentation: ${updatedPresentation?.[0]?.title}`);
+    // Handle array or single object response
+    const presentationData = updatedPresentation as any;
+    const title = Array.isArray(presentationData) 
+      ? presentationData[0]?.title 
+      : presentationData?.title;
+    console.log(`- Updated presentation: ${title}`);
   }
 
   // 4. DELETE operations
@@ -116,20 +131,30 @@ async function mockDatabaseDemo() {
       user_id: "mock-user-1",
     });
 
+  // Get ID safely
+  const tempData = tempPresentation as any;
+  const tempId = Array.isArray(tempData) 
+    ? tempData[0]?.id 
+    : tempData?.id;
   console.log(
-    `- Created temporary presentation with id: ${tempPresentation?.id}`,
+    `- Created temporary presentation with id: ${tempId}`,
   );
 
   // Delete the record
   const { error: deleteError, data: deleteResult } = await supabase
     .from("presentations")
     .delete()
-    .eq("id", tempPresentation?.id);
+    .eq("id", tempId);
 
   if (deleteError) {
     console.log(`- Error deleting presentation: ${deleteError.message}`);
   } else {
-    console.log(`- Deleted ${deleteResult?.count} presentation(s)`);
+    // Handle count property which might be on the result or in a different format
+    const deleteData = deleteResult as any;
+    const count = typeof deleteData === 'object'
+      ? deleteData?.count || (Array.isArray(deleteData) ? deleteData.length : 1)
+      : 0;
+    console.log(`- Deleted ${count} presentation(s)`);
   }
 
   // 5. Verify final state

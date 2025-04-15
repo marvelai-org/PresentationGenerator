@@ -26,3 +26,158 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Staggered animations */
+.animate-fadeIn-delay-1 {
+  animation: fadeIn 0.5s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fadeIn-delay-2 {
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fadeIn-delay-3 {
+  animation: fadeIn 0.5s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+/* Hide scrollbar but maintain functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar styling */
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #38383A #1C1C1E;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: #1C1C1E;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #38383A;
+  border-radius: 10px;
+}
+
+/* Import Apple-like Dark Theme styles */
+@import './apple-dark-theme.css';
+
+/* Override HeroUI primary colors */
+:root {
+  --heroui-primary-50: #F2EAFA !important;
+  --heroui-primary-100: #E4D4F4 !important;
+  --heroui-primary-200: #C9A9E9 !important;
+  --heroui-primary-300: #AE7EDE !important;
+  --heroui-primary-400: #9353D3 !important;
+  --heroui-primary-500: #7828C8 !important;
+  --heroui-primary-600: #6020A0 !important;
+  --heroui-primary-700: #481878 !important;
+  --heroui-primary-800: #301050 !important;
+  --heroui-primary-900: #180828 !important;
+  
+  /* Also try to override other possible variables */
+  --hero-primary-50: #F2EAFA !important;
+  --hero-primary-100: #E4D4F4 !important;
+  --hero-primary-200: #C9A9E9 !important;
+  --hero-primary-300: #AE7EDE !important;
+  --hero-primary-400: #9353D3 !important;
+  --hero-primary-500: #7828C8 !important;
+  --hero-primary-600: #6020A0 !important;
+  --hero-primary-700: #481878 !important;
+  --hero-primary-800: #301050 !important;
+  --hero-primary-900: #180828 !important;
+  
+  /* Try NextUI variables */
+  --nextui-primary: #7828C8 !important;
+  --nextui-primary-50: #F2EAFA !important;
+  --nextui-primary-100: #E4D4F4 !important;
+  --nextui-primary-200: #C9A9E9 !important;
+  --nextui-primary-300: #AE7EDE !important;
+  --nextui-primary-400: #9353D3 !important;
+  --nextui-primary-500: #7828C8 !important;
+  --nextui-primary-600: #6020A0 !important;
+  --nextui-primary-700: #481878 !important;
+  --nextui-primary-800: #301050 !important;
+  --nextui-primary-900: #180828 !important;
+  
+  /* Legacy variables */
+  --primary: #7828C8 !important;
+  --primary-50: #F2EAFA !important;
+  --primary-100: #E4D4F4 !important;
+  --primary-200: #C9A9E9 !important;
+  --primary-300: #AE7EDE !important;
+  --primary-400: #9353D3 !important;
+  --primary-500: #7828C8 !important;
+  --primary-600: #6020A0 !important;
+  --primary-700: #481878 !important;
+  --primary-800: #301050 !important;
+  --primary-900: #180828 !important;
+}
+
+/* Direct overrides for HeroUI components */
+.hero-btn-primary-solid,
+.hero-chip-primary,
+.hero-chip-primary-solid,
+.hero-badge-primary,
+.hero-tabs-tab[data-active="true"],
+.hero-switch[data-selected="true"] div {
+  background-color: #7828C8 !important;
+}
+
+.hero-btn-primary-bordered,
+.hero-chip-primary-bordered {
+  border-color: #7828C8 !important;
+  color: #7828C8 !important;
+}
+
+.hero-btn-primary-light,
+.hero-chip-primary-light {
+  background-color: rgba(120, 40, 200, 0.12) !important;
+  color: #7828C8 !important;
+}
+
+.hero-btn-primary-flat,
+.hero-chip-primary-flat {
+  color: #7828C8 !important;
+}
+
+.hero-btn-primary-ghost:hover,
+.hero-chip-primary-ghost:hover {
+  background-color: rgba(120, 40, 200, 0.12) !important;
+  color: #7828C8 !important;
+}
+
+.hero-spinner-primary {
+  border-color: #7828C8 !important;
+}
+
+/* Remove the overly aggressive styles that might be breaking things */

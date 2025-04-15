@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button, Card, CardBody, Chip, Tooltip } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { Button, Card, CardBody, Chip, Tooltip } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export default function CreatePage() {
   const _router = useRouter();
@@ -17,12 +17,7 @@ export default function CreatePage() {
           as={Link}
           className="rounded-full px-4 py-2 bg-background border border-default-200 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 shadow-sm"
           href="/dashboard"
-          startContent={
-            <Icon
-              className="text-primary"
-              icon="material-symbols:home-outline"
-            />
-          }
+          startContent={<Icon className="text-primary" icon="material-symbols:home-outline" />}
           variant="light"
         >
           Home
@@ -39,9 +34,7 @@ export default function CreatePage() {
         <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
           Create with AI
         </h1>
-        <p className="text-default-500 text-xl">
-          How would you like to get started?
-        </p>
+        <p className="text-default-500 text-xl">How would you like to get started?</p>
       </motion.div>
 
       {/* Options Grid with Enhanced Animations - Made entire cards clickable */}
@@ -64,9 +57,7 @@ export default function CreatePage() {
                   />
                 </div>
                 <div className="space-y-2 text-center">
-                  <h2 className="text-2xl font-semibold text-foreground">
-                    Paste in text
-                  </h2>
+                  <h2 className="text-2xl font-semibold text-foreground">Paste in text</h2>
                   <p className="text-default-500">
                     Create from notes, an outline, or existing content
                   </p>
@@ -102,12 +93,8 @@ export default function CreatePage() {
                   />
                 </div>
                 <div className="space-y-2 text-center">
-                  <h2 className="text-2xl font-semibold text-foreground">
-                    Generate
-                  </h2>
-                  <p className="text-default-500">
-                    Create from a one-line prompt in a few seconds
-                  </p>
+                  <h2 className="text-2xl font-semibold text-foreground">Generate</h2>
+                  <p className="text-default-500">Create from a one-line prompt in a few seconds</p>
                 </div>
               </CardBody>
             </Card>
@@ -132,9 +119,7 @@ export default function CreatePage() {
                   />
                 </div>
                 <div className="space-y-2 text-center">
-                  <h2 className="text-2xl font-semibold text-foreground">
-                    Import file or URL
-                  </h2>
+                  <h2 className="text-2xl font-semibold text-foreground">Import file or URL</h2>
                   <p className="text-default-500">
                     Enhance existing docs, presentations, or webpages
                   </p>
@@ -153,13 +138,8 @@ export default function CreatePage() {
         transition={{ duration: 0.8, delay: 0.5 }}
       >
         <div className="flex items-center mb-6">
-          <Icon
-            className="text-primary text-xl mr-2"
-            icon="material-symbols:history"
-          />
-          <h2 className="text-2xl font-bold text-foreground">
-            Your recent prompts
-          </h2>
+          <Icon className="text-primary text-xl mr-2" icon="material-symbols:history" />
+          <h2 className="text-2xl font-bold text-foreground">Your recent prompts</h2>
         </div>
 
         {/* Redesigned prompt cards with modern layout */}
@@ -178,34 +158,21 @@ export default function CreatePage() {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex-1">
                       <h3 className="text-xl font-medium text-foreground group-hover:text-primary transition-colors">
-                        Collaborating with other creators on a joint project or
-                        collaboration
+                        Collaborating with other creators on a joint project or collaboration
                       </h3>
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
                         <div className="flex items-center">
-                          <Icon
-                            className="text-primary mr-1"
-                            icon="material-symbols:bolt"
-                          />
-                          <span className="text-default-500 text-sm">
-                            Generate
-                          </span>
+                          <Icon className="text-primary mr-1" icon="material-symbols:bolt" />
+                          <span className="text-default-500 text-sm">Generate</span>
                         </div>
                         <div className="flex items-center">
                           <Icon
                             className="text-default-400 mr-1"
                             icon="material-symbols:schedule"
                           />
-                          <span className="text-default-500 text-sm">
-                            3 hours ago
-                          </span>
+                          <span className="text-default-500 text-sm">3 hours ago</span>
                         </div>
-                        <Chip
-                          className="h-5 px-2"
-                          color="primary"
-                          size="sm"
-                          variant="flat"
-                        >
+                        <Chip className="h-5 px-2" color="primary" size="sm" variant="flat">
                           DRAFT
                         </Chip>
                       </div>
@@ -240,29 +207,17 @@ export default function CreatePage() {
                       </h3>
                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2">
                         <div className="flex items-center">
-                          <Icon
-                            className="text-primary mr-1"
-                            icon="material-symbols:bolt"
-                          />
-                          <span className="text-default-500 text-sm">
-                            Generate
-                          </span>
+                          <Icon className="text-primary mr-1" icon="material-symbols:bolt" />
+                          <span className="text-default-500 text-sm">Generate</span>
                         </div>
                         <div className="flex items-center">
                           <Icon
                             className="text-default-400 mr-1"
                             icon="material-symbols:schedule"
                           />
-                          <span className="text-default-500 text-sm">
-                            Yesterday
-                          </span>
+                          <span className="text-default-500 text-sm">Yesterday</span>
                         </div>
-                        <Chip
-                          className="h-5 px-2"
-                          color="success"
-                          size="sm"
-                          variant="flat"
-                        >
+                        <Chip className="h-5 px-2" color="success" size="sm" variant="flat">
                           COMPLETED
                         </Chip>
                       </div>

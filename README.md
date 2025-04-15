@@ -34,6 +34,7 @@ A next-generation AI-powered presentation creation platform that transforms your
 - [CI/CD & Testing](#-cicd--testing)
 - [Contributing](#-contributing)
 - [License](#-license)
+- [Scripts and Tools](#scripts-and-tools)
 
 ## 🎮 Demo
 
@@ -198,15 +199,25 @@ This enables the mock Supabase client which allows the application to function w
 ├── src/                 # Source code
 │   ├── app/             # Next.js App Router routes
 │   ├── components/      # Reusable React components
+│   │   ├── ui/          # Low-level UI components
+│   │   ├── features/    # Feature-specific components 
+│   │   └── layout/      # Layout components
+│   ├── debug/           # Development debugging tools
+│   ├── hooks/           # Custom React hooks
 │   ├── lib/             # Utility functions and services
 │   ├── providers/       # React context providers
+│   ├── services/        # External service integrations
 │   ├── styles/          # Global styles
-│   └── types/           # TypeScript type definitions
+│   ├── types/           # TypeScript type definitions
+│   ├── validations/     # Form validation schemas
+│   └── README.md        # Project structure documentation
 ├── .env.example         # Example environment variables
 ├── docker-compose.yml   # Docker Compose configuration
 ├── Dockerfile           # Docker configuration
 └── README.md            # Project documentation
 ```
+
+For detailed project structure information, see [src/README.md](src/README.md).
 
 ## 🏛️ Architecture
 
@@ -247,15 +258,28 @@ The project includes GitHub Actions workflows for continuous integration and dep
 
 All workflows are vendor-agnostic and focused on building, testing, and packaging the application for self-hosting.
 
-### Authentication in CI Environment
+### Testing
 
-For CI/CD environments, the project uses a mock authentication strategy that:
+The project uses Jest and React Testing Library for testing components and functionality.
 
-- Automatically detects CI environments
-- Uses mock Supabase clients and dummy credentials
-- Allows builds and tests to run without real authentication keys
+We follow Next.js best practices for test organization:
 
-For more information, see [docs/ci-cd-auth-mocking.md](docs/ci-cd-auth-mocking.md).
+- **Co-located Tests**: Tests are placed next to the components they test in `__tests__` directories
+- **Integration Tests**: Located in the `src/__tests__` directory for broader feature testing
+- **Unit Tests**: Individual component tests in their respective component directories
+
+Run tests with:
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate test coverage
+npm run test:coverage
+```
 
 ## 👥 Contributing
 
@@ -274,6 +298,39 @@ For major changes, please open an issue first to discuss what you would like to 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Scripts and Tools
+
+The project includes various utility scripts organized in the `scripts/` directory:
+
+- **AI Service Scripts** (`scripts/ai-service/`)
+  - `run.sh`: Run the AI service in production mode
+  - `run_dev.sh`: Run the AI service in development mode with hot reloading
+  - `fix_images.sh`: Fix image generation issues and restart the service
+
+- **Setup Scripts** (`scripts/setup/`)
+  - `setup_credentials.sh`: Interactive script to set up API keys and configurations
+  - `setup_supabase.sh`: Configure Supabase storage integration
+  - `create_supabase_bucket.py`: Create and configure Supabase storage buckets
+
+You can run these scripts using npm:
+
+```bash
+# Set up API credentials for the AI service
+npm run ai:setup-credentials
+
+# Set up Supabase for the AI service
+npm run ai:setup-supabase
+
+# Run the AI service in development mode
+npm run ai:dev
+
+# Run the AI service in production mode
+npm run ai:start
+
+# Fix image generation issues
+npm run ai:fix-images
+```
 
 ---
 

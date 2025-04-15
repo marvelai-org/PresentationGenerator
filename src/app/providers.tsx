@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { HeroUIProvider } from "@/providers/HeroUIProvider";
-import { AuthProvider } from "@/providers/AuthProvider";
+import { ThemeProvider } from '@/providers/ThemeProvider';
+import { HeroUIProvider } from '@/providers/HeroUIProvider';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="dark">
-      <HeroUIProvider>
+      <HeroUIProvider themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
         <AuthProvider>{children}</AuthProvider>
       </HeroUIProvider>
     </ThemeProvider>

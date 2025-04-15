@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { Button, Input, Form, Alert } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect } from 'react';
+import { Button, Input, Alert } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
 
 export default function ResetPassword() {
-  const [password, setPassword] = React.useState("");
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [isVisible, setIsVisible] = React.useState(false);
   const [isConfirmVisible, setIsConfirmVisible] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -22,8 +22,8 @@ export default function ResetPassword() {
 
   // Check if we have the necessary parameters from the reset email
   useEffect(() => {
-    if (!searchParams?.get("code")) {
-      setError("Invalid password reset link. Please request a new one.");
+    if (!searchParams?.get('code')) {
+      setError('Invalid password reset link. Please request a new one.');
     }
   }, [searchParams]);
 
@@ -35,7 +35,7 @@ export default function ResetPassword() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError('Passwords do not match');
 
       return;
     }
@@ -59,10 +59,10 @@ export default function ResetPassword() {
 
       // Redirect to login page after a few seconds
       setTimeout(() => {
-        router.push("/login?message=password_reset_success");
+        router.push('/login?message=password_reset_success');
       }, 2000);
     } catch (err: any) {
-      setError(err.message || "Failed to reset password. Please try again.");
+      setError(err.message || 'Failed to reset password. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -79,24 +79,15 @@ export default function ResetPassword() {
         )}
         {success ? (
           <Alert className="mb-2" color="success">
-            Password reset successful! You will be redirected to the login page
-            to sign in with your new password.
+            Password reset successful! You will be redirected to the login page to sign in with your
+            new password.
           </Alert>
         ) : (
-          <Form
-            className="flex flex-col gap-3"
-            validationBehavior="native"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
             <Input
               isRequired
               endContent={
-                <Button
-                  isIconOnly
-                  type="button"
-                  variant="light"
-                  onPress={toggleVisibility}
-                >
+                <Button isIconOnly type="button" variant="light" onPress={toggleVisibility}>
                   {isVisible ? (
                     <Icon
                       className="pointer-events-none text-2xl text-default-400"
@@ -113,7 +104,7 @@ export default function ResetPassword() {
               label="New Password"
               name="password"
               placeholder="Enter new password"
-              type={isVisible ? "text" : "password"}
+              type={isVisible ? 'text' : 'password'}
               value={password}
               variant="bordered"
               onValueChange={setPassword}
@@ -121,12 +112,7 @@ export default function ResetPassword() {
             <Input
               isRequired
               endContent={
-                <Button
-                  isIconOnly
-                  type="button"
-                  variant="light"
-                  onPress={toggleConfirmVisibility}
-                >
+                <Button isIconOnly type="button" variant="light" onPress={toggleConfirmVisibility}>
                   {isConfirmVisible ? (
                     <Icon
                       className="pointer-events-none text-2xl text-default-400"
@@ -143,7 +129,7 @@ export default function ResetPassword() {
               label="Confirm Password"
               name="confirmPassword"
               placeholder="Confirm new password"
-              type={isConfirmVisible ? "text" : "password"}
+              type={isConfirmVisible ? 'text' : 'password'}
               value={confirmPassword}
               variant="bordered"
               onValueChange={setConfirmPassword}
@@ -152,18 +138,12 @@ export default function ResetPassword() {
               className="w-full"
               color="primary"
               isLoading={isLoading}
-              spinner={
-                <Icon
-                  className="animate-spin"
-                  icon="lucide:loader-2"
-                  width={24}
-                />
-              }
+              spinner={<Icon className="animate-spin" icon="lucide:loader-2" width={24} />}
               type="submit"
             >
               Reset Password
             </Button>
-          </Form>
+          </form>
         )}
       </div>
     </div>

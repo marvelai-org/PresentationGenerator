@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
 
 export default function DatabaseTest() {
   const [testStatus, setTestStatus] = useState<string[]>([]);
@@ -18,19 +18,19 @@ export default function DatabaseTest() {
         // Get the client
         const supabase = createClientSupabaseClient();
 
-        addStatus("✅ Successfully created Supabase client");
+        addStatus('✅ Successfully created Supabase client');
 
         // Reset data (mock client specific)
         try {
           (supabase as any).resetMockData?.();
-          addStatus("✅ Reset mock database to initial state");
+          addStatus('✅ Reset mock database to initial state');
         } catch (_e) {
-          addStatus("⚠️ Not using mock client, resetMockData not available");
+          addStatus('⚠️ Not using mock client, resetMockData not available');
         }
 
         // Test basic query functionality
         const { data: presentations, error: queryError } = await supabase
-          .from("presentations")
+          .from('presentations')
           .select();
 
         if (queryError) {
@@ -41,11 +41,11 @@ export default function DatabaseTest() {
 
         // Test insert functionality
         const { data: _newPresentation, error: insertError } = await supabase
-          .from("presentations")
+          .from('presentations')
           .insert({
-            title: "Test Presentation",
-            description: "Created in test page",
-            user_id: "test-user",
+            title: 'Test Presentation',
+            description: 'Created in test page',
+            user_id: 'test-user',
             is_public: true,
           });
 
@@ -54,55 +54,46 @@ export default function DatabaseTest() {
         }
 
         // Use type assertion to handle the data safely
-        const presentationId = "mock-id"; // Default fallback ID
+        const presentationId = 'mock-id'; // Default fallback ID
 
         addStatus(`✅ Inserted presentation (ID not available in mock client)`);
 
         // Test query after insert
-        const { data: updatedPresentations } = await supabase
-          .from("presentations")
-          .select();
+        const { data: updatedPresentations } = await supabase.from('presentations').select();
 
-        addStatus(
-          `✅ Now have ${updatedPresentations?.length || 0} presentations`,
-        );
+        addStatus(`✅ Now have ${updatedPresentations?.length || 0} presentations`);
 
         // Test update functionality
-        const { data: _updatedPresentation, error: updateError } =
-          await supabase
-            .from("presentations")
-            .update({ title: "Updated Title" })
-            .eq("id", presentationId);
+        const { data: _updatedPresentation, error: updateError } = await supabase
+          .from('presentations')
+          .update({ title: 'Updated Title' })
+          .eq('id', presentationId);
 
         if (updateError) {
           throw new Error(`Update failed: ${updateError.message}`);
         }
 
-        addStatus("✅ Updated presentation successfully");
+        addStatus('✅ Updated presentation successfully');
 
         // Test delete functionality
         const { error: deleteError } = await supabase
-          .from("presentations")
+          .from('presentations')
           .delete()
-          .eq("id", presentationId);
+          .eq('id', presentationId);
 
         if (deleteError) {
           throw new Error(`Delete failed: ${deleteError.message}`);
         }
 
-        addStatus("✅ Deleted presentation successfully");
+        addStatus('✅ Deleted presentation successfully');
 
         // Final status
-        const { data: finalPresentations } = await supabase
-          .from("presentations")
-          .select();
+        const { data: finalPresentations } = await supabase.from('presentations').select();
 
-        addStatus(
-          `✅ Final count: ${finalPresentations?.length || 0} presentations`,
-        );
-        addStatus("🎉 All tests completed successfully!");
+        addStatus(`✅ Final count: ${finalPresentations?.length || 0} presentations`);
+        addStatus('🎉 All tests completed successfully!');
       } catch (err: any) {
-        setError(err.message || "An unknown error occurred");
+        setError(err.message || 'An unknown error occurred');
         addStatus(`❌ Test failed: ${err.message}`);
       } finally {
         setIsLoading(false);
@@ -113,7 +104,7 @@ export default function DatabaseTest() {
   }, []);
 
   function addStatus(message: string) {
-    setTestStatus((prev) => [...prev, message]);
+    setTestStatus(prev => [...prev, message]);
   }
 
   return (
@@ -141,4 +132,4 @@ export default function DatabaseTest() {
       </div>
     </div>
   );
-} 
+}

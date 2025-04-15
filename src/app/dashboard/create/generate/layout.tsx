@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { ReactNode } from "react";
+import React from 'react';
 
-import { Providers } from "@/app/providers";
+import { Providers } from '@/app/providers';
 
 interface GenerateLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function GenerateLayout({ children }: GenerateLayoutProps) {

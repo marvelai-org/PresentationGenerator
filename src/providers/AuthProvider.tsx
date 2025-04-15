@@ -1,25 +1,17 @@
-"use client";
-import type { User, Session } from "@supabase/supabase-js";
+'use client';
+import type { User, Session } from '@supabase/supabase-js';
 
-import {
-  createContext,
-  useContext,
-  ReactNode,
-  useState,
-  useEffect,
-} from "react";
-import { useRouter } from "next/navigation";
+import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { createClientSupabaseClient } from "@/lib/auth/supabase-client";
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   session: Session | null;
-  login: (credentials: {
-    email: string;
-    password: string;
-  }) => Promise<{ error: Error | null }>;
+  isFirstTimeUser: boolean;
+  login: (credentials: { email: string; password: string }) => Promise<{ error: Error | null }>;
   logout: () => Promise<void>;
   signUp: (credentials: {
     email: string;
@@ -30,11 +22,53 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Add function to set up database
+const setupDatabase = async () => {
+  try {
+    const response = await fetch('/api/setup-database', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      console.error('Failed to set up database:', await response.text());
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error setting up database:', error);
+    return { success: false, error };
+  }
+};
+
+// Add function to check if a user is a first-time user
+const checkFirstTimeUser = async (supabase: any) => {
+  try {
+    const { data, error } = await supabase
+      .from('presentations')
+      .select('count')
+      .limit(1);
+      
+    if (error) {
+      // Table might not exist yet, or query failed
+      return true;
+    }
+    
+    return !data || data.length === 0;
+  } catch (error) {
+    console.error('Error checking first-time user status:', error);
+    return true; // Assume first-time user on error
+  }
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFirstTimeUser, setIsFirstTimeUser] = useState<boolean>(false);
 
   const supabase = createClientSupabaseClient();
   const router = useRouter();
@@ -49,6 +83,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(session?.user ?? null);
       setIsAuthenticated(!!session);
       setIsLoading(false);
+      
+      // If we have a session, check if database needs to be set up
+      if (session) {
+        // Set up database if needed
+        await setupDatabase();
+        
+        // Check if this is a first-time user
+        const firstTimeUser = await checkFirstTimeUser(supabase);
+        setIsFirstTimeUser(firstTimeUser);
+        
+        // If first-time user, set localStorage flag
+        if (firstTimeUser) {
+          localStorage.setItem('isFirstTimeUser', 'true');
+        }
+      }
     };
 
     getSession();
@@ -65,13 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, [supabase.auth]);
 
-  const login = async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
+  const login = async ({ email, password }: { email: string; password: string }) => {
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -79,6 +122,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (!error) {
+        // After successful login, set up database
+        await setupDatabase();
+        
+        // Check if first-time user
+        const firstTimeUser = await checkFirstTimeUser(supabase);
+        setIsFirstTimeUser(firstTimeUser);
+        
         router.refresh();
       }
 
@@ -103,13 +153,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
         options: {
           data: {
-            name: name || "",
+            name: name || '',
           },
         },
       });
 
       if (!error) {
-        // Sign up successful
+        // After successful signup, set up database
+        await setupDatabase();
+        
+        // Mark as first-time user
+        setIsFirstTimeUser(true);
+        localStorage.setItem('isFirstTimeUser', 'true');
+        
         router.refresh();
       }
 
@@ -122,30 +178,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await supabase.auth.signOut();
     router.refresh();
-    router.push("/login");
+    router.push('/login');
   };
 
   const value = {
     isAuthenticated,
     user,
     session,
+    isFirstTimeUser,
     login,
     logout,
     signUp,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!isLoading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
 
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
 
   return context;

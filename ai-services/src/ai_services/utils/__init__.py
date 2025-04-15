@@ -27,17 +27,17 @@ def get_llm(model_name: Optional[str] = None, verbose: bool = False):
     Returns:
         An LLM client configured to use the appropriate model.
     """
-    # Debug environment variables
-    if verbose:
-        logger.info("DEBUG: Environment variables:")
-        logger.info(f"DEBUG: OPENROUTER_API_KEY exists: {bool(os.getenv('OPENROUTER_API_KEY'))}")
-        logger.info(f"DEBUG: GOOGLE_API_KEY exists: {bool(os.getenv('GOOGLE_API_KEY'))}")
-        logger.info(f"DEBUG: Current working directory: {os.getcwd()}")
-        logger.info(f"DEBUG: Python path: {sys.executable}")
+    # Always print environment variable status for debugging
+    logger.info("Checking environment variables:")
+    logger.info(f"OPENROUTER_API_KEY exists: {bool(os.getenv('OPENROUTER_API_KEY'))}")
+    logger.info(f"GOOGLE_API_KEY exists: {bool(os.getenv('GOOGLE_API_KEY'))}")
+    logger.info(f"Current working directory: {os.getcwd()}")
+    logger.info(f"Python path: {sys.executable}")
     
     # Check for OpenRouter first
     openrouter_api_key = os.getenv("OPENROUTER_API_KEY")
     if openrouter_api_key:
+        logger.info("Found OpenRouter API key, attempting to use it")
         try:
             from langchain_openai import ChatOpenAI
             
@@ -54,15 +54,18 @@ def get_llm(model_name: Optional[str] = None, verbose: bool = False):
                 max_tokens=4000,
                 temperature=0.7
             )
-        except ImportError:
-            logger.warning("langchain_openai package not installed. Falling back to Google Gemini.")
+        except ImportError as e:
+            logger.warning(f"langchain_openai package not installed: {e}. Falling back to Google Gemini.")
         except Exception as e:
             logger.error(f"Failed to initialize OpenRouter client: {str(e)}")
             logger.warning("Falling back to Google Gemini.")
+    else:
+        logger.warning("OpenRouter API key not found in environment variables")
     
     # Fall back to Google Gemini
     google_api_key = os.getenv("GOOGLE_API_KEY")
     if google_api_key:
+        logger.info("Found Google API key, attempting to use it")
         try:
             from langchain_google_genai import GoogleGenerativeAI
             
@@ -75,14 +78,18 @@ def get_llm(model_name: Optional[str] = None, verbose: bool = False):
                 model=gemini_model,
                 google_api_key=google_api_key
             )
-        except ImportError:
-            logger.error("langchain_google_genai package not installed.")
+        except ImportError as e:
+            logger.error(f"langchain_google_genai package not installed: {e}")
             raise ValueError("No LLM provider available. Please install required packages.")
         except Exception as e:
             logger.error(f"Failed to initialize Google Gemini client: {str(e)}")
             raise ValueError(f"Failed to initialize any LLM client: {str(e)}")
+    else:
+        logger.error("Google API key not found in environment variables")
     
-    raise ValueError("No API keys found for any supported LLM provider. Please set OPENROUTER_API_KEY or GOOGLE_API_KEY environment variables.")
+    error_msg = "No API keys found for any supported LLM provider. Please set OPENROUTER_API_KEY or GOOGLE_API_KEY environment variables."
+    logger.error(error_msg)
+    raise ValueError(error_msg)
 
 # Export functions
 __all__ = ['get_llm', 'get_docs', 'download_file'] 

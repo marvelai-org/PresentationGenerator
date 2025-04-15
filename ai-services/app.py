@@ -14,6 +14,12 @@ Documentation:
 
 import os
 import sys
+from pathlib import Path
+from dotenv import load_dotenv
+
+# Load .env file before importing other modules
+env_path = Path(__file__).resolve().parent / '.env'
+load_dotenv(dotenv_path=env_path)
 
 # Add the src directory to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))

@@ -1,111 +1,160 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { Button } from "@heroui/react";
-import { Icon } from "@iconify/react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from 'react';
+import { Button } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-// Sample slide data (same as in editor)
-const sampleSlides = [
-  {
-    id: 1,
-    title: "Can We REALLY Stop Climate Change?",
-    subtitle:
-      "The future of our planet is at stake. Let's explore the science, the impacts, and the potential solutions to climate change.",
-    author: "Talha Sabri",
-    editedTime: "about 1 month ago",
-    image: "/images/earth.jpg",
-    backgroundColor: "#1a0e2e",
-    gradient: "linear-gradient(90deg, #ff5e62, #ff9966)",
-    textColor: "#ff758c",
-  },
-  {
-    id: 2,
-    title: "The Science: Understanding the Greenhouse Effect",
-    content: [
-      "Greenhouse gases like carbon dioxide trap heat in our atmosphere",
-      "Human activities, particularly burning fossil fuels, increase these gases",
-      "This warming effect is causing global temperature rise",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 3,
-    title: "Current Impacts: What We're Already Seeing",
-    content: [
-      "Rising sea levels threatening coastal communities",
-      "More frequent and intense extreme weather events",
-      "Disruption of ecosystems and biodiversity loss",
-      "Agricultural challenges and food security risks",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 4,
-    title: "Projections: Scenarios and Their Implications",
-    content: [
-      "Best case: Limiting warming to 1.5°C requires immediate action",
-      "Business as usual: 3-4°C warming with catastrophic consequences",
-      "Tipping points could trigger irreversible changes",
-      "Economic costs increase dramatically with delay",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 5,
-    title: "Solutions: Addressing the Challenge",
-    content: [
-      "Transition to renewable energy sources",
-      "Improve energy efficiency across sectors",
-      "Develop carbon capture technologies",
-      "Protect and restore natural carbon sinks",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 6,
-    title: "Policy Approaches: Government Action",
-    content: [
-      "Carbon pricing mechanisms",
-      "Regulatory standards for emissions",
-      "Investment in clean technology research",
-      "International cooperation and climate agreements",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 7,
-    title: "Individual Impact: What Can We Do?",
-    content: [
-      "Reduce personal carbon footprint",
-      "Advocate for climate policies",
-      "Support sustainable businesses",
-      "Community engagement and education",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-  {
-    id: 8,
-    title: "Path Forward: Challenges and Opportunities",
-    content: [
-      "Balancing economic development with environmental protection",
-      "Ensuring just transition for vulnerable communities",
-      "Technological innovation as both challenge and opportunity",
-      "Building resilience while pursuing mitigation",
-    ],
-    backgroundColor: "#1a0e2e",
-  },
-];
+import { Slide } from '@/components/features/editor/EditorContainer';
+import { createClientSupabaseClient } from '@/lib/auth/supabase-client';
+
+// Define the interface for embed data to fix TypeScript error
+interface EmbedData {
+  id: string;
+  type: string;
+  url: string;
+  title: string;
+  thumbnailUrl: string;
+  embedHtml?: string;
+  width: number;
+  height: number;
+  aspectRatio: string;
+  src?: string; // Additional property needed for this component
+}
+
+// Helper function to render text with proper formatting
+const renderFormattedText = (text: string) => {
+  // Simple replacements for common formatting
+  return (
+    text
+      // Bold text (using **text** syntax)
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // Italic text (using *text* syntax)
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      // Underline (using __text__ syntax)
+      .replace(/__(.*?)__/g, '<u>$1</u>')
+      // Strikethrough (using ~~text~~ syntax)
+      .replace(/~~(.*?)~~/g, '<del>$1</del>')
+  );
+};
+
+// Safe JSON parse function with error handling
+const safeJsonParse = (jsonString: string | null, fallback: any = null) => {
+  if (!jsonString) return fallback;
+
+  try {
+    return JSON.parse(jsonString);
+  } catch (error) {
+    console.error('Error parsing JSON:', error);
+
+    return fallback;
+  }
+};
 
 export default function PresentationPage() {
   const router = useRouter();
-  const [slides] = useState(sampleSlides);
+  const searchParams = useSearchParams();
+  const presentationId = searchParams.get('id');
+
+  // Try to get the slides data from Supabase or localStorage if available
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [controlsVisible, setControlsVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [mouseIdle, setMouseIdle] = useState(false);
 
-  const currentSlide = slides[currentSlideIndex];
+  // Load slides from Supabase first, then localStorage as fallback
+  useEffect(() => {
+    async function loadSlides() {
+      setIsLoading(true);
+      try {
+        // Initialize Supabase client
+        const supabase = createClientSupabaseClient();
+
+        // If we have a presentation ID, try to load from Supabase first
+        if (presentationId) {
+          console.log(`Attempting to load presentation ${presentationId} from Supabase`);
+
+          // Fetch presentation slides from Supabase
+          const { data: dbSlides, error } = await supabase
+            .from('slides')
+            .select('*')
+            .eq('presentation_id', presentationId)
+            .order('order', { ascending: true });
+
+          if (error) {
+            console.error('Error loading slides from Supabase:', error);
+            throw new Error(`Failed to load slides: ${error.message}`);
+          }
+
+          if (dbSlides && dbSlides.length > 0) {
+            console.log(`Loaded ${dbSlides.length} slides from Supabase`);
+
+            // Transform slides to match expected format if necessary
+            const formattedSlides = dbSlides.map(slide => {
+              // Ensure content is parsed if stored as JSON string
+              let slideContent;
+
+              try {
+                slideContent =
+                  typeof slide.content === 'string' ? safeJsonParse(slide.content) : slide.content;
+              } catch (e) {
+                // If parsing fails, use content as is
+                slideContent = slide.content;
+              }
+
+              return {
+                id: slide.id,
+                title: slideContent.title || '',
+                content: slideContent.content || [],
+                order: slide.order,
+                backgroundColor: slideContent.backgroundColor,
+                textColor: slideContent.textColor,
+                gradient: slideContent.gradient,
+                image: slideContent.image,
+                // Add any other properties needed
+              };
+            });
+
+            setSlides(formattedSlides);
+            setIsLoading(false);
+
+            return; // Exit early since we found slides
+          } else {
+            console.error('No slides found for presentation ID:', presentationId);
+            throw new Error('No slides found for this presentation');
+          }
+        }
+
+        // Only use localStorage if no presentationId is provided
+        const generatedSlides = localStorage.getItem('generatedSlides');
+        const savedEditorSlides = localStorage.getItem('editor_slides');
+
+        if (generatedSlides) {
+          console.log('Loading generated slides from localStorage');
+          setSlides(safeJsonParse(generatedSlides, []));
+        } else if (savedEditorSlides) {
+          console.log('Loading editor slides from localStorage');
+          setSlides(safeJsonParse(savedEditorSlides, []));
+        } else {
+          // Only fall back to sample slides if explicitly developing/testing without an ID
+          console.warn('No presentation ID provided and no saved slides found in localStorage');
+          throw new Error('No presentation data available');
+        }
+      } catch (error) {
+        console.error('Error loading slides:', error);
+        // Show error state instead of falling back to sample slides
+        setSlides([]);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadSlides();
+  }, [presentationId]);
+
+  const currentSlide = slides[currentSlideIndex] || { title: '', content: [] };
 
   // Hide controls after 3 seconds of mouse inactivity
   useEffect(() => {
@@ -121,11 +170,11 @@ export default function PresentationPage() {
       }, 3000);
     };
 
-    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener('mousemove', resetTimer);
     resetTimer();
 
     return () => {
-      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener('mousemove', resetTimer);
       clearTimeout(timer);
     };
   }, []);
@@ -133,18 +182,18 @@ export default function PresentationPage() {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
         navigateToSlide(Math.min(currentSlideIndex + 1, slides.length - 1));
-      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         navigateToSlide(Math.max(currentSlideIndex - 1, 0));
-      } else if (e.key === "Escape") {
-        router.push("/dashboard/create/generate/editor");
+      } else if (e.key === 'Escape') {
+        router.push('/dashboard/create/editor');
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentSlideIndex, slides.length, router]);
 
   const navigateToSlide = useCallback((index: number) => {
@@ -152,8 +201,43 @@ export default function PresentationPage() {
   }, []);
 
   const exitPresentation = () => {
-    router.push("/dashboard/create/generate/editor");
+    router.push('/dashboard/create/editor');
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-black">
+        <div className="text-center">
+          <div
+            aria-label="loading"
+            className="animate-spin inline-block w-8 h-8 border-4 border-current border-t-transparent text-primary rounded-full"
+            role="status"
+          >
+            <span className="sr-only">Loading...</span>
+          </div>
+          <p className="mt-4 text-white text-lg">Loading presentation...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (slides.length === 0) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center bg-black text-white">
+        <div className="text-center">
+          <Icon className="mx-auto mb-4" icon="material-symbols:error-outline" width={48} />
+          <h2 className="text-2xl mb-2">No slides available</h2>
+          <p className="mb-4">There are no slides to present.</p>
+          <Button color="primary" onClick={exitPresentation}>
+            Return to Editor
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Determine if this is a title slide (typically the first slide with subtitle and author)
+  const isTitleSlide = currentSlideIndex === 0 && currentSlide.subtitle;
 
   return (
     <div
@@ -165,69 +249,230 @@ export default function PresentationPage() {
           navigateToSlide(currentSlideIndex + 1);
         }
       }}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowRight" || e.key === " ") {
+      onKeyDown={e => {
+        if (e.key === 'ArrowRight' || e.key === ' ') {
           if (currentSlideIndex < slides.length - 1) {
             navigateToSlide(currentSlideIndex + 1);
           }
-        } else if (e.key === "ArrowLeft") {
+        } else if (e.key === 'ArrowLeft') {
           if (currentSlideIndex > 0) {
             navigateToSlide(currentSlideIndex - 1);
           }
-        } else if (e.key === "Escape") {
+        } else if (e.key === 'Escape') {
           exitPresentation();
         }
       }}
     >
       {/* Slide Content */}
       <div className="w-full h-full">
-        {currentSlideIndex === 0 ? (
-          // Title slide
-          <div
-            className="w-full h-full bg-[#1a0e2e] flex"
-            style={{
-              backgroundImage: `url(/climate-earth.jpg)`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            <div className="flex-1 flex flex-col justify-center p-16">
-              <h1 className="text-5xl font-bold mb-6 text-[#ff758c]">
-                Can We REALLY Stop Climate Change?
-              </h1>
-              <p className="text-xl text-white mb-12">
-                The future of our planet is at stake. Let&apos;s explore the
-                science, the impacts, and the potential solutions to climate
-                change.
-              </p>
+        <div
+          className="w-full h-full relative"
+          style={{
+            backgroundColor: currentSlide.backgroundColor || '#000000',
+            backgroundImage:
+              currentSlide.image && !isTitleSlide
+                ? undefined
+                : currentSlide.image
+                  ? `url(${currentSlide.image})`
+                  : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            background: currentSlide.gradient || undefined,
+          }}
+        >
+          {/* Title always visible */}
+          <div className={`${isTitleSlide ? 'flex flex-col justify-center h-full p-16' : 'p-10'}`}>
+            <h1
+              className={`font-bold ${isTitleSlide ? 'text-5xl mb-6' : 'text-4xl mb-8 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent'}`}
+              style={isTitleSlide ? { color: currentSlide.textColor || '#FFFFFF' } : {}}
+            >
+              {currentSlide.title}
+            </h1>
+
+            {/* Subtitle only on title slide */}
+            {isTitleSlide && currentSlide.subtitle && (
+              <p className="text-xl text-white mb-12">{currentSlide.subtitle}</p>
+            )}
+
+            {/* Author info only on title slide */}
+            {isTitleSlide && currentSlide.author && (
               <div className="flex items-center mt-auto">
                 <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-                  TS
+                  {currentSlide.author.substring(0, 2).toUpperCase()}
                 </div>
                 <div className="ml-4">
-                  <div className="text-white">by Talha Sabri</div>
-                  <div className="text-gray-400 text-sm">
-                    Last edited about 1 month ago
-                  </div>
+                  <div className="text-white">by {currentSlide.author}</div>
+                  {currentSlide.editedTime && (
+                    <div className="text-gray-400 text-sm">
+                      Last edited {currentSlide.editedTime}
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* Content for non-title slides */}
+            {!isTitleSlide && (
+              <div className="text-white text-xl">
+                {Array.isArray(currentSlide.content) &&
+                  currentSlide.content.map((contentItem, i) => {
+                    // Handle different types of content items
+                    if (typeof contentItem === 'string') {
+                      return (
+                        <div key={i} className="list-disc ml-8 mb-4">
+                          {contentItem}
+                        </div>
+                      );
+                    }
+
+                    // Handle content item objects
+                    if (contentItem.type === 'text') {
+                      return (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: renderFormattedText(contentItem.value),
+                          }}
+                          key={contentItem.id || i}
+                          className={
+                            contentItem.x !== undefined ? 'absolute' : 'list-disc ml-8 mb-4'
+                          }
+                          style={
+                            contentItem.x !== undefined
+                              ? {
+                                  position: 'absolute',
+                                  left: `${contentItem.x}px`,
+                                  top: `${contentItem.y}px`,
+                                  width: `${contentItem.width || 300}px`,
+                                }
+                              : {}
+                          }
+                        />
+                      );
+                    } else if (contentItem.type === 'shape') {
+                      // Render shapes with their styles
+                      return (
+                        <div
+                          key={contentItem.id || i}
+                          style={{
+                            position: 'absolute',
+                            left: `${contentItem.x || 0}px`,
+                            top: `${contentItem.y || 0}px`,
+                            width: `${contentItem.width || 100}px`,
+                            height: `${contentItem.height || 100}px`,
+                            backgroundColor: contentItem.style?.backgroundColor || 'transparent',
+                            borderColor: contentItem.style?.borderColor || 'transparent',
+                            borderStyle: contentItem.style?.borderStyle || 'solid',
+                            borderWidth: contentItem.style?.borderWidth || 0,
+                            transform: contentItem.style?.rotation
+                              ? `rotate(${contentItem.style.rotation}deg)`
+                              : undefined,
+                            opacity:
+                              contentItem.style?.opacity !== undefined
+                                ? contentItem.style.opacity
+                                : 1,
+                            zIndex: contentItem.style?.zIndex || 0,
+                          }}
+                        />
+                      );
+                    } else if (contentItem.type === 'image') {
+                      // Render images
+                      return (
+                        <img
+                          key={contentItem.id || i}
+                          alt="Slide content"
+                          src={contentItem.value}
+                          style={{
+                            position: 'absolute',
+                            left: `${contentItem.x || 0}px`,
+                            top: `${contentItem.y || 0}px`,
+                            width: `${contentItem.width || 200}px`,
+                            height: `${contentItem.height || 200}px`,
+                            objectFit: 'cover',
+                          }}
+                        />
+                      );
+                    } else if (contentItem.type === 'table' && contentItem.tableData) {
+                      // Render tables
+                      return (
+                        <div
+                          key={contentItem.id || i}
+                          className="border border-gray-600 rounded overflow-hidden"
+                          style={{
+                            position: contentItem.x !== undefined ? 'absolute' : 'relative',
+                            left: contentItem.x !== undefined ? `${contentItem.x}px` : undefined,
+                            top: contentItem.y !== undefined ? `${contentItem.y}px` : undefined,
+                            width:
+                              contentItem.width !== undefined ? `${contentItem.width}px` : '100%',
+                          }}
+                        >
+                          <table className="w-full border-collapse">
+                            <tbody>
+                              {Array.isArray(contentItem.tableData.rows) &&
+                                contentItem.tableData.rows.map((row, rowIndex) => (
+                                  <tr
+                                    key={rowIndex}
+                                    className="border-b border-gray-600 last:border-b-0"
+                                  >
+                                    {Array.isArray(row) &&
+                                      row.map((cell, cellIndex) => (
+                                        <td
+                                          key={cellIndex}
+                                          className="border-r border-gray-600 last:border-r-0 p-2"
+                                        >
+                                          {cell}
+                                        </td>
+                                      ))}
+                                  </tr>
+                                ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      );
+                    } else if (contentItem.type === 'embed' && contentItem.embedData) {
+                      // Render embeds (videos, etc)
+                      return (
+                        <div
+                          key={contentItem.id || i}
+                          className="overflow-hidden rounded"
+                          style={{
+                            position: contentItem.x !== undefined ? 'absolute' : 'relative',
+                            left: contentItem.x !== undefined ? `${contentItem.x}px` : undefined,
+                            top: contentItem.y !== undefined ? `${contentItem.y}px` : undefined,
+                            width:
+                              contentItem.width !== undefined ? `${contentItem.width}px` : '100%',
+                            height:
+                              contentItem.height !== undefined ? `${contentItem.height}px` : 'auto',
+                          }}
+                        >
+                          {contentItem.embedData.url ? (
+                            <iframe
+                              allowFullScreen
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              frameBorder="0"
+                              src={contentItem.embedData.url}
+                              style={{ width: '100%', height: '100%' }}
+                              title={contentItem.embedData.title || 'Embedded content'}
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-gray-800 text-white">
+                              Missing embed source
+                            </div>
+                          )}
+                        </div>
+                      );
+                    }
+
+                    // Default fallback
+                    return (
+                      <div key={i} className="list-disc ml-8 mb-4">
+                        {contentItem.value || JSON.stringify(contentItem)}
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
           </div>
-        ) : (
-          // Content slides
-          <div className="w-full h-full bg-[#1a0e2e] flex">
-            <div className="flex-1 flex flex-col p-12">
-              <h2 className="text-4xl font-bold mb-8 bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
-                {currentSlide.title}
-              </h2>
-              <ul className="text-white text-xl space-y-6 list-disc pl-8">
-                {currentSlide.content?.map((item, i) => (
-                  <li key={i}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
 
       {/* Controls (only visible when mouse is active) */}
@@ -269,9 +514,7 @@ export default function PresentationPage() {
               variant="flat"
               onPress={(e: any) => {
                 e.stopPropagation();
-                navigateToSlide(
-                  Math.min(slides.length - 1, currentSlideIndex + 1),
-                );
+                navigateToSlide(Math.min(slides.length - 1, currentSlideIndex + 1));
               }}
             >
               <Icon icon="material-symbols:arrow-forward" width={24} />

@@ -1,16 +1,14 @@
-import { cookies } from "next/headers";
+import { cookies } from 'next/headers';
 import {
   createServerComponentClient as supabaseCreateServerComponentClient,
   createRouteHandlerClient as supabaseCreateRouteHandlerClient,
-} from "@supabase/auth-helpers-nextjs";
+} from '@supabase/auth-helpers-nextjs';
 
-import { Database } from "@/types/supabase";
+import { Database } from '@/types/supabase';
 
 // Basic mock client implementation for server-side
 const createMockServerClient = () => {
-  console.warn(
-    "Using mock Supabase server client - some functionality will be limited",
-  );
+  console.warn('Using mock Supabase server client - some functionality will be limited');
 
   return {
     auth: {
@@ -24,7 +22,7 @@ const createMockServerClient = () => {
       }),
       signInWithPassword: async () => ({
         data: null,
-        error: { message: "Mock server client" },
+        error: { message: 'Mock server client' },
       }),
       signOut: async () => ({ error: null }),
     },
@@ -49,7 +47,7 @@ const createMockServerClient = () => {
 
 // Check if we should use mock client
 const shouldUseMockClient = () => {
-  const isCI = process.env.CI_ENVIRONMENT === "true";
+  const isCI = process.env.CI_ENVIRONMENT === 'true';
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -66,9 +64,9 @@ export async function createServerSupabaseClient() {
   try {
     if (shouldUseMockClient()) {
       console.info(
-        process.env.CI_ENVIRONMENT === "true"
-          ? "🔶 Using mock server client in CI environment"
-          : "⚠️ Missing Supabase credentials, using mock server client",
+        process.env.CI_ENVIRONMENT === 'true'
+          ? '🔶 Using mock server client in CI environment'
+          : '⚠️ Missing Supabase credentials, using mock server client'
       );
 
       return createMockServerClient() as unknown as ReturnType<
@@ -76,12 +74,14 @@ export async function createServerSupabaseClient() {
       >;
     }
 
+    // Make sure to properly handle cookies in an async context
     const cookieStore = cookies();
-    return supabaseCreateServerComponentClient<Database>({ 
-      cookies: () => cookieStore 
+
+    return supabaseCreateServerComponentClient<Database>({
+      cookies: () => cookieStore,
     });
   } catch (error) {
-    console.warn("⚠️ Supabase server client creation error:", error);
+    console.warn('⚠️ Supabase server client creation error:', error);
 
     return createMockServerClient() as unknown as ReturnType<
       typeof supabaseCreateServerComponentClient<Database>
@@ -99,9 +99,9 @@ export async function createRouteSupabaseClient() {
   try {
     if (shouldUseMockClient()) {
       console.info(
-        process.env.CI_ENVIRONMENT === "true"
-          ? "🔶 Using mock route handler in CI environment"
-          : "⚠️ Missing Supabase credentials, using mock route handler",
+        process.env.CI_ENVIRONMENT === 'true'
+          ? '🔶 Using mock route handler in CI environment'
+          : '⚠️ Missing Supabase credentials, using mock route handler'
       );
 
       return createMockServerClient() as unknown as ReturnType<
@@ -109,12 +109,14 @@ export async function createRouteSupabaseClient() {
       >;
     }
 
+    // Make sure to properly handle cookies in an async context
     const cookieStore = cookies();
-    return supabaseCreateRouteHandlerClient<Database>({ 
-      cookies: () => cookieStore 
+
+    return supabaseCreateRouteHandlerClient<Database>({
+      cookies: () => cookieStore,
     });
   } catch (error) {
-    console.warn("⚠️ Supabase route handler creation error:", error);
+    console.warn('⚠️ Supabase route handler creation error:', error);
 
     return createMockServerClient() as unknown as ReturnType<
       typeof supabaseCreateRouteHandlerClient<Database>

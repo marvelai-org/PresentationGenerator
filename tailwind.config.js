@@ -31,7 +31,24 @@ const config = {
     },
   },
   darkMode: "class",
-  plugins: [heroui()],
+  plugins: [
+    heroui({
+      colors: {
+        primary: {
+          50: "#F2EAFA",
+          100: "#E4D4F4",
+          200: "#C9A9E9",
+          300: "#AE7EDE",
+          400: "#9353D3",
+          500: "#7828C8",
+          600: "#6020A0",
+          700: "#481878",
+          800: "#301050",
+          900: "#180828"
+        },
+      }
+    }),
+  ],
 };
 
 module.exports = config;

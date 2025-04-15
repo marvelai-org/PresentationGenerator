@@ -1,27 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import {
-  Button,
-  Card,
-  CardBody,
-  useDisclosure,
-  Link as HeroUILink,
-  Tooltip,
-} from "@heroui/react";
-import { Icon } from "@iconify/react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import React from 'react';
+import { Button, Card, CardBody, useDisclosure, Link as HeroUILink, Tooltip } from '@heroui/react';
+import { Icon } from '@iconify/react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
-import FileUploader from "@/components/features/application/import/FileUploader";
-import URLImporter from "@/components/features/application/import/URLImporter";
+import FileUploader from '@/components/features/application/import/FileUploader';
+import URLImporter from '@/components/features/application/import/URLImporter';
 
 export default function ImportPage() {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [isUploading, setIsUploading] = React.useState(false);
 
   const handleFileSelect = (_file: File) => {
     setSelectedFile(_file);
@@ -37,21 +30,21 @@ export default function ImportPage() {
     setTimeout(() => {
       setIsUploading(false);
       // Navigate to next step or show success message
-      router.push("/dashboard/create/outline");
+      router.push('/dashboard/create/outline');
     }, 1500);
   };
 
   const handleUrlImport = (_url: string) => {
     // Process the URL and navigate to the next step
     onClose();
-    router.push("/dashboard/create/outline");
+    router.push('/dashboard/create/outline');
   };
 
   const handleDriveConnect = () => {
     // In a real application, you would initiate OAuth flow for Google Drive
     // Simulate connection and navigate
     setTimeout(() => {
-      router.push("/dashboard/create/outline");
+      router.push('/dashboard/create/outline');
     }, 1000);
   };
 
@@ -63,9 +56,7 @@ export default function ImportPage() {
           as={Link}
           className="rounded-full px-4 py-2 bg-background border border-default-200 hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 shadow-sm mr-4"
           href="/dashboard/create"
-          startContent={
-            <Icon className="text-primary" icon="material-symbols:arrow-back" />
-          }
+          startContent={<Icon className="text-primary" icon="material-symbols:arrow-back" />}
           variant="light"
         >
           Back
@@ -82,9 +73,7 @@ export default function ImportPage() {
         <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
           Import with AI
         </h1>
-        <p className="text-default-500 text-xl">
-          Select the file you&apos;d like to transform
-        </p>
+        <p className="text-default-500 text-xl">Select the file you&apos;d like to transform</p>
       </motion.div>
 
       {/* Import Options Grid with Animations - Adjusted for better spacing */}
@@ -100,7 +89,7 @@ export default function ImportPage() {
           <Card
             isPressable
             className="bg-background/70 border border-default-200 hover:border-primary transition-all duration-300 shadow-md hover:shadow-lg h-full w-full overflow-hidden cursor-pointer"
-            onClick={() => document.getElementById("file-input")?.click()}
+            onClick={() => document.getElementById('file-input')?.click()}
           >
             <CardBody className="flex flex-col items-center justify-between p-6 sm:p-8 h-full">
               <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 flex items-center justify-center bg-primary/10 rounded-xl">
@@ -111,29 +100,18 @@ export default function ImportPage() {
               </div>
 
               <div className="space-y-2 text-center my-4">
-                <h2 className="text-xl sm:text-2xl font-semibold text-foreground">
-                  Upload a file
-                </h2>
+                <h2 className="text-xl sm:text-2xl font-semibold text-foreground">Upload a file</h2>
                 <div className="flex flex-col items-center gap-1 text-default-500 text-sm sm:text-base">
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Powerpoint PPTX</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Word docs</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>PDFs</span>
                   </div>
                 </div>
@@ -144,15 +122,15 @@ export default function ImportPage() {
                 color="primary"
                 endContent={<Icon icon="material-symbols:download" />}
                 variant="flat"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
-                  document.getElementById("file-input")?.click();
+                  document.getElementById('file-input')?.click();
                 }}
               >
                 Browse files
               </Button>
               <FileUploader
-                buttonText={isUploading ? "Uploading..." : ""}
+                buttonText={isUploading ? 'Uploading...' : ''}
                 className="hidden"
                 onFileSelect={handleFileSelect}
               />
@@ -187,17 +165,11 @@ export default function ImportPage() {
                 </h2>
                 <div className="flex flex-col items-center gap-1 text-default-500 text-sm sm:text-base">
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Google Slides</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Google Docs</span>
                   </div>
                 </div>
@@ -242,24 +214,15 @@ export default function ImportPage() {
                 </h2>
                 <div className="flex flex-col items-center gap-1 text-default-500 text-sm sm:text-base">
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Webpages</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Blog posts or articles</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <Icon
-                      className="text-success text-sm"
-                      icon="material-symbols:check-circle"
-                    />
+                    <Icon className="text-success text-sm" icon="material-symbols:check-circle" />
                     <span>Notion docs (public only)</span>
                   </div>
                 </div>
@@ -279,11 +242,7 @@ export default function ImportPage() {
       </div>
 
       {/* URL Importer Component */}
-      <URLImporter
-        isOpen={isOpen}
-        onClose={onClose}
-        onImport={handleUrlImport}
-      />
+      <URLImporter isOpen={isOpen} onClose={onClose} onImport={handleUrlImport} />
 
       <motion.div
         animate={{ opacity: 1 }}
@@ -292,7 +251,7 @@ export default function ImportPage() {
         transition={{ duration: 0.5, delay: 0.6 }}
       >
         <p className="text-default-500">
-          If your file isn&apos;t supported, you can also{" "}
+          If your file isn&apos;t supported, you can also{' '}
           <HeroUILink
             as={Link}
             className="text-primary cursor-pointer"
@@ -339,7 +298,7 @@ export default function ImportPage() {
             color="primary"
             size="lg"
             startContent={<Icon icon="material-symbols:magic-button" />}
-            onPress={() => router.push("/dashboard/create/outline")}
+            onPress={() => router.push('/dashboard/create/outline')}
           >
             Generate Outline
           </Button>

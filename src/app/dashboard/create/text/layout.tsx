@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-import { Providers } from "@/app/providers";
+import { Providers } from '@/app/providers';
 
 interface TextLayoutProps {
   children: ReactNode;

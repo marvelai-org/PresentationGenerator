@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState, useRef } from "react";
-import { Button } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { useState, useRef } from 'react';
+import { Button } from '@heroui/react';
+import { Icon } from '@iconify/react';
 
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
@@ -14,10 +14,10 @@ interface FileUploaderProps {
 
 export default function FileUploader({
   onFileSelect,
-  acceptedTypes = "application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain",
+  acceptedTypes = 'application/pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain',
   maxSize = 10, // 10MB default
-  className = "",
-  buttonText = "Browse files",
+  className = '',
+  buttonText = 'Browse files',
 }: FileUploaderProps) {
   const [dragActive, setDragActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -27,9 +27,9 @@ export default function FileUploader({
     e.preventDefault();
     e.stopPropagation();
 
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true);
-    } else if (e.type === "dragleave") {
+    } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
   };
@@ -90,7 +90,7 @@ export default function FileUploader({
 
   return (
     <div
-      className={`w-full ${className} ${dragActive ? "border-primary" : ""}`}
+      className={`w-full ${className} ${dragActive ? 'border-primary' : ''}`}
       onDragEnter={handleDrag}
     >
       <div
