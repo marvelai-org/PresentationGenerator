@@ -1,78 +1,29 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Dict, Any
-import uvicorn
+"""
+Simple wrapper script to run the AI services application.
+This allows running the app from the root directory while maintaining proper package structure.
+
+Note: For development and production deployment, please use the scripts in the
+project root's scripts/ directory:
+- npm run ai:dev     # Development mode
+- npm run ai:start   # Production mode
+
+Documentation:
+- Supabase setup: docs/supabase/storage-setup.md
+- RLS policies: docs/supabase/rls-policies.sql
+"""
+
 import os
+import sys
 
-app = FastAPI(
-    title="Presentation Generator AI Service",
-    description="AI service for generating presentation content",
-    version="0.1.0"
-)
+# Add the src directory to the Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://presentationgenerator.vercel.app"],  # Replace with actual frontend origins
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class PredictionRequest(BaseModel):
-    prompt: str
-    options: Dict[str, Any] = {}
-
-@app.get("/")
-async def root():
-    return {"status": "ok", "message": "Presentation Generator AI Service is running"}
-
-@app.post("/predict")
-async def predict(request: PredictionRequest):
-    """
-    Generate presentation content based on the provided prompt.
-    This is a dummy implementation that will be replaced with actual AI processing.
-    """
-    try:
-        # Dummy response - in production, this would call ML models
-        return {
-            "status": "success",
-            "data": {
-                "title": f"Presentation about {request.prompt}",
-                "slides": [
-                    {
-                        "title": "Introduction",
-                        "content": f"Overview of {request.prompt}"
-                    },
-                    {
-                        "title": "Key Points",
-                        "content": "Important information about the topic"
-                    },
-                    {
-                        "title": "Conclusion",
-                        "content": "Summary and next steps"
-                    }
-                ],
-                "metadata": {
-                    "prompt": request.prompt,
-                    "options": request.options,
-                    "generationTime": "0.5s"
-                }
-            }
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+from ai_services.main import app, start
 
 if __name__ == "__main__":
-    # Use 127.0.0.1 for local development for security
-    # In production, the host should be controlled by environment variables
-    host = "127.0.0.1"  # Default to localhost for security
-    # Allow override via environment variable for containerized environments
-    if os.environ.get("PRODUCTION") == "true":
-        # SECURITY NOTE: Only use 0.0.0.0 in containerized environments with proper network isolation
-        # This allows the service to be accessible from outside the container, but requires
-        # additional security measures like firewalls and proper authentication
-        host = "0.0.0.0"  # Binds to all network interfaces
+    # Use environment variables or defaults
+    host = os.getenv("HOST", "127.0.0.1")
+    port = int(os.getenv("PORT", 8000))
     
-    uvicorn.run("app:app", host=host, port=8000, reload=True) 
+    # Call the start function from the main module
+    start()

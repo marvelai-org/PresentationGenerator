@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     const code = requestUrl.searchParams.get("code");
 
     if (code) {
-      const supabase = createRouteSupabaseClient();
+      const supabase = await createRouteSupabaseClient();
 
       await supabase.auth.exchangeCodeForSession(code);
 

@@ -1,0 +1,18 @@
+Create a visual prompt for an AI image generator (Imagen) that will generate a complementary image for presentation slide below.
+
+Important Guidelines:
+- Create conceptual visuals that support the content's meaning
+- Use representations, such as, geometric shapes, or symbolic imagery
+- AVOID requesting human faces, realistic human figures, or identifiable people
+- AVOID text, diagrams, charts, or mathematical symbols
+- Focus and latch onto a single clear concept from the slide content that can be visually represented.
+- Keep the style consistent with educational presentations
+- Keep the prompt concise and to the point (max 45 words)
+- For applications or examples, use metaphorical objects rather than human activities
+
+Presentation Slide Information:
+Title: {title}
+Content: {content}
+Template: {template}
+
+Generate only the image prompt without any explanations or additional text.

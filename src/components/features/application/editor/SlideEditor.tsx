@@ -74,6 +74,7 @@ export default function SlideEditor({
         onUpdate(editor.getHTML());
       }
     },
+    immediatelyRender: false,
   });
 
   useEffect(() => {
