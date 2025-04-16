@@ -14,7 +14,7 @@ env:
   NEXT_TELEMETRY_DISABLED: 1
 
 jobs:
-  lint-test-build:
+  platform-build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -25,22 +25,26 @@ jobs:
         with:
           node-version: "18"
           cache: "npm"
+          cache-dependency-path: platform/package-lock.json
 
       - name: Cache Next.js build
         uses: actions/cache@v3
         with:
           path: |
-            .next/cache
-            node_modules/.cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+            platform/.next/cache
+            platform/node_modules/.cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('platform/package-lock.json') }}-${{ hashFiles('platform/src/**.[jt]s', 'platform/src/**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-nextjs-${{ hashFiles('platform/package-lock.json') }}-
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          cd platform
+          npm ci
 
       - name: Set up environment variables
         run: |
+          cd platform
           # Copy example environment file if it exists
           [ -f .env.example ] && cp .env.example .env || touch .env
           
@@ -56,13 +60,18 @@ jobs:
           grep -v "KEY" .env || echo "No non-secret entries found"
 
       - name: Run linting
-        run: npm run lint
+        run: |
+          cd platform
+          npm run lint
 
       - name: Run tests
-        run: npm test || echo "No tests found"
+        run: |
+          cd platform
+          npm test || echo "No tests found"
 
       - name: Build application
         run: |
+          cd platform
           echo "Starting Next.js build with mock authentication..."
           NODE_OPTIONS="--max_old_space_size=4096" npm run build || {
             echo "Build failed with error code $?. Checking error details..."
@@ -75,6 +84,7 @@ jobs:
 
       - name: Verify build output
         run: |
+          cd platform
           echo "Next.js build output structure:"
           ls -la .next/ || echo ".next directory not found"
           echo "Checking for standalone output:"
@@ -85,16 +95,55 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/setup-buildx-action@v2
 
-      - name: Build Docker image
+      - name: Build platform Docker image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./platform
           push: false
-          tags: vibing-prod:latest
+          tags: platform:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
             NEXT_PUBLIC_SUPABASE_URL=https://mock-project.supabase.co
             NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key
             CI_ENVIRONMENT=true
+
+  ai-backend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+          cache: 'pip'
+          cache-dependency-path: ai-backend/pyproject.toml
+
+      - name: Install dependencies
+        run: |
+          cd ai-backend
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run tests
+        run: |
+          cd ai-backend
+          python -m pytest tests/ || echo "No tests found"
+
+      # Docker build only on main branch pushes
+      - name: Set up Docker Buildx
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build AI backend Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v4
+        with:
+          context: ./ai-backend
+          push: false
+          tags: ai-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

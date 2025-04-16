@@ -1,0 +1,8 @@
+In a production app, this directory would contain thumbnail images for each layout type:
+
+- grid-2x2.png
+- horizontal-thirds.png
+- vertical-split.png
+- title-content.png
+
+Since we can't create actual image files here, the app will use fallback images. 
