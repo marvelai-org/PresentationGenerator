@@ -11,7 +11,10 @@
     "dev": "cd platform && npm run dev",
     "build": "cd platform && npm run build",
     "start": "cd platform && npm run start",
-    "ai-backend": "cd ai-backend && python3 app.py"
+    "ai-backend": "cd ai-backend && python3 app.py",
+    "ai-backend:dev": "cd ai-backend && ./scripts/run_dev.sh",
+    "ai-backend:setup-credentials": "cd ai-backend && ./scripts/setup/setup_credentials.sh",
+    "ai-backend:setup-supabase": "cd ai-backend && ./scripts/setup/setup_supabase.sh"
   },
   "engines": {
     "node": ">=18.0.0"
