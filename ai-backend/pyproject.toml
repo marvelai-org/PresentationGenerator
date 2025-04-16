@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "ai-services"
+name = "ai-backend"
 version = "0.1.0"
-description = "AI Services for the Presentation Generator"
+description = "AI Backend for the Presentation Generator"
 authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
-packages = [{include = "ai_services", from = "src"}]
+packages = [{include = "ai_backend", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -14,13 +14,10 @@ python-dotenv = "^1.0.1"
 pydantic = "^2.6.1"
 openai = "^1.12.0"
 httpx = "^0.27.0"
-langchain-google-genai = "^2.1.2"
 langchain-core = "^0.3.49"
 langchain-chroma = "^0.1.1"
 langchain-openai = "^0.3.12"
-google-cloud-aiplatform = "^1.44.0"
-google-cloud-storage = "^2.13.0"
-vertexai = "^0.0.1"
+langchain-together = "^0.1.0"
 supabase = "^2.3.4"
 pillow = "^10.2.0"
 together = "^0.2.10"
@@ -32,7 +29,7 @@ ruff = "^0.2.1"
 pytest-cov = "^4.1.0"
 
 [tool.poetry.scripts]
-start = "ai_services.main:start"
+start = "ai_backend.main:start"
 
 [tool.ruff]
 line-length = 100

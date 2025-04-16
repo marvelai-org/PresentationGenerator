@@ -1,5 +1,5 @@
 """
-Simple wrapper script to run the AI services application.
+Simple wrapper script to run the AI backend application.
 This allows running the app from the root directory while maintaining proper package structure.
 
 Note: For development and production deployment, please use the scripts in the
@@ -8,8 +8,8 @@ project root's scripts/ directory:
 - npm run ai:start   # Production mode
 
 Documentation:
-- Supabase setup: docs/supabase/storage-setup.md
-- RLS policies: docs/supabase/rls-policies.sql
+- Supabase setup: docs/integrations/supabase/storage-setup.md
+- RLS policies: docs/integrations/supabase/rls-policies.sql
 """
 
 import os
@@ -24,7 +24,7 @@ load_dotenv(dotenv_path=env_path)
 # Add the src directory to the Python path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 
-from ai_services.main import app
+from ai_backend.main import app
 import uvicorn
 
 if __name__ == "__main__":
@@ -37,4 +37,4 @@ if __name__ == "__main__":
         host = "0.0.0.0"
     
     # Run the app directly with uvicorn
-    uvicorn.run(app, host=host, port=port)
+    uvicorn.run(app, host=host, port=port) 

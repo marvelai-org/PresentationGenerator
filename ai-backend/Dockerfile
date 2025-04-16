@@ -38,12 +38,9 @@ EXPOSE 8000
 
 # IMPORTANT: When running the container, mount volumes or set environment variables:
 # docker run -p 8000:8000 \
-#   -e GOOGLE_API_KEY=your-api-key \
 #   -e SUPABASE_SERVICE_KEY=your-supabase-key \
 #   -e TOGETHER_API_KEY=your-together-key \
 #   -e OPENROUTER_API_KEY=your-openrouter-key \
-#   -v /path/to/your/credentials.json:/app/credentials/google-credentials.json \
-#   -e GOOGLE_APPLICATION_CREDENTIALS=/app/credentials/google-credentials.json \
 #   your-image-name
 
 # Command to run the application
