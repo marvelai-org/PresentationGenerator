@@ -5,6 +5,8 @@ This document explains how to set up the Supabase integration for this applicati
 1. **Real Supabase Client**: Uses your actual Supabase project
 2. **Mock Implementation**: Uses an in-memory database for development without credentials
 
+> **Note:** For AI backend Supabase storage setup, see [AI Backend Supabase Documentation](../ai-backend/docs/supabase/README.md)
+
 ## Using the Real Supabase Client
 
 To use your actual Supabase project:

@@ -8,12 +8,13 @@ Welcome to the AI Services documentation for the Presentation Generator project.
 - [Getting Started](./getting-started.md): Setup instructions, prerequisites, and running the service locally
 - [API Reference](./api-reference.md): Detailed information about available endpoints and how to use them
 - [Module Documentation](./modules/index.md): Information about each AI module and how they work
+- [Supabase Documentation](../supabase/README.md): Setting up and using Supabase with the AI service
 
 ## Quick Links
 
 - [Project README](../../README.md): Main project documentation
-- [Deployment Guide](../deployment.md): Information about deploying the entire application
-- [Supabase Setup](../supabase/storage-setup.md): Setting up Supabase storage for image generation
+- [Deployment Guide](./deployment.md): Information about deploying the AI service
+- [Supabase Storage Setup](../supabase/storage-setup.md): Setting up Supabase storage for image generation
 
 ## Contributing to Documentation
 
